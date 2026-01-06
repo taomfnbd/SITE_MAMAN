@@ -1,0 +1,147 @@
+import React, { useState } from 'react';
+import Navbar from '../../components/Navbar';
+import PageHeader from '../../components/PageHeader';
+import FadeIn from '../../components/FadeIn';
+import SafeIcon from '../../common/SafeIcon';
+import * as FiIcons from 'react-icons/fi';
+import SEO from '../../components/SEO';
+
+const SeanceCard = ({ title, time, price, description, icon, delay, details }) => (
+  <FadeIn delay={delay} className="group relative bg-sage/10 p-6 md:p-10 border border-white/5 hover:bg-sage/20 transition-all duration-500 h-full flex flex-col">
+    <div className="absolute top-0 right-0 p-4 md:p-6 opacity-10 group-hover:opacity-20 transition-opacity">
+      <SafeIcon icon={icon} className="text-5xl md:text-6xl text-clay" />
+    </div>
+    <div className="relative z-10 flex-grow">
+      <h3 className="text-xl md:text-2xl font-serif text-charcoal mb-2">{title}</h3>
+      <div className="flex items-center gap-4 mb-4 md:mb-6 text-sm font-medium tracking-wide">
+        <span className="text-charcoal-light">{time}</span>
+        <span className="w-1 h-1 rounded-full bg-charcoal/30"></span>
+        <span className="text-clay text-lg">{price}</span>
+      </div>
+      <p className="text-charcoal-light font-light leading-loose mb-6 border-l border-clay/20 pl-4 text-sm">
+        {description}
+      </p>
+      {details && (
+        <div className="mb-6 md:mb-8 text-xs text-charcoal/60 space-y-2 font-light">
+          {details.map((d, i) => <p key={i}>• {d}</p>)}
+        </div>
+      )}
+    </div>
+    <a 
+      href="https://flouretoferigoule-methodepoyet.fr/resalib" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      className="inline-block text-center text-xs uppercase tracking-widest text-charcoal border border-white/10 px-6 py-3 hover:bg-clay hover:text-paper hover:border-transparent transition-all duration-300 w-full"
+    >
+      Réserver en ligne
+    </a>
+  </FadeIn>
+);
+
+const PricingPhilosophy = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div className="bg-paper border border-white/5 overflow-hidden transition-all duration-500">
+      <button 
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full p-4 md:p-6 flex justify-between items-center text-left hover:bg-sage/10 transition-colors"
+      >
+        <span className="font-serif text-base md:text-lg text-charcoal italic">Réflexion sur le "juste prix"</span>
+        <SafeIcon 
+            icon={FiIcons.FiChevronDown} 
+            className={`text-clay transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} 
+        />
+      </button>
+      <div className={`overflow-hidden transition-[max-height] duration-700 ease-in-out ${isOpen ? 'max-h-[1000px]' : 'max-h-0'}`}>
+        <div className="p-4 md:p-6 pt-0 text-sm font-light text-charcoal-light leading-loose space-y-4 border-t border-white/5">
+          <p>
+            La question du juste prix est épineuse. Comment évaluer le juste prix ? A l'aune de quels critères : le temps passé ? Les compétences ? L'engagement ?
+          </p>
+          <p>
+            Le système de sécurité sociale en France permet à chacun.e d'accéder à des soins sans verser d'argent direct. Ce système a cependant un effet pervers : nous sommes parfois peu capables d'estimer le prix des soins reçus.
+          </p>
+          <p>
+            Je ne travaille pas dans le domaine du soin médical conventionné, aussi j'ai la liberté de fixer mes tarifs. Pour autant, je m'inscris pleinement dans les métiers du « care » (sollicitude, accompagnement).
+          </p>
+          <p>
+            Voici ce que je mets dans la balance : le temps passé (1h15), mon implication dans les formations continues, mes lectures, mon développement personnel. Je considère que cet investissement quotidien nourrit mon savoir-faire et mon avoir-être.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Seances = () => {
+  return (
+    <div className="min-h-screen bg-paper pb-20 selection:bg-clay/30">
+      <SEO 
+        title="Tarifs & Séances"
+        description="Tarifs des consultations de méthode Poyet à Pierrefonds. Séance adulte 70€, enfant 60€. Forfaits disponibles pour le suivi."
+        url="/methode/seances"
+      />
+      <Navbar />
+      <PageHeader title="Les Séances" subtitle="Des temps de soin dédiés à votre équilibre." />
+      
+      <div className="max-w-5xl mx-auto px-6">
+        
+        {/* Info Déroulé */}
+        <FadeIn className="mb-12 md:mb-16 text-center max-w-3xl mx-auto">
+          <p className="text-charcoal-light font-light leading-loose text-sm md:text-base">
+            La méthode Poyet est une approche globale. Il faut du temps pour développer les points que vous souhaitez aborder. De mon côté, j'ai besoin de temps pour mettre en place une écoute active.
+          </p>
+        </FadeIn>
+
+        {/* Cartes Tarifs */}
+        <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
+          <SeanceCard 
+            title="Séance Adulte" 
+            time="1h15" 
+            price="70 €" 
+            description="Le temps nécessaire pour une anamnèse complète et une harmonisation profonde. Sur le dos, sur le ventre ou assis."
+            details={["Forfait 2 séances : 135 €", "Forfait 3 séances : 195 €"]}
+            icon={FiIcons.FiUser}
+            delay={0}
+          />
+          <SeanceCard 
+            title="Enfant (-7 ans)" 
+            time="~1h00" 
+            price="60 €" 
+            description="Adapté aux plus jeunes. Présence d'un parent requise. Idéal pour les troubles du sommeil, coliques, ou après la naissance."
+            details={["Forfait 2 séances : 110 €"]}
+            icon={FiIcons.FiSmile}
+            delay={0.2}
+          />
+        </div>
+
+        {/* Philosophie Prix */}
+        <FadeIn delay={0.4} className="mb-12 md:mb-16 max-w-2xl mx-auto">
+          <PricingPhilosophy />
+        </FadeIn>
+
+        {/* Infos Pratiques */}
+        <FadeIn className="bg-sage/30 p-8 md:p-12 border border-white/5 text-center">
+            <h3 className="text-lg md:text-xl font-serif text-charcoal italic mb-6">Informations Pratiques</h3>
+            <div className="grid md:grid-cols-3 gap-8 text-sm font-light text-charcoal-light">
+                <div className="flex flex-col items-center gap-3">
+                    <SafeIcon icon={FiIcons.FiLayers} className="text-xl text-clay" />
+                    <p>Venez avec une<br/>tenue souple et confortable.</p>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                    <SafeIcon icon={FiIcons.FiClock} className="text-xl text-clay" />
+                    <p>Prévoyez 1h15<br/>de disponibilité.</p>
+                </div>
+                <div className="flex flex-col items-center gap-3">
+                    <SafeIcon icon={FiIcons.FiCreditCard} className="text-xl text-clay" />
+                    <p>Règlement Chèque<br/>ou Espèces.</p>
+                </div>
+            </div>
+        </FadeIn>
+
+      </div>
+    </div>
+  );
+};
+
+export default Seances;

@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-paper: #314052;
+  --color-charcoal: #F9F9F7;
+  --color-charcoal-light: #9FA9B9;
+  --color-clay: #D6C5B0;
+  --color-sage: #273240;
+}
+
+@layer base {
+  body {
+    @apply bg-paper text-charcoal font-sans antialiased;
+    /* Ajout d'une texture de grain très subtile pour l'effet papier */
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif font-light;
+  }
+
+  p {
+    @apply leading-loose tracking-wide font-light;
+  }
+}
+
+@layer components {
+  .prose ul {
+    @apply list-disc list-inside my-4 marker:text-clay;
+  }
+  .prose ol {
+    @apply list-decimal list-inside my-4 marker:text-clay;
+  }
+  .prose blockquote {
+    @apply border-l-2 border-clay pl-4 italic my-6 text-xl;
+  }
+  .prose a {
+    @apply text-clay underline hover:text-white transition-colors;
+  }
+  .prose h3 {
+      @apply text-2xl font-serif text-charcoal mt-8 mb-4;
+  }
+  .prose h4 {
+      @apply text-xl font-serif text-charcoal mt-6 mb-3;
+  }
+  .prose b, .prose strong {
+    @apply font-medium text-charcoal;
+  }
+}
+
+/* Custom smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  @apply bg-clay text-white;
+}
