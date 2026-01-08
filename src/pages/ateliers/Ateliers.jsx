@@ -8,24 +8,29 @@ import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
 const StageRow = ({ stage, delay, isEditMode, onUpdate, onDelete }) => {
+  const { uploadImage, addToast } = useCMS();
   const fileInputRef = React.useRef(null);
 
   const handleFileClick = () => {
     fileInputRef.current.click();
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      if (file.size > 4 * 1024 * 1024) { // Limit to 4MB for localStorage safety
-        alert("Le fichier est trop volumineux (max 4Mo pour le stockage local).");
+      if (file.size > 10 * 1024 * 1024) { // Limit to 10MB
+        alert("Le fichier est trop volumineux (max 10Mo).");
         return;
       }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        onUpdate(stage.id, 'file', reader.result);
-      };
-      reader.readAsDataURL(file);
+      
+      addToast("Envoi du fichier en cours...", "info");
+      // Utilise le bucket 'cms-images' par défaut (ou un autre si configuré)
+      const publicUrl = await uploadImage(file);
+      
+      if (publicUrl) {
+        onUpdate(stage.id, 'file', publicUrl);
+        addToast("Fichier ajouté avec succès", "success");
+      }
     }
   };
 

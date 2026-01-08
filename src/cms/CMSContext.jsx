@@ -263,22 +263,22 @@ export const CMSProvider = ({ children }) => {
       return articles.find(a => a.id === id);
   }, [articles]);
 
-  const uploadImage = useCallback(async (file) => {
+  const uploadImage = useCallback(async (file, bucket = 'cms-images') => {
     const fileExt = file.name.split('.').pop();
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
     
     const { data, error } = await supabase.storage
-        .from('cms-images')
+        .from(bucket)
         .upload(fileName, file);
 
     if (error) {
-        console.error('Error uploading image:', error);
-        addToast("Erreur lors de l'envoi de l'image", 'error');
+        console.error('Error uploading file:', error);
+        addToast("Erreur lors de l'envoi du fichier", 'error');
         return null;
     }
 
     const { data: { publicUrl } } = supabase.storage
-        .from('cms-images')
+        .from(bucket)
         .getPublicUrl(fileName);
 
     return publicUrl;

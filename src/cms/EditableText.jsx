@@ -56,6 +56,18 @@ const EditableText = ({
     }
   };
 
+  const handleClick = (e) => {
+    if (isEditMode) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (elementRef.current) {
+        elementRef.current.focus();
+      }
+    }
+  };
+
+  const whiteSpaceClass = multiline ? 'whitespace-pre-wrap' : '';
+
   if (isEditMode) {
     return (
       <Component
@@ -64,7 +76,8 @@ const EditableText = ({
         suppressContentEditableWarning
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
-        className={`${className} outline-none border border-transparent hover:border-clay/50 hover:bg-clay/5 focus:border-clay focus:bg-white/10 rounded transition-all px-1 -mx-1 cursor-text min-w-[20px] inline-block empty:before:content-[attr(placeholder)] empty:before:text-gray-400`}
+        onClick={handleClick}
+        className={`${className} ${whiteSpaceClass} outline-none border border-transparent hover:border-clay/50 hover:bg-clay/5 focus:border-clay focus:bg-white/10 rounded transition-all px-1 -mx-1 cursor-text min-w-[20px] ${multiline ? 'block' : 'inline-block'} empty:before:content-[attr(placeholder)] empty:before:text-gray-400`}
         placeholder={placeholder}
         dangerouslySetInnerHTML={{ __html: content }}
       />
@@ -72,7 +85,7 @@ const EditableText = ({
   }
 
   return (
-    <Component className={className}>
+    <Component className={`${className} ${whiteSpaceClass}`}>
       {content || children || defaultValue}
     </Component>
   );

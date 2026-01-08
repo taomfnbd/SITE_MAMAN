@@ -4,7 +4,7 @@ import { useCMS } from './CMSContext';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
-const { FiEdit2, FiSave, FiX, FiLogOut, FiAlertCircle, FiCheck, FiEye, FiEyeOff, FiChevronDown } = FiIcons;
+const { FiEdit2, FiSave, FiX, FiLogOut, FiAlertCircle, FiCheck, FiEye, FiEyeOff, FiChevronDown, FiRotateCcw, FiRotateCw } = FiIcons;
 
 const ColorPicker = () => {
   const { colors, updateColor } = useCMS();
@@ -52,28 +52,32 @@ const CMSToolbar = () => {
     toggleEditMode,
     saveChanges,
     discardChanges,
-    logout
+    logout,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    addToast
   } = useCMS();
+
+  const [isSaving, setIsSaving] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(true);
 
   if (!isAuthenticated) return null;
 
-  const [saveStatus, setSaveStatus] = useState('idle');
-  const [isExpanded, setIsExpanded] = useState(true);
-
   const handleSave = async () => {
-    setSaveStatus('saving');
+    setIsSaving(true);
     try {
       const success = await saveChanges();
       if (success) {
-        setSaveStatus('success');
-        setTimeout(() => setSaveStatus('idle'), 2000);
+        addToast('Modifications enregistrées avec succès !', 'success');
       } else {
-        setSaveStatus('error');
-        setTimeout(() => setSaveStatus('idle'), 3000);
+        addToast('Erreur lors de l\'enregistrement', 'error');
       }
     } catch (error) {
-      setSaveStatus('error');
-      setTimeout(() => setSaveStatus('idle'), 3000);
+      addToast('Une erreur inattendue est survenue', 'error');
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -94,14 +98,14 @@ const CMSToolbar = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50">
+    <div className="fixed bottom-6 right-6 z-[9999]">
       <AnimatePresence>
         {isExpanded && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.8 }}
-            className="mb-3 bg-gradient-to-r from-stone-800 to-stone-900 rounded-2xl shadow-2xl p-4 w-80 border border-stone-700"
+            className="mb-3 bg-gradient-to-r from-stone-800 to-stone-900 rounded-2xl shadow-2xl p-4 w-80 max-w-[calc(100vw-3rem)] max-h-[70vh] overflow-y-auto border border-stone-700 scrollbar-thin scrollbar-thumb-stone-600 scrollbar-track-transparent"
           >
             {/* Status */}
             <div className="flex items-center space-x-2 mb-3 pb-3 border-b border-stone-700">
@@ -140,32 +144,46 @@ const CMSToolbar = () => {
                 <span>{isEditMode ? 'Désactiver édition' : 'Activer édition'}</span>
               </button>
 
+              {/* Undo / Redo */}
+              {isEditMode && (
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => { undo(); addToast('Action annulée', 'info'); }}
+                    disabled={!canUndo}
+                    className="flex-1 flex items-center justify-center space-x-2 bg-stone-700 text-stone-300 px-3 py-2 rounded-lg font-medium text-xs hover:bg-stone-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    title="Annuler la dernière action (Ctrl+Z)"
+                  >
+                    <SafeIcon icon={FiRotateCcw} />
+                    <span>Retour</span>
+                  </button>
+                  <button
+                    onClick={() => { redo(); addToast('Action rétablie', 'info'); }}
+                    disabled={!canRedo}
+                    className="flex-1 flex items-center justify-center space-x-2 bg-stone-700 text-stone-300 px-3 py-2 rounded-lg font-medium text-xs hover:bg-stone-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    title="Rétablir l'action annulée (Ctrl+Y)"
+                  >
+                    <SafeIcon icon={FiRotateCw} />
+                    <span>Rétablir</span>
+                  </button>
+                </div>
+              )}
+
               {/* Save */}
               {hasChanges && (
                 <button
                   onClick={handleSave}
-                  disabled={saveStatus === 'saving'}
-                  className="w-full flex items-center justify-center space-x-2 bg-green-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-green-700 disabled:opacity-50"
+                  disabled={isSaving}
+                  className="w-full flex items-center justify-center space-x-2 bg-green-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-green-700 disabled:opacity-70 transition-colors shadow-lg shadow-green-900/20"
                 >
-                  {saveStatus === 'saving' ? (
+                  {isSaving ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                       <span>Enregistrement...</span>
                     </>
-                  ) : saveStatus === 'success' ? (
-                    <>
-                      <SafeIcon icon={FiCheck} />
-                      <span>Enregistré !</span>
-                    </>
-                  ) : saveStatus === 'error' ? (
-                    <>
-                      <SafeIcon icon={FiAlertCircle} />
-                      <span>Erreur</span>
-                    </>
                   ) : (
                     <>
                       <SafeIcon icon={FiSave} />
-                      <span>Enregistrer</span>
+                      <span>Enregistrer les modifications</span>
                     </>
                   )}
                 </button>
@@ -178,7 +196,7 @@ const CMSToolbar = () => {
                   className="w-full flex items-center justify-center space-x-2 bg-red-600 text-white px-4 py-2.5 rounded-lg font-medium text-sm hover:bg-red-700"
                 >
                   <SafeIcon icon={FiX} />
-                  <span>Annuler</span>
+                  <span>Tout annuler</span>
                 </button>
               )}
 

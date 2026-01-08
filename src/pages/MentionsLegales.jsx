@@ -13,7 +13,7 @@ const MentionsLegales = () => {
         url="/mentions-legales"
       />
       <Navbar />
-      <PageHeader title="Mentions Légales" />
+      <PageHeader pageId="mentions" title="Mentions Légales" />
       
       <div className="max-w-4xl mx-auto px-6">
         <SectionManager pageId="mentions" />

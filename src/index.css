@@ -57,3 +57,33 @@ html {
 ::selection {
   @apply bg-clay text-white;
 }
+
+/* --- Compatibility Fixes --- */
+
+/* Scrollbars (Firefox) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-clay) var(--color-paper);
+}
+
+/* Scrollbars (Webkit) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-paper); 
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-clay);
+  border-radius: 4px;
+  border: 2px solid var(--color-paper);
+}
+
+/* EditableText Placeholder Fix */
+[contenteditable]:empty::before {
+  content: attr(placeholder);
+  color: theme('colors.gray.400');
+  pointer-events: none;
+  display: block; /* Important for Firefox */
+}
