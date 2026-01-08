@@ -31,6 +31,25 @@ export const CMSProvider = ({ children }) => {
     '--color-sage': '#273240',
   });
 
+  // Toasts management
+  const [toasts, setToasts] = useState([]);
+
+  const addToast = useCallback((message, type = 'info') => {
+    const id = crypto.randomUUID();
+    setToasts(prev => [...prev, { id, message, type }]);
+    setTimeout(() => {
+      setToasts(prev => prev.filter(t => t.id !== id));
+    }, 3000); // Auto remove after 3s
+  }, []);
+
+  const removeToast = useCallback((id) => {
+    setToasts(prev => prev.filter(t => t.id !== id));
+  }, []);
+
+  // History management
+  const [history, setHistory] = useState([]);
+  const [historyIndex, setHistoryIndex] = useState(-1);
+
   useEffect(() => {
       // Check for simple auth in localStorage
       const auth = localStorage.getItem('cms-auth-simple');
@@ -49,6 +68,17 @@ export const CMSProvider = ({ children }) => {
                 contentMap[item.key] = item.data;
             });
             setContentData(contentMap);
+            
+            if (contentMap['site_colors']) {
+                const newColors = { ...colors, ...contentMap['site_colors'] };
+                setColors(newColors);
+                // Initialize history
+                setHistory([{ contentData: contentMap, colors: newColors }]);
+                setHistoryIndex(0);
+            } else {
+                setHistory([{ contentData: contentMap, colors: colors }]);
+                setHistoryIndex(0);
+            }
         }
     };
 
@@ -62,10 +92,6 @@ export const CMSProvider = ({ children }) => {
                 ...a.data
             }));
             setArticles(formattedArticles);
-            
-            if (data.length === 0) {
-                 seedDefaultArticles();
-            }
         }
     };
 
@@ -73,15 +99,43 @@ export const CMSProvider = ({ children }) => {
     loadArticles();
   }, []);
 
-  const seedDefaultArticles = async () => {
-      // Logic to seed defaults (skipped for now as per previous flow, user wants manual entry or it's fine)
-  };
-
   useEffect(() => {
     Object.entries(colors).forEach(([key, value]) => {
       document.documentElement.style.setProperty(key, value);
     });
   }, [colors]);
+
+  const addToHistory = useCallback((newContentData, newColors) => {
+      setHistory(prev => {
+          const newHistory = prev.slice(0, historyIndex + 1);
+          newHistory.push({ contentData: newContentData, colors: newColors });
+          return newHistory.slice(-20); // Keep last 20 steps
+      });
+      setHistoryIndex(prev => {
+          const newIndex = prev + 1;
+          return newIndex >= 20 ? 19 : newIndex;
+      });
+  }, [historyIndex]);
+
+  const undo = useCallback(() => {
+      if (historyIndex > 0) {
+          const prevState = history[historyIndex - 1];
+          setContentData(prevState.contentData);
+          setColors(prevState.colors);
+          setHistoryIndex(prev => prev - 1);
+          setHasChanges(true);
+      }
+  }, [history, historyIndex]);
+
+  const redo = useCallback(() => {
+      if (historyIndex < history.length - 1) {
+          const nextState = history[historyIndex + 1];
+          setContentData(nextState.contentData);
+          setColors(nextState.colors);
+          setHistoryIndex(prev => prev + 1);
+          setHasChanges(true);
+      }
+  }, [history, historyIndex]);
 
   const login = () => {
     setIsAuthenticated(true);
@@ -99,9 +153,20 @@ export const CMSProvider = ({ children }) => {
   }, []);
 
   const updateContent = useCallback((key, value) => {
-    setContentData(prev => ({ ...prev, [key]: value }));
+    const newData = { ...contentData, [key]: value };
+    setContentData(newData);
+    addToHistory(newData, colors);
     setHasChanges(true);
-  }, []);
+  }, [contentData, colors, addToHistory]);
+
+  const updateColor = useCallback((key, value) => {
+    const newColors = { ...colors, [key]: value };
+    setColors(newColors);
+    const newData = { ...contentData, 'site_colors': newColors };
+    setContentData(newData);
+    addToHistory(newData, newColors);
+    setHasChanges(true);
+  }, [colors, contentData, addToHistory]);
 
   const saveChanges = useCallback(async () => {
     const updates = Object.entries(contentData).map(([key, value]) => ({
@@ -198,6 +263,30 @@ export const CMSProvider = ({ children }) => {
       return articles.find(a => a.id === id);
   }, [articles]);
 
+  const uploadImage = useCallback(async (file) => {
+    const fileExt = file.name.split('.').pop();
+    const fileName = `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
+    
+    const { data, error } = await supabase.storage
+        .from('cms-images')
+        .upload(fileName, file);
+
+    if (error) {
+        console.error('Error uploading image:', error);
+        addToast("Erreur lors de l'envoi de l'image", 'error');
+        return null;
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+        .from('cms-images')
+        .getPublicUrl(fileName);
+
+    return publicUrl;
+  }, [addToast]);
+
+  const canUndo = historyIndex > 0;
+  const canRedo = historyIndex < history.length - 1;
+
   return (
     <CMSContext.Provider
       value={{
@@ -212,11 +301,20 @@ export const CMSProvider = ({ children }) => {
         discardChanges,
         getContent,
         colors,
+        updateColor,
         articles,
         createArticle,
         deleteArticle,
         getArticle,
-        updateArticle
+        updateArticle,
+        uploadImage,
+        undo,
+        redo,
+        canUndo,
+        canRedo,
+        toasts,
+        addToast,
+        removeToast
       }}
     >
       {children}

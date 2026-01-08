@@ -15,10 +15,13 @@ const EditableImage = ({
   children,
   onChange 
 }) => {
-  const { isEditMode, getContent, updateContent } = useCMS();
+  const { isEditMode, getContent, updateContent, addToast, uploadImage } = useCMS();
   const [isEditing, setIsEditing] = useState(false);
   const [imageSrc, setImageSrc] = useState('');
   const [previewSrc, setPreviewSrc] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [showUrlInput, setShowUrlInput] = useState(false);
+  const [urlInputValue, setUrlInputValue] = useState('');
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -46,15 +49,16 @@ const EditableImage = ({
     const file = e.target.files?.[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
-        alert('Veuillez sélectionner une image valide');
+        addToast('Veuillez sélectionner une image valide (JPG, PNG, WebP)', 'error');
         return;
       }
 
       if (file.size > 5 * 1024 * 1024) {
-        alert("L'image est trop grande. Taille maximale : 5MB");
+        addToast("L'image est trop grande. Taille maximale : 5MB", 'warning');
         return;
       }
 
+      setSelectedFile(file);
       const reader = new FileReader();
       reader.onload = (e) => {
         setPreviewSrc(e.target?.result);
@@ -63,28 +67,45 @@ const EditableImage = ({
     }
   };
 
-  const handleSave = () => {
-    if (previewSrc) {
+  const handleSave = async () => {
+    let finalSrc = previewSrc;
+
+    if (selectedFile) {
+        addToast("Envoi de l'image...", "info");
+        const uploadedUrl = await uploadImage(selectedFile);
+        if (uploadedUrl) {
+            finalSrc = uploadedUrl;
+        } else {
+            return;
+        }
+    }
+
+    if (finalSrc) {
       if (onChange) {
-          onChange(previewSrc);
+          onChange(finalSrc);
       } else if (id) {
-          updateContent(id, previewSrc);
+          updateContent(id, finalSrc);
       }
-      setImageSrc(previewSrc);
+      setImageSrc(finalSrc);
       setPreviewSrc('');
+      setSelectedFile(null);
     }
     setIsEditing(false);
   };
 
   const handleCancel = () => {
     setPreviewSrc('');
+    setSelectedFile(null);
     setIsEditing(false);
+    setShowUrlInput(false);
+    setUrlInputValue('');
   };
 
-  const handleUrlInput = () => {
-    const url = prompt("Entrez l'URL de l'image :");
-    if (url) {
-      setPreviewSrc(url);
+  const handleUrlSubmit = () => {
+    if (urlInputValue) {
+      setPreviewSrc(urlInputValue);
+      setShowUrlInput(false);
+      setUrlInputValue('');
     }
   };
 
@@ -174,14 +195,34 @@ const EditableImage = ({
                     <span className="flex-shrink-0 mx-4 text-xs text-charcoal-light/50 uppercase tracking-widest">OU</span>
                     <div className="flex-grow border-t border-white/10"></div>
                   </div>
-                  <button
-                    onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleUrlInput(); }}
-                    className="w-full flex items-center justify-center space-x-3 border border-white/10 bg-white/5 text-charcoal-light px-4 py-3 rounded-xl hover:bg-white/10 hover:text-clay transition-all duration-300 cursor-pointer"
-                    type="button"
-                  >
-                    <SafeIcon icon={FiLink} />
-                    <span>Coller une URL</span>
-                  </button>
+                  {!showUrlInput ? (
+                    <button
+                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); setShowUrlInput(true); }}
+                        className="w-full flex items-center justify-center space-x-3 border border-white/10 bg-white/5 text-charcoal-light px-4 py-3 rounded-xl hover:bg-white/10 hover:text-clay transition-all duration-300 cursor-pointer"
+                        type="button"
+                    >
+                        <SafeIcon icon={FiLink} />
+                        <span>Coller une URL</span>
+                    </button>
+                  ) : (
+                    <div className="flex space-x-2">
+                        <input
+                            type="text"
+                            value={urlInputValue}
+                            onChange={(e) => setUrlInputValue(e.target.value)}
+                            placeholder="https://exemple.com/image.jpg"
+                            className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-charcoal outline-none focus:border-clay"
+                            autoFocus
+                            onKeyDown={(e) => e.key === 'Enter' && handleUrlSubmit()}
+                        />
+                        <button
+                            onClick={handleUrlSubmit}
+                            className="bg-clay text-paper px-3 py-2 rounded-lg text-sm font-medium hover:bg-white transition-colors"
+                        >
+                            OK
+                        </button>
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -196,7 +237,7 @@ const EditableImage = ({
                     </button>
                     <button
                         onClick={handleSave}
-                        className="flex items-center space-x-2 bg-green-600 text-white px-8 py-2.5 rounded-lg hover:bg-green-700 transition-all shadow-lg hover:shadow-green-900/20 font-medium"
+                        className="flex items-center space-x-2 bg-green-600 text-white px-8 py-2.5 rounded-lg hover:bg-green-700 transition-all shadow-lg hover:shadow-green-900/20 font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <SafeIcon icon={FiCheck} />
                         <span>Enregistrer</span>
