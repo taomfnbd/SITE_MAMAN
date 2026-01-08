@@ -31,7 +31,7 @@ const Navbar = () => {
       name: "La Méthode",
       href: '/methode',
       submenu: [
-        { name: 'Les Séances', href: '/methode/seances' },
+        { name: 'La Séance', href: '/methode/seances' },
         { name: 'Mon Parcours', href: '/methode/parcours' }
       ]
     },

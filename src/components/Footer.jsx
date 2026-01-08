@@ -17,7 +17,7 @@ const Footer = () => {
             <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-clay/60 block mt-1 group-hover:text-clay transition-colors">Férigoule</span>
           </Link>
           <p className="text-sm leading-relaxed mb-6">
-            Cabinet de Thérapie Manuelle Informationnelle (Méthode Poyet) et de Somatothérapie.
+            Cabinet de Thérapie Manuelle Informationnelle (Méthode Poyet).
           </p>
           <div className="flex gap-4">
             <a href="https://www.instagram.com/ferigouleflouretomethodepoyet?igsh=Znd1Y200N3Q3ZTZt" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-clay hover:text-white hover:border-transparent transition-all">
@@ -34,7 +34,7 @@ const Footer = () => {
           <h4 className="font-serif text-charcoal text-lg mb-4 md:mb-6">Plan du Site</h4>
           <ul className="space-y-3 text-sm">
             <li><Link to="/methode" className="hover:text-clay transition-colors">La Méthode</Link></li>
-            <li><Link to="/methode/seances" className="hover:text-clay transition-colors">Les Séances</Link></li>
+            <li><Link to="/methode/seances" className="hover:text-clay transition-colors">La Séance</Link></li>
             <li><Link to="/methode/parcours" className="hover:text-clay transition-colors">Mon Parcours</Link></li>
             <li><Link to="/blog/actu" className="hover:text-clay transition-colors">Actualités</Link></li>
           </ul>
@@ -52,7 +52,7 @@ const Footer = () => {
 
         {/* Colonne 4 : Contact Rapide */}
         <div className="border-t border-white/5 pt-8 md:border-none md:pt-0">
-          <h4 className="font-serif text-charcoal text-lg mb-4 md:mb-6">Nous Contacter</h4>
+          <h4 className="font-serif text-charcoal text-lg mb-4 md:mb-6">Me Contacter</h4>
           <ul className="space-y-4 text-sm">
             <li className="flex items-start gap-3">
               <SafeIcon icon={FiIcons.FiMapPin} className="text-clay mt-1" />

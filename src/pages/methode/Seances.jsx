@@ -5,27 +5,50 @@ import FadeIn from '../../components/FadeIn';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import SEO from '../../components/SEO';
+import EditableText from '../../cms/EditableText';
 
-const SeanceCard = ({ title, time, price, description, icon, delay, details }) => (
+const SeanceCard = ({ idPrefix, title, time, price, description, icon, delay, details }) => (
   <FadeIn delay={delay} className="group relative bg-sage/10 p-6 md:p-10 border border-white/5 hover:bg-sage/20 transition-all duration-500 h-full flex flex-col">
     <div className="absolute top-0 right-0 p-4 md:p-6 opacity-10 group-hover:opacity-20 transition-opacity">
       <SafeIcon icon={icon} className="text-5xl md:text-6xl text-clay" />
     </div>
     <div className="relative z-10 flex-grow">
-      <h3 className="text-xl md:text-2xl font-serif text-charcoal mb-2">{title}</h3>
+      <EditableText 
+        id={`${idPrefix}_title`} 
+        defaultValue={title} 
+        as="h3" 
+        className="text-xl md:text-2xl font-serif text-charcoal mb-2" 
+      />
       <div className="flex items-center gap-4 mb-4 md:mb-6 text-sm font-medium tracking-wide">
-        <span className="text-charcoal-light">{time}</span>
+        <EditableText 
+            id={`${idPrefix}_time`} 
+            defaultValue={time} 
+            as="span" 
+            className="text-charcoal-light" 
+        />
         <span className="w-1 h-1 rounded-full bg-charcoal/30"></span>
-        <span className="text-clay text-lg">{price}</span>
+        <EditableText 
+            id={`${idPrefix}_price`} 
+            defaultValue={price} 
+            as="span" 
+            className="text-clay text-lg" 
+        />
       </div>
-      <p className="text-charcoal-light font-light leading-loose mb-6 border-l border-clay/20 pl-4 text-sm">
-        {description}
-      </p>
-      {details && (
-        <div className="mb-6 md:mb-8 text-xs text-charcoal/60 space-y-2 font-light">
-          {details.map((d, i) => <p key={i}>• {d}</p>)}
-        </div>
-      )}
+      <EditableText 
+        id={`${idPrefix}_desc`} 
+        defaultValue={description} 
+        multiline 
+        className="text-charcoal-light font-light leading-loose mb-6 border-l border-clay/20 pl-4 text-sm" 
+      />
+      <div className="mb-6 md:mb-8 text-xs text-charcoal/60 space-y-2 font-light">
+          <EditableText 
+            id={`${idPrefix}_details`} 
+            defaultValue={details ? details.join('\n') : ''} 
+            multiline 
+            className="whitespace-pre-line" 
+            placeholder="Détails (un par ligne)..."
+          />
+      </div>
     </div>
     <a 
       href="https://flouretoferigoule-methodepoyet.fr/resalib" 
@@ -41,6 +64,14 @@ const SeanceCard = ({ title, time, price, description, icon, delay, details }) =
 const PricingPhilosophy = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const defaultPhiloText = `La question du juste prix est épineuse. Comment évaluer le juste prix ? A l'aune de quels critères : le temps passé ? Les compétences ? L'engagement ?
+
+Le système de sécurité sociale en France permet à chacun.e d'accéder à des soins sans verser d'argent direct. Ce système a cependant un effet pervers : nous sommes parfois peu capables d'estimer le prix des soins reçus.
+
+Je ne travaille pas dans le domaine du soin médical conventionné, aussi j'ai la liberté de fixer mes tarifs. Pour autant, je m'inscris pleinement dans les métiers du « care » (sollicitude, accompagnement).
+
+Voici ce que je mets dans la balance : le temps passé (1h15), mon implication dans les formations continues, mes lectures, mon développement personnel. Je considère que cet investissement quotidien nourrit mon savoir-faire et mon avoir-être.`;
+
   return (
     <div className="bg-paper border border-white/5 overflow-hidden transition-all duration-500">
       <button 
@@ -55,18 +86,12 @@ const PricingPhilosophy = () => {
       </button>
       <div className={`overflow-hidden transition-[max-height] duration-700 ease-in-out ${isOpen ? 'max-h-[1000px]' : 'max-h-0'}`}>
         <div className="p-4 md:p-6 pt-0 text-sm font-light text-charcoal-light leading-loose space-y-4 border-t border-white/5">
-          <p>
-            La question du juste prix est épineuse. Comment évaluer le juste prix ? A l'aune de quels critères : le temps passé ? Les compétences ? L'engagement ?
-          </p>
-          <p>
-            Le système de sécurité sociale en France permet à chacun.e d'accéder à des soins sans verser d'argent direct. Ce système a cependant un effet pervers : nous sommes parfois peu capables d'estimer le prix des soins reçus.
-          </p>
-          <p>
-            Je ne travaille pas dans le domaine du soin médical conventionné, aussi j'ai la liberté de fixer mes tarifs. Pour autant, je m'inscris pleinement dans les métiers du « care » (sollicitude, accompagnement).
-          </p>
-          <p>
-            Voici ce que je mets dans la balance : le temps passé (1h15), mon implication dans les formations continues, mes lectures, mon développement personnel. Je considère que cet investissement quotidien nourrit mon savoir-faire et mon avoir-être.
-          </p>
+          <EditableText 
+            id="seances_philo" 
+            defaultValue={defaultPhiloText} 
+            multiline 
+            className="whitespace-pre-line" 
+          />
         </div>
       </div>
     </div>
@@ -82,20 +107,27 @@ const Seances = () => {
         url="/methode/seances"
       />
       <Navbar />
-      <PageHeader title="Les Séances" subtitle="Des temps de soin dédiés à votre équilibre." />
+      <PageHeader 
+        title={<EditableText id="seances_header_title" defaultValue="La Séance" />}
+        subtitle="Tarifs et informations pratiques"
+      />
       
       <div className="max-w-5xl mx-auto px-6">
         
         {/* Info Déroulé */}
         <FadeIn className="mb-12 md:mb-16 text-center max-w-3xl mx-auto">
-          <p className="text-charcoal-light font-light leading-loose text-sm md:text-base">
-            La méthode Poyet est une approche globale. Il faut du temps pour développer les points que vous souhaitez aborder. De mon côté, j'ai besoin de temps pour mettre en place une écoute active.
-          </p>
+          <EditableText 
+            id="seances_intro" 
+            defaultValue="La méthode Poyet est une approche globale. Il faut du temps pour développer les points que vous souhaitez aborder. De mon côté, j'ai besoin de temps pour mettre en place une écoute active." 
+            multiline
+            className="text-charcoal-light font-light leading-loose text-sm md:text-base"
+          />
         </FadeIn>
 
         {/* Cartes Tarifs */}
         <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
           <SeanceCard 
+            idPrefix="seance_adult"
             title="Séance Adulte" 
             time="1h15" 
             price="70 €" 
@@ -105,6 +137,7 @@ const Seances = () => {
             delay={0}
           />
           <SeanceCard 
+            idPrefix="seance_child"
             title="Enfant (-7 ans)" 
             time="~1h00" 
             price="60 €" 
@@ -122,19 +155,36 @@ const Seances = () => {
 
         {/* Infos Pratiques */}
         <FadeIn className="bg-sage/30 p-8 md:p-12 border border-white/5 text-center">
-            <h3 className="text-lg md:text-xl font-serif text-charcoal italic mb-6">Informations Pratiques</h3>
+            <h3 className="text-lg md:text-xl font-serif text-charcoal italic mb-6">
+                <EditableText id="seances_infos_title" defaultValue="Informations Pratiques" />
+            </h3>
             <div className="grid md:grid-cols-3 gap-8 text-sm font-light text-charcoal-light">
                 <div className="flex flex-col items-center gap-3">
                     <SafeIcon icon={FiIcons.FiLayers} className="text-xl text-clay" />
-                    <p>Venez avec une<br/>tenue souple et confortable.</p>
+                    <EditableText 
+                        id="seances_info_1" 
+                        defaultValue={"Venez avec une\ntenue souple et confortable."} 
+                        multiline 
+                        className="whitespace-pre-line text-center" 
+                    />
                 </div>
                 <div className="flex flex-col items-center gap-3">
                     <SafeIcon icon={FiIcons.FiClock} className="text-xl text-clay" />
-                    <p>Prévoyez 1h15<br/>de disponibilité.</p>
+                    <EditableText 
+                        id="seances_info_2" 
+                        defaultValue={"Prévoyez 1h15\nde disponibilité."} 
+                        multiline 
+                        className="whitespace-pre-line text-center" 
+                    />
                 </div>
                 <div className="flex flex-col items-center gap-3">
                     <SafeIcon icon={FiIcons.FiCreditCard} className="text-xl text-clay" />
-                    <p>Règlement Chèque<br/>ou Espèces.</p>
+                    <EditableText 
+                        id="seances_info_3" 
+                        defaultValue={"Règlement Chèque\nou Espèces."} 
+                        multiline 
+                        className="whitespace-pre-line text-center" 
+                    />
                 </div>
             </div>
         </FadeIn>
