@@ -6,6 +6,7 @@ import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import SEO from '../../components/SEO';
 import EditableText from '../../cms/EditableText';
+import SectionManager from '../../cms/SectionManager';
 
 const SeanceCard = ({ idPrefix, title, time, price, description, icon, delay, details }) => (
   <FadeIn delay={delay} className="group relative bg-sage/10 p-6 md:p-10 border border-white/5 hover:bg-sage/20 transition-all duration-500 h-full flex flex-col">
@@ -188,6 +189,8 @@ const Seances = () => {
                 </div>
             </div>
         </FadeIn>
+
+        <SectionManager pageId="seances_extra" />
 
       </div>
     </div>
