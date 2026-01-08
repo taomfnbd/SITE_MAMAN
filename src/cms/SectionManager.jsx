@@ -924,33 +924,3 @@ const SectionRenderer = ({ section, onUpdate }) => {
 };
 
 export default SectionManager;
-
-<environment_details>
-# Visual Studio Code Visible Files
-OU/SITE_MAMAN/src/cms/SectionManager.jsx
-
-# Visual Studio Code Open Tabs
-OU/SITE_MAMAN/src/cms/CMSContext.jsx
-OU/SITE_MAMAN/src/App.jsx
-OU/SITE_MAMAN/src/cms/EditableImage.jsx
-OU/SITE_MAMAN/src/pages/methode/Seances.jsx
-OU/SITE_MAMAN/src/pages/methode/Parcours.jsx
-OU/SITE_MAMAN/src/pages/MentionsLegales.jsx
-OU/SITE_MAMAN/src/index.css
-OU/SITE_MAMAN/src/cms/ToastContainer.jsx
-OU/SITE_MAMAN/src/cms/CMSToolbar.jsx
-OU/SITE_MAMAN/src/cms/EditableText.jsx
-OU/SITE_MAMAN/src/cms/SectionManager.jsx
-
-# Actively Running Terminals
-## Original command: `netlify sites:create --name site-maman-vitrine`
-
-# Current Time
-07/01/2026 8:36:12 PM (Europe/Paris, UTC+1:00)
-
-# Context Window Usage
-485 541 / 1 048,576K tokens used (46%)
-
-# Current Mode
-ACT MODE
-</environment_details>
