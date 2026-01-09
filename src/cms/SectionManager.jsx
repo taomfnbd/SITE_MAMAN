@@ -98,6 +98,95 @@ const SECTION_CONFIG = [
   }
 ];
 
+const getDefaultContent = (type) => {
+  switch (type) {
+    case SECTION_TYPES.HERO:
+      return {
+        title1: 'Titre 1',
+        title2: 'Titre 2',
+        subtitle: 'Sous-titre'
+      };
+    case SECTION_TYPES.DOUBLE_ENTRY:
+      return {
+        card1Title: 'Titre Gauche',
+        card1Desc: 'Description...',
+        card1Cta: 'Bouton',
+        card2Title: 'Titre Droite',
+        card2Desc: 'Description...',
+        card2Cta: 'Bouton'
+      };
+    case SECTION_TYPES.THREE_COLUMNS:
+      return {
+        col1Title: 'Colonne 1',
+        col1Text: 'Texte...',
+        col2Title: 'Colonne 2',
+        col2Text: 'Texte...',
+        col3Title: 'Colonne 3',
+        col3Text: 'Texte...'
+      };
+    case SECTION_TYPES.TEXT:
+      return {
+        title: 'Nouveau Texte',
+        content: 'Votre contenu ici...'
+      };
+    case SECTION_TYPES.IMAGE:
+      return {
+        image: '',
+        caption: 'Légende'
+      };
+    case SECTION_TYPES.TEXT_IMAGE:
+    case SECTION_TYPES.IMAGE_TEXT:
+      return {
+        title: 'Titre',
+        content: 'Texte...',
+        image: ''
+      };
+    case SECTION_TYPES.QUOTE:
+      return {
+        quote: 'Citation...',
+        author: 'Auteur'
+      };
+    case SECTION_TYPES.TESTIMONIALS:
+      return {
+        title: 'Témoignages'
+      };
+    case SECTION_TYPES.CONTACT:
+      return {
+        title: 'Contact',
+        cta: 'Bouton'
+      };
+    case SECTION_TYPES.SERVICES:
+      return {
+        tag: 'Tag',
+        title: 'Titre',
+        s1Title: 'Service 1',
+        s1Desc: 'Desc...',
+        s1Price: '0€',
+        s1Duration: '1h',
+        s2Title: 'Service 2',
+        s2Desc: 'Desc...',
+        s2Price: '0€',
+        s2Duration: '1h',
+        cta: 'Bouton'
+      };
+    case SECTION_TYPES.CONTACT_INFO_GRID:
+        return {
+            card1Title: "Adresse", card1Content: "...",
+            card2Title: "Téléphone", card2Content: "...",
+            card3Title: "Réservation", card3Content: "..."
+        };
+    case SECTION_TYPES.CONTACT_MAP:
+        return {
+            zoneTitle: "Zone", zoneDesc: "...",
+            city1: "Ville 1", city2: "Ville 2", city3: "Ville 3",
+            city4: "Ville 4", city5: "Ville 5", city6: "Ville 6",
+            legal: "Mentions légales..."
+        };
+    default:
+      return {};
+  }
+};
+
 const DEFAULT_SECTIONS = {
   home: [],
   methode: [],
