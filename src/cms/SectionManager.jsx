@@ -802,17 +802,85 @@ const SectionRenderer = ({ section, onUpdate }) => {
                         <h3 className="text-2xl font-serif text-charcoal"><Text field="contTitle" defaultValue="Continue" /></h3>
                     </div>
                     <div className="space-y-10">
-                        <div className="relative pl-8 border-l border-clay/20">
-                            <span className="text-xs uppercase tracking-widest text-clay mb-1 block"><Text field="duDate" /></span>
-                            <h4 className="text-xl font-serif text-charcoal mb-2"><Text field="duTitle" /></h4>
-                            <p className="text-charcoal-light font-light text-sm italic mb-2"><Text field="duLoc" /></p>
-                            <div className="text-charcoal-light font-light text-sm leading-relaxed whitespace-pre-wrap"><Text field="duDesc" multiline /></div>
-                        </div>
-                        <div className="relative pl-8 border-l border-clay/20">
-                            <span className="text-xs uppercase tracking-widest text-clay mb-1 block">Formation Continue</span>
-                            <h4 className="text-xl font-serif text-charcoal mb-4"><Text field="ptTitle" /></h4>
-                            <div className="text-charcoal-light font-light text-sm leading-relaxed whitespace-pre-wrap"><Text field="ptList" multiline /></div>
-                        </div>
+                        {/* Liste éditable des formations continues */}
+                        {(content.items || [
+                            { id: 1, date: "Octobre 2024 – Juin 2025", title: "D.U. Éthique, soin, santé et société", loc: "Université Paris-Saclay", desc: "Mémoire..." },
+                            { id: 2, date: "Formation Continue", title: "Approche tissulaire (Pierre Tricot)", loc: "", desc: "Stages..." }
+                        ]).map((item, idx) => (
+                            <div key={idx} className="relative pl-8 border-l border-clay/20 group">
+                                {isEditing && (
+                                    <button 
+                                        onClick={() => {
+                                            const newItems = [...(content.items || [])];
+                                            newItems.splice(idx, 1);
+                                            onUpdate('items', newItems);
+                                        }}
+                                        className="absolute -left-3 top-0 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10"
+                                        title="Supprimer cette formation"
+                                    >
+                                        <SafeIcon icon={FiIcons.FiX} className="text-xs" />
+                                    </button>
+                                )}
+                                <span className="text-xs uppercase tracking-widest text-clay mb-1 block">
+                                    <EditableText 
+                                        value={item.date} 
+                                        onChange={(val) => {
+                                            const newItems = [...(content.items || [])];
+                                            if(!newItems[idx]) newItems[idx] = item;
+                                            newItems[idx] = { ...newItems[idx], date: val };
+                                            onUpdate('items', newItems);
+                                        }} 
+                                    />
+                                </span>
+                                <h4 className="text-xl font-serif text-charcoal mb-2">
+                                    <EditableText 
+                                        value={item.title} 
+                                        onChange={(val) => {
+                                            const newItems = [...(content.items || [])];
+                                            if(!newItems[idx]) newItems[idx] = item;
+                                            newItems[idx] = { ...newItems[idx], title: val };
+                                            onUpdate('items', newItems);
+                                        }} 
+                                    />
+                                </h4>
+                                <p className="text-charcoal-light font-light text-sm italic mb-2">
+                                    <EditableText 
+                                        value={item.loc} 
+                                        onChange={(val) => {
+                                            const newItems = [...(content.items || [])];
+                                            if(!newItems[idx]) newItems[idx] = item;
+                                            newItems[idx] = { ...newItems[idx], loc: val };
+                                            onUpdate('items', newItems);
+                                        }} 
+                                        placeholder="Lieu / École"
+                                    />
+                                </p>
+                                <div className="text-charcoal-light font-light text-sm leading-relaxed whitespace-pre-wrap">
+                                    <EditableText 
+                                        value={item.desc} 
+                                        onChange={(val) => {
+                                            const newItems = [...(content.items || [])];
+                                            if(!newItems[idx]) newItems[idx] = item;
+                                            newItems[idx] = { ...newItems[idx], desc: val };
+                                            onUpdate('items', newItems);
+                                        }} 
+                                        multiline 
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                        {isEditing && (
+                            <button 
+                                onClick={() => {
+                                    const newItems = [...(content.items || [])];
+                                    newItems.push({ date: "Nouvelle date", title: "Nouvelle formation", loc: "Lieu", desc: "Description..." });
+                                    onUpdate('items', newItems);
+                                }}
+                                className="flex items-center gap-2 text-clay hover:text-charcoal transition-colors text-sm uppercase tracking-widest font-medium mt-4"
+                            >
+                                <SafeIcon icon={FiPlus} /> Ajouter une formation
+                            </button>
+                        )}
                     </div>
                 </FadeIn>
                 <FadeIn delay={0.4} className="mt-20 p-6 bg-sage/30 border border-clay/10 rounded-sm">
