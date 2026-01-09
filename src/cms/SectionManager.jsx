@@ -60,13 +60,15 @@ const SECTION_TYPES = {
   PARCOURS_LAYOUT: 'parcours-layout', // New section type
   RESSOURCES_GRID: 'ressources-grid',
   BLOG_GRID: 'blog-grid',
-  ATELIERS_LAYOUT: 'ateliers-layout',
-  CONTACT_INFO_GRID: 'contact-info-grid',
-  CONTACT_MAP: 'contact-map',
-  VIDEO: 'video',
-  SEPARATOR: 'separator',
-  CTA: 'cta',
-};
+      ATELIERS_LAYOUT: 'ateliers-layout',
+      AGENDA_LAYOUT: 'agenda-layout',
+      THEMES_LAYOUT: 'themes-layout',
+      CONTACT_INFO_GRID: 'contact-info-grid',
+      CONTACT_MAP: 'contact-map',
+      VIDEO: 'video',
+      SEPARATOR: 'separator',
+      CTA: 'cta',
+    };
 
 const SECTION_CONFIG = [
   {
@@ -90,19 +92,19 @@ const SECTION_CONFIG = [
       { type: SECTION_TYPES.CTA, label: 'Appel à l\'action', icon: FiIcons.FiMousePointer },
     ]
   },
-  {
-    category: 'Modules Spécifiques',
-    items: [
-      { type: SECTION_TYPES.TESTIMONIALS, label: 'Témoignages', icon: FiStar },
-      { type: SECTION_TYPES.CONTACT, label: 'Contact (Simple)', icon: FiPhone },
-      { type: SECTION_TYPES.SERVICES, label: 'Services & Tarifs', icon: FiList },
-      { type: SECTION_TYPES.METHOD, label: 'Bloc Méthode', icon: FiInfo },
-      { type: SECTION_TYPES.DISCLAIMER, label: 'Avertissement', icon: FiInfo },
-      { type: SECTION_TYPES.CONTACT_INFO_GRID, label: 'Grille Contact', icon: FiPhone },
-      { type: SECTION_TYPES.CONTACT_MAP, label: 'Carte & Zone', icon: FiMapPin },
-    ]
-  }
-];
+      {
+        category: 'Modules Spécifiques',
+        items: [
+          { type: SECTION_TYPES.TESTIMONIALS, label: 'Témoignages', icon: FiStar },
+          { type: SECTION_TYPES.CONTACT, label: 'Contact (Simple)', icon: FiPhone },
+          { type: SECTION_TYPES.SERVICES, label: 'Services & Tarifs', icon: FiList },
+          { type: SECTION_TYPES.METHOD, label: 'Bloc Méthode', icon: FiInfo },
+          { type: SECTION_TYPES.DISCLAIMER, label: 'Avertissement', icon: FiInfo },
+          { type: SECTION_TYPES.CONTACT_INFO_GRID, label: 'Grille Contact', icon: FiPhone },
+          { type: SECTION_TYPES.CONTACT_MAP, label: 'Carte & Zone', icon: FiMapPin },
+        ]
+      }
+    ];
 
 const getDefaultContent = (type) => {
   switch (type) {
@@ -180,6 +182,22 @@ const getDefaultContent = (type) => {
             card1Title: "Adresse", card1Content: "...",
             card2Title: "Téléphone", card2Content: "...",
             card3Title: "Réservation", card3Content: "..."
+        };
+    case SECTION_TYPES.AGENDA_LAYOUT:
+        return {
+             row1Date: "12-13 Nov", row1Audience: "Ouvert à tous", row1Title: "Initiation", row1Desc: "...",
+             row2Date: "02-03 Déc", row2Audience: "Pros", row2Title: "Expertise", row2Desc: "...",
+             row3Date: "20-22 Jan", row3Audience: "Tous", row3Title: "Corps Mémoire", row3Desc: "...",
+             row4Date: "15-16 Fév", row4Audience: "Pros", row4Title: "Posturologie", row4Desc: "..."
+        };
+    case SECTION_TYPES.THEMES_LAYOUT:
+        return {
+             card1Title: "Souffle", card1Desc: "...",
+             card2Title: "Ancrage", card2Desc: "...",
+             card3Title: "Automassage", card3Desc: "...",
+             card4Title: "Sommeil", card4Desc: "...",
+             card5Title: "Émotions", card5Desc: "...",
+             card6Title: "Vitalité", card6Desc: "..."
         };
     case SECTION_TYPES.CONTACT_MAP:
         return {
@@ -861,7 +879,7 @@ const SectionRenderer = ({ section, onUpdate }) => {
             <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center py-16">
                 <FadeIn className="order-2 md:order-1">
                 <div className="space-y-8">
-                    <EditableLink to="/ateliers" className="group block p-8 border border-white/5 hover:bg-sage/10 transition-colors">
+                    <EditableLink to="/ateliers/agenda" className="group block p-8 border border-white/5 hover:bg-sage/10 transition-colors">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-2xl font-serif text-charcoal group-hover:text-clay transition-colors"><Text field="card1Title" defaultValue="L'Agenda" /></h3>
                         <SafeIcon icon={FiCalendar} className="text-charcoal/30 group-hover:text-clay text-2xl transition-colors" />
@@ -869,14 +887,14 @@ const SectionRenderer = ({ section, onUpdate }) => {
                     <p className="text-charcoal-light font-light text-sm mb-4"><Text field="card1Desc" multiline defaultValue="..." /></p>
                     <span className="text-xs uppercase tracking-widest text-clay/70 group-hover:text-clay"><Text field="card1Cta" defaultValue="Consulter →" /></span>
                     </EditableLink>
-                    <div className="group block p-8 border border-white/5 bg-sage/5 transition-colors opacity-60">
+                    <EditableLink to="/ateliers/themes" className="group block p-8 border border-white/5 hover:bg-sage/10 transition-colors">
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-2xl font-serif text-charcoal"><Text field="card2Title" defaultValue="Thématiques" /></h3>
-                        <SafeIcon icon={FiList} className="text-charcoal/30 text-2xl" />
+                        <h3 className="text-2xl font-serif text-charcoal group-hover:text-clay transition-colors"><Text field="card2Title" defaultValue="Thématiques" /></h3>
+                        <SafeIcon icon={FiList} className="text-charcoal/30 group-hover:text-clay text-2xl transition-colors" />
                     </div>
                     <p className="text-charcoal-light font-light text-sm mb-4"><Text field="card2Desc" multiline defaultValue="..." /></p>
-                    <span className="text-xs uppercase tracking-widest text-clay/70"><Text field="card2Cta" defaultValue="À venir" /></span>
-                    </div>
+                    <span className="text-xs uppercase tracking-widest text-clay/70 group-hover:text-clay"><Text field="card2Cta" defaultValue="Découvrir →" /></span>
+                    </EditableLink>
                 </div>
                 </FadeIn>
                 <FadeIn delay={0.2} className="order-1 md:order-2 flex justify-center">
@@ -885,6 +903,41 @@ const SectionRenderer = ({ section, onUpdate }) => {
                     <div className="text-center font-serif italic text-xl text-charcoal/80 leading-relaxed"><Text field="quote" multiline defaultValue="Citation..." /></div>
                 </div>
                 </FadeIn>
+            </div>
+        );
+    case SECTION_TYPES.AGENDA_LAYOUT:
+        return (
+            <div className="max-w-5xl mx-auto px-6 py-12">
+                <div className="border-t border-white/5 mb-12">
+                   {[1, 2, 3, 4].map(i => (
+                       <FadeIn key={i} delay={i * 0.1} className="group flex flex-col md:flex-row gap-6 p-6 border-b border-white/5 hover:bg-sage/10 transition-colors">
+                            <div className="md:w-32 flex-shrink-0">
+                            <span className="block text-sm font-medium text-clay uppercase tracking-wide"><Text field={`row${i}Date`} defaultValue="Date" /></span>
+                            <span className="text-[10px] text-charcoal/50 uppercase mt-1 block"><Text field={`row${i}Audience`} defaultValue="Public" /></span>
+                            </div>
+                            <div className="flex-grow">
+                            <div className="flex justify-between items-start">
+                                <h3 className="text-xl font-serif text-charcoal mb-2 group-hover:text-clay transition-colors"><Text field={`row${i}Title`} defaultValue="Titre de l'atelier" /></h3>
+                            </div>
+                            <p className="text-charcoal-light font-light text-sm leading-relaxed max-w-2xl">
+                                <Text field={`row${i}Desc`} multiline defaultValue="Description..." />
+                            </p>
+                            </div>
+                        </FadeIn>
+                   ))}
+                </div>
+            </div>
+        );
+    case SECTION_TYPES.THEMES_LAYOUT:
+        return (
+            <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-6 py-12">
+                {[1, 2, 3, 4, 5, 6].map(i => (
+                    <FadeIn key={i} delay={i * 0.1} className="bg-paper p-8 border border-white/5 hover:border-clay/30 transition-all duration-500 group h-full">
+                        <div className="text-3xl text-clay mb-6 group-hover:scale-110 transition-transform"><SafeIcon icon={FiStar} /></div>
+                        <h3 className="text-xl font-serif text-charcoal mb-4"><Text field={`card${i}Title`} defaultValue="Thème" /></h3>
+                        <p className="text-charcoal-light font-light text-sm leading-relaxed"><Text field={`card${i}Desc`} multiline defaultValue="..." /></p>
+                    </FadeIn>
+                ))}
             </div>
         );
     case SECTION_TYPES.CONTACT_INFO_GRID:
