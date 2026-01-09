@@ -73,12 +73,12 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center relative">
         <Link to="/" className="relative z-[101] group flex items-center gap-1 leading-none">
-          <img src="/logo-static.svg" alt="Logo" className="h-28 w-auto -mr-6 opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+          <img src="/logo-static.svg" alt="Logo" className="h-24 md:h-28 w-auto -mr-4 md:-mr-6 opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="flex flex-col items-start">
-            <span className="font-serif text-2xl md:text-3xl text-charcoal tracking-wide group-hover:text-clay transition-colors duration-500">
+            <span className="font-serif text-xl md:text-3xl text-charcoal tracking-wide group-hover:text-clay transition-colors duration-500">
               Floureto
             </span>
-            <span className="font-sans text-[10px] md:text-xs uppercase tracking-[0.25em] text-clay/60 ml-0.5 group-hover:text-clay transition-colors duration-500">
+            <span className="font-sans text-[9px] md:text-xs uppercase tracking-[0.25em] text-clay/60 ml-0.5 group-hover:text-clay transition-colors duration-500">
               Férigoule
             </span>
           </div>
@@ -146,7 +146,8 @@ const Navbar = () => {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="lg:hidden z-50 text-charcoal hover:text-clay transition-colors p-2 focus:outline-none"
+          className="lg:hidden relative z-[102] text-charcoal hover:text-clay transition-colors p-2 focus:outline-none"
+          aria-label="Menu"
         >
           <SafeIcon icon={isOpen ? FiIcons.FiX : FiIcons.FiMenu} className="text-2xl" />
         </button>
