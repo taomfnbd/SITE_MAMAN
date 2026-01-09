@@ -126,7 +126,7 @@ const Seances = () => {
         </FadeIn>
 
         {/* Cartes Tarifs */}
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
+        <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
           <SeanceCard 
             idPrefix="seance_adult"
             title="Séance Adulte" 
@@ -146,6 +146,16 @@ const Seances = () => {
             details={["Forfait 2 séances : 110 €"]}
             icon={FiIcons.FiSmile}
             delay={0.2}
+          />
+          <SeanceCard 
+            idPrefix="seance_duo"
+            title="Duo / Autre" 
+            time="Durée" 
+            price="Prix" 
+            description="Une troisième option pour les séances spécifiques ou les duos parent-enfant."
+            details={["Détails supplémentaires..."]}
+            icon={FiIcons.FiUsers}
+            delay={0.4}
           />
         </div>
 
