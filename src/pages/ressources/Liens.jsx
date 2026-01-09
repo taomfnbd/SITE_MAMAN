@@ -4,6 +4,7 @@ import PageHeader from '../../components/PageHeader';
 import FadeIn from '../../components/FadeIn';
 import { useCMS } from '../../cms/CMSContext';
 import EditableText from '../../cms/EditableText';
+import SectionManager from '../../cms/SectionManager';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
@@ -63,6 +64,8 @@ const Liens = () => {
       <Navbar />
       <PageHeader pageId="liens" title="Liens Utiles" subtitle="Fédérations, écoles et confrères." />
       
+      <SectionManager pageId="liens" />
+
       <div className="max-w-3xl mx-auto px-6">
         {isEditMode && (
             <div className="mb-12 text-center">

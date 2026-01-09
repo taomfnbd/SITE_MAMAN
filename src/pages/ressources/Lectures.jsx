@@ -5,6 +5,7 @@ import FadeIn from '../../components/FadeIn';
 import { useCMS } from '../../cms/CMSContext';
 import EditableText from '../../cms/EditableText';
 import EditableImage from '../../cms/EditableImage';
+import SectionManager from '../../cms/SectionManager';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
@@ -72,6 +73,8 @@ const Lectures = () => {
       <Navbar />
       <PageHeader pageId="lectures" title="Bibliographie" subtitle="Des livres qui ont marqué ma pratique." />
       
+      <SectionManager pageId="lectures" />
+
       <div className="max-w-4xl mx-auto px-6">
         {isEditMode && (
             <div className="mb-12 text-center">

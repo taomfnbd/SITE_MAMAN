@@ -63,6 +63,9 @@ const SECTION_TYPES = {
   ATELIERS_LAYOUT: 'ateliers-layout',
   CONTACT_INFO_GRID: 'contact-info-grid',
   CONTACT_MAP: 'contact-map',
+  VIDEO: 'video',
+  SEPARATOR: 'separator',
+  CTA: 'cta',
 };
 
 const SECTION_CONFIG = [
@@ -72,6 +75,7 @@ const SECTION_CONFIG = [
       { type: SECTION_TYPES.HERO, label: 'En-tête (Hero)', icon: FiLayout },
       { type: SECTION_TYPES.DOUBLE_ENTRY, label: 'Double Entrée', icon: FiColumns },
       { type: SECTION_TYPES.THREE_COLUMNS, label: '3 Colonnes', icon: FiGrid },
+      { type: SECTION_TYPES.SEPARATOR, label: 'Séparateur', icon: FiIcons.FiMinus },
     ]
   },
   {
@@ -82,6 +86,8 @@ const SECTION_CONFIG = [
       { type: SECTION_TYPES.QUOTE, label: 'Citation', icon: FiMessageSquare },
       { type: SECTION_TYPES.TEXT, label: 'Texte Simple', icon: FiType },
       { type: SECTION_TYPES.IMAGE, label: 'Image Seule', icon: FiImage },
+      { type: SECTION_TYPES.VIDEO, label: 'Vidéo (Youtube)', icon: FiIcons.FiVideo },
+      { type: SECTION_TYPES.CTA, label: 'Appel à l\'action', icon: FiIcons.FiMousePointer },
     ]
   },
   {
@@ -943,6 +949,9 @@ const SectionRenderer = ({ section, onUpdate }) => {
     case SECTION_TYPES.CONTACT: return ( <section className="py-20 md:py-32 px-6 border-t border-charcoal/5 relative z-10 bg-sage/20 text-center"><FadeIn><h2 className="text-2xl md:text-3xl font-serif italic mb-8 md:mb-10"><Text field="title" defaultValue="Prendre Rendez-vous" /></h2><EditableExternalLink href="https://flouretoferigoule-methodepoyet.fr/resalib" target="_blank" rel="noopener noreferrer" className="px-8 md:px-10 py-3 md:py-4 bg-clay text-paper font-medium uppercase tracking-widest text-xs hover:bg-white transition-colors duration-500 inline-block"><Text field="cta" defaultValue="Réserver sur Resalib" /></EditableExternalLink></FadeIn></section> );
     case SECTION_TYPES.TEXT: return ( <div className="bg-sage/30 rounded-xl p-6 lg:p-8 shadow-sm border border-white/5 max-w-4xl mx-auto my-8">{content.title && <h2 className="text-3xl font-serif text-charcoal mb-4 italic"><Text field="title" /></h2>}<div className="text-charcoal-light leading-relaxed whitespace-pre-wrap font-light"><Text field="content" multiline /></div></div> );
     case SECTION_TYPES.IMAGE: return ( <div className="bg-sage/30 rounded-xl overflow-hidden shadow-sm border border-white/5 max-w-4xl mx-auto my-8">{isEditing ? (<EditableImage defaultSrc={content.image} onChange={(val) => onUpdate && onUpdate('image', val)} className="w-full h-auto" />) : (<img src={content.image} alt={content.caption} className="w-full h-auto" />)}<p className="text-sm text-charcoal-light p-4 text-center italic font-serif"><Text field="caption" placeholder="Légende" /></p></div> );
+    case SECTION_TYPES.VIDEO: return ( <div className="max-w-4xl mx-auto px-6 py-8"><div className="aspect-video bg-black/5 rounded-xl overflow-hidden shadow-lg border border-white/5">{isEditing ? <div className="w-full h-full flex items-center justify-center bg-sage/20"><div className="w-full max-w-md p-4"><p className="mb-2 text-sm text-charcoal">URL de la vidéo (Youtube embed) :</p><EditableText field="url" placeholder="https://www.youtube.com/embed/..." className="bg-white/50 p-2 rounded w-full text-sm" /></div></div> : <iframe src={content.url} className="w-full h-full" title="Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>}</div></div> );
+    case SECTION_TYPES.SEPARATOR: return ( <div className="max-w-4xl mx-auto px-6 py-8"><hr className="border-t border-clay/30" /></div> );
+    case SECTION_TYPES.CTA: return ( <div className="max-w-4xl mx-auto px-6 py-12 text-center"><div className="inline-block bg-clay text-paper px-8 py-3 uppercase tracking-widest text-xs font-medium hover:bg-white transition-colors duration-500 rounded-sm cursor-pointer"><Text field="label" defaultValue="Bouton" /></div><div className="mt-2 text-[10px] text-charcoal/50">{isEditing && <span className="flex gap-1 justify-center items-center">Lien: <EditableText field="link" placeholder="/page" className="border-b border-charcoal/20" /></span>}</div></div> );
     default: return <div className="p-4 text-red-500">Type de section inconnu: {section.type}</div>;
   }
 };
