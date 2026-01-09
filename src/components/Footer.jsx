@@ -2,9 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
+import EditableText from '../cms/EditableText';
+import { useCMS } from '../cms/CMSContext';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { isEditMode } = useCMS();
 
   return (
     <footer className="bg-sage pt-12 md:pt-20 pb-8 md:pb-10 border-t border-white/5 text-charcoal-light font-light relative z-10">
@@ -16,9 +19,9 @@ const Footer = () => {
             <span className="font-serif text-2xl text-charcoal group-hover:text-clay transition-colors">Floureto</span>
             <span className="font-sans text-[10px] uppercase tracking-[0.25em] text-clay/60 block mt-1 group-hover:text-clay transition-colors">Férigoule</span>
           </Link>
-          <p className="text-sm leading-relaxed mb-6">
-            Cabinet de Thérapie Manuelle Informationnelle (Méthode Poyet).
-          </p>
+          <div className="text-sm leading-relaxed mb-6">
+            <EditableText id="footer.desc" defaultValue="Cabinet de Thérapie Manuelle Informationnelle (Méthode Poyet)." multiline />
+          </div>
           <div className="flex gap-4">
             <a href="https://www.instagram.com/ferigouleflouretomethodepoyet?igsh=Znd1Y200N3Q3ZTZt" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-clay hover:text-white hover:border-transparent transition-all">
               <SafeIcon icon={FiIcons.FiInstagram} className="text-sm" />
@@ -56,11 +59,13 @@ const Footer = () => {
           <ul className="space-y-4 text-sm">
             <li className="flex items-start gap-3">
               <SafeIcon icon={FiIcons.FiMapPin} className="text-clay mt-1" />
-              <span>29 Rue du Mont Berny<br/>60350 Pierrefonds</span>
+              <div className="whitespace-pre-line">
+                <EditableText id="footer.address" defaultValue={"29 Rue du Mont Berny\n60350 Pierrefonds"} multiline />
+              </div>
             </li>
             <li className="flex items-center gap-3">
                <SafeIcon icon={FiIcons.FiPhone} className="text-clay" />
-              <span>07 69 05 10 87</span>
+              <span><EditableText id="footer.phone" defaultValue="07 69 05 10 87" /></span>
             </li>
             <li className="flex items-center gap-3">
               <SafeIcon icon={FiIcons.FiCalendar} className="text-clay" />
