@@ -630,47 +630,41 @@ const SectionManager = ({ pageId }) => {
   );
 };
 
-const AddSectionMenu = ({ onSelect, onClose, className = "absolute top-10 left-1/2 -translate-x-1/2" }) => {
-  const menuRef = useRef(null);
+import { createPortal } from 'react-dom';
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (menuRef.current && !menuRef.current.contains(event.target)) {
-        onClose();
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [onClose]);
-
-  return (
-    <motion.div 
-      ref={menuRef}
-      initial={{ opacity: 0, scale: 0.9, y: 10 }} 
-      animate={{ opacity: 1, scale: 1, y: 0 }} 
-      exit={{ opacity: 0, scale: 0.9, y: 10 }} 
-      className={`${className} bg-paper/90 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden z-50 w-[30rem]`}
-    >
-      <div className="flex items-center justify-between p-4 border-b border-white/5 bg-clay/5">
-        <h3 className="font-serif text-charcoal text-lg italic">Ajouter une section</h3>
-        <button onClick={onClose} className="p-2 rounded-full hover:bg-white/10 text-charcoal-light hover:text-red-400 transition-colors"><SafeIcon icon={FiX} /></button>
-      </div>
-      <div className="max-h-[32rem] overflow-y-auto custom-scrollbar p-4 space-y-6">
-        {SECTION_CONFIG.map((category, idx) => (
-          <div key={idx}>
-            <h4 className="text-xs uppercase tracking-widest text-clay font-medium mb-3 pl-1">{category.category}</h4>
-            <div className="grid grid-cols-2 gap-3">
-              {category.items.map((item) => (
-                <button key={item.type} onClick={() => onSelect(item.type)} className="group flex items-center p-3 text-left border border-white/5 bg-white/5 rounded-xl hover:bg-clay/10 hover:border-clay/30 transition-all duration-300">
-                  <span className="p-2 rounded-lg bg-paper text-clay group-hover:scale-110 transition-transform duration-300 shadow-sm"><SafeIcon icon={item.icon} className="text-lg" /></span>
-                  <span className="ml-3 block text-sm text-charcoal group-hover:text-clay font-medium transition-colors">{item.label}</span>
-                </button>
-              ))}
+const AddSectionMenu = ({ onSelect, onClose }) => {
+  // Use Portal for reliable z-index and positioning
+  return createPortal(
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose}></div>
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9, y: 10 }} 
+        animate={{ opacity: 1, scale: 1, y: 0 }} 
+        exit={{ opacity: 0, scale: 0.9, y: 10 }} 
+        className="relative bg-paper/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl overflow-hidden w-full max-w-2xl max-h-[80vh] flex flex-col"
+      >
+        <div className="flex items-center justify-between p-6 border-b border-white/5 bg-clay/5 flex-shrink-0">
+          <h3 className="font-serif text-charcoal text-2xl italic">Ajouter une section</h3>
+          <button onClick={onClose} className="p-2 rounded-full hover:bg-white/10 text-charcoal-light hover:text-red-400 transition-colors"><SafeIcon icon={FiX} className="text-xl" /></button>
+        </div>
+        <div className="overflow-y-auto custom-scrollbar p-6 space-y-8 flex-grow">
+          {SECTION_CONFIG.map((category, idx) => (
+            <div key={idx}>
+              <h4 className="text-xs uppercase tracking-widest text-clay font-medium mb-4 pl-1 border-b border-clay/10 pb-2">{category.category}</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {category.items.map((item) => (
+                  <button key={item.type} onClick={() => onSelect(item.type)} className="group flex items-center p-4 text-left border border-white/5 bg-white/5 rounded-xl hover:bg-clay/10 hover:border-clay/30 transition-all duration-300">
+                    <span className="p-3 rounded-lg bg-paper text-clay group-hover:scale-110 transition-transform duration-300 shadow-sm"><SafeIcon icon={item.icon} className="text-2xl" /></span>
+                    <span className="ml-4 block text-base text-charcoal group-hover:text-clay font-medium transition-colors">{item.label}</span>
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </div>,
+    document.body
   );
 };
 
