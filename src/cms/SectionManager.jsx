@@ -188,6 +188,12 @@ const getDefaultContent = (type) => {
             city4: "Ville 4", city5: "Ville 5", city6: "Ville 6",
             legal: "Mentions légales..."
         };
+    case SECTION_TYPES.VIDEO:
+        return { url: '' };
+    case SECTION_TYPES.CTA:
+        return { label: 'En savoir plus', link: '/contact' };
+    case SECTION_TYPES.SEPARATOR:
+        return {};
     default:
       return {};
   }
@@ -615,10 +621,9 @@ const SectionManager = ({ pageId }) => {
           {showAddMenu && insertPosition === sections.length && (<AddSectionMenu onSelect={(type) => addSection(type)} onClose={() => { setShowAddMenu(false); setInsertPosition(null); }} className="absolute bottom-full left-0 mb-4" />)}
       </div>
 
-      {sections.length === 0 && (
+      {sections.length === 0 && isEditMode && (
         <div className="relative text-center py-20">
-          <button onClick={() => setShowAddMenu(!showAddMenu)} className="inline-flex items-center space-x-2 bg-clay text-paper px-6 py-3 rounded-lg hover:bg-white transition-colors"><SafeIcon icon={FiPlus} /><span>Ajouter une première section</span></button>
-          {showAddMenu && sections.length === 0 && (<AddSectionMenu onSelect={(type) => addSection(type)} onClose={() => setShowAddMenu(false)} />)}
+            <p className="text-charcoal-light/50 italic text-sm">Aucune section. Utilisez le bouton + pour en ajouter une.</p>
         </div>
       )}
     </div>
