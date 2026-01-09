@@ -6,8 +6,6 @@ import Footer from './components/Footer';
 import { CMSProvider } from './cms/CMSContext';
 import CMSToolbar from './cms/CMSToolbar';
 import ToastContainer from './cms/ToastContainer';
-import ResalibBadge from './components/ResalibBadge';
-
 // Import pages
 import Methode from './pages/methode/Methode';
 import Seances from './pages/methode/Seances';
@@ -42,7 +40,6 @@ function App() {
           <div className="flex flex-col min-h-screen">
             <CMSToolbar />
             <ToastContainer />
-            <ResalibBadge visible={true} />
             <div className="flex-grow">
               <Routes>
               <Route path="/" element={<Home />} />
