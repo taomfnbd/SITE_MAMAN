@@ -5,26 +5,19 @@ import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
 const AdminLogin = () => {
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { login } = useCMS();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
-    
-    try {
-      await login(email, password);
+    // Simple password check - as requested by user
+    if (password === 'filt') {
+      login();
       navigate('/');
-    } catch (err) {
-      console.error(err);
-      setError('Identifiants incorrects ou erreur de connexion');
-    } finally {
-      setLoading(false);
+    } else {
+      setError('Mot de passe incorrect');
     }
   };
 
@@ -39,21 +32,6 @@ const AdminLogin = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-charcoal-light mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-sage/50 border border-white/10 rounded-lg text-charcoal focus:outline-none focus:border-clay focus:ring-1 focus:ring-clay transition-colors"
-              placeholder="admin@exemple.com"
-              autoFocus
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-charcoal-light mb-2">
               Mot de passe
             </label>
             <input
@@ -62,7 +40,7 @@ const AdminLogin = () => {
               onChange={(e) => setPassword(e.target.value)}
               className="w-full px-4 py-3 bg-sage/50 border border-white/10 rounded-lg text-charcoal focus:outline-none focus:border-clay focus:ring-1 focus:ring-clay transition-colors"
               placeholder="••••••••"
-              required
+              autoFocus
             />
           </div>
 
@@ -75,15 +53,10 @@ const AdminLogin = () => {
 
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-clay text-paper font-medium py-3 rounded-lg hover:bg-white transition-colors flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+            className="w-full bg-clay text-paper font-medium py-3 rounded-lg hover:bg-white transition-colors flex items-center justify-center gap-2"
           >
-            {loading ? (
-                <span className="animate-spin rounded-full h-4 w-4 border-b-2 border-paper"></span>
-            ) : (
-                <SafeIcon icon={FiIcons.FiLock} />
-            )}
-            {loading ? 'Connexion...' : 'Se connecter'}
+            <SafeIcon icon={FiIcons.FiLock} />
+            Se connecter
           </button>
         </form>
       </div>

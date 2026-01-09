@@ -51,16 +51,11 @@ export const CMSProvider = ({ children }) => {
   const [historyIndex, setHistoryIndex] = useState(-1);
 
   useEffect(() => {
-      // Check active session (Supabase Auth)
-      supabase.auth.getSession().then(({ data: { session } }) => {
-        setIsAuthenticated(!!session);
-      });
-
-      const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-        setIsAuthenticated(!!session);
-      });
-
-      return () => subscription.unsubscribe();
+      // Check for simple auth in localStorage
+      const auth = localStorage.getItem('cms-auth-simple');
+      if (auth === 'true') {
+          setIsAuthenticated(true);
+      }
   }, []);
 
   useEffect(() => {
@@ -142,14 +137,15 @@ export const CMSProvider = ({ children }) => {
       }
   }, [history, historyIndex]);
 
-  const login = async (email, password) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
+  const login = () => {
+    setIsAuthenticated(true);
+    localStorage.setItem('cms-auth-simple', 'true');
   };
 
-  const logout = async () => {
-    await supabase.auth.signOut();
+  const logout = () => {
+    setIsAuthenticated(false);
     setIsEditMode(false);
+    localStorage.removeItem('cms-auth-simple');
   };
 
   const toggleEditMode = useCallback(() => {
