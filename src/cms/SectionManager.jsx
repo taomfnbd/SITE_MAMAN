@@ -504,7 +504,7 @@ const SectionManager = ({ pageId }) => {
             <SectionRenderer section={section} onUpdate={(field, value) => updateSectionContent(section.id, field, value)} />
           </motion.div>
 
-          <div className="h-4 -my-2 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity z-20">
+          <div className="h-4 -my-2 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity z-20 relative">
              <div className="w-full h-px bg-clay/30 absolute"></div>
              <button onClick={() => { setInsertPosition(index + 1); setShowAddMenu(true); }} className="relative bg-paper border border-clay text-clay rounded-full w-8 h-8 flex items-center justify-center hover:bg-clay hover:text-paper transition-all shadow-sm"><SafeIcon icon={FiPlus} /></button>
             {showAddMenu && insertPosition === index + 1 && (<AddSectionMenu onSelect={(type) => addSection(type, index + 1)} onClose={() => { setShowAddMenu(false); setInsertPosition(null); }} />)}

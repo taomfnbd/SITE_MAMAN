@@ -4,6 +4,7 @@ import Navbar from '../../components/Navbar';
 import PageHeader from '../../components/PageHeader';
 import FadeIn from '../../components/FadeIn';
 import { useCMS } from '../../cms/CMSContext';
+import SectionManager from '../../cms/SectionManager';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
@@ -52,6 +53,8 @@ const Journal = () => {
       <Navbar />
       <PageHeader pageId="journal" title="Au fil des jours" subtitle="Réflexions sur le vivant." />
       
+      <SectionManager pageId="journal" />
+
       <div className="px-6">
         {isEditMode && (
             <div className="mb-16 text-center">

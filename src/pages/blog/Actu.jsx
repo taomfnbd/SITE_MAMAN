@@ -7,6 +7,7 @@ import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 import { useCMS } from '../../cms/CMSContext';
 import EditableText from '../../cms/EditableText';
+import SectionManager from '../../cms/SectionManager';
 
 const Article = ({ article, delay, isEditMode, onDelete }) => (
   <FadeIn delay={delay} className="mb-12 border border-white/5 bg-sage/10 p-8 hover:border-clay/20 transition-all duration-300 relative group">
@@ -54,6 +55,8 @@ const Actu = () => {
       <Navbar />
       <PageHeader pageId="actu" title="Actualités & Ateliers" subtitle="Le partage et l'autonomie au cœur de la pratique." />
       
+      <SectionManager pageId="actu" />
+
       <div className="max-w-4xl mx-auto px-6">
         <FadeIn className="mb-16">
             <div className="text-charcoal-light font-light leading-loose text-lg text-center max-w-2xl mx-auto">

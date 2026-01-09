@@ -4,6 +4,7 @@ import PageHeader from '../../components/PageHeader';
 import FadeIn from '../../components/FadeIn';
 import { useCMS } from '../../cms/CMSContext';
 import EditableText from '../../cms/EditableText';
+import SectionManager from '../../cms/SectionManager';
 import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
@@ -137,6 +138,8 @@ const Ateliers = () => {
         subtitle="Pratiquer ensemble pour cultiver l'autonomie."
       />
       
+      <SectionManager pageId="ateliers" />
+
       <div className="max-w-5xl mx-auto px-6">
         {isEditMode && (
             <div className="mb-8 text-center">
