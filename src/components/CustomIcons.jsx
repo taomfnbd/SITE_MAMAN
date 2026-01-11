@@ -1,23 +1,38 @@
 export const SacrumIcon = (props) => (
-  <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M20 25 C20 10 80 10 80 25 C85 35 90 45 80 55 C90 65 85 75 70 85 C60 95 40 95 30 85 C15 75 10 65 20 55 C10 45 15 35 20 25 Z" className="opacity-90" />
-    <path d="M35 35 C35 35 40 40 50 40 C60 40 65 35 65 35" className="opacity-60" />
-    <circle cx="35" cy="35" r="2" fill="currentColor" className="opacity-40" />
-    <circle cx="65" cy="35" r="2" fill="currentColor" className="opacity-40" />
-    <circle cx="40" cy="50" r="2" fill="currentColor" className="opacity-40" />
-    <circle cx="60" cy="50" r="2" fill="currentColor" className="opacity-40" />
-    <circle cx="45" cy="65" r="1.5" fill="currentColor" className="opacity-40" />
-    <circle cx="55" cy="65" r="1.5" fill="currentColor" className="opacity-40" />
+  <svg viewBox="0 0 512 512" fill="none" stroke="currentColor" strokeWidth="20" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    {/* Contours du bassin */}
+    <path d="M120 180 C80 160 50 200 60 250 C70 300 110 380 150 420 C180 450 200 450 220 420 C230 400 230 380 256 380 C282 380 282 400 292 420 C312 450 332 450 362 420 C402 380 442 300 452 250 C462 200 432 160 392 180" />
+    <path d="M392 180 C392 180 370 140 330 140 C320 140 310 150 310 160 L310 180 C310 180 300 210 280 210 C260 210 250 230 256 240" />
+    <path d="M120 180 C120 180 142 140 182 140 C192 140 202 150 202 160 L202 180 C202 180 212 210 232 210 C252 210 262 230 256 240" />
+    
+    {/* Trous sacrés (simplifiés) */}
+    <circle cx="200" cy="250" r="10" fill="currentColor" className="opacity-60" />
+    <circle cx="312" cy="250" r="10" fill="currentColor" className="opacity-60" />
+    <circle cx="215" cy="290" r="8" fill="currentColor" className="opacity-60" />
+    <circle cx="297" cy="290" r="8" fill="currentColor" className="opacity-60" />
+    <circle cx="230" cy="330" r="6" fill="currentColor" className="opacity-60" />
+    <circle cx="282" cy="330" r="6" fill="currentColor" className="opacity-60" />
+    
+    {/* Coccyx */}
+    <path d="M256 380 L256 400" />
   </svg>
 );
 
 export const SpineIcon = (props) => (
-  <svg viewBox="0 0 100 100" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
-    <path d="M42 10 H58 C63 10 68 15 63 25 C68 30 63 35 58 35 H42 C37 35 32 30 37 25 C32 15 37 10 42 10 Z" className="opacity-90" />
-    <path d="M42 38 H58 C63 38 68 43 63 53 C68 58 63 63 58 63 H42 C37 63 32 58 37 53 C32 43 37 38 42 38 Z" className="opacity-90" />
-    <path d="M42 66 H58 C63 66 68 71 63 81 C68 86 63 91 58 91 H42 C37 91 32 86 37 81 C32 71 37 66 42 66 Z" className="opacity-90" />
-    <path d="M50 35 V 38" strokeDasharray="2 2" className="opacity-40" />
-    <path d="M50 63 V 66" strokeDasharray="2 2" className="opacity-40" />
+  <svg viewBox="0 0 512 512" fill="currentColor" {...props}>
+    {/* Colonne vertébrale stylisée et courbée */}
+    <path d="M256 40 C265 40 275 45 270 60 C265 75 245 80 245 90 C245 100 265 105 275 115 C285 125 285 140 275 150 C265 160 250 165 250 175 C250 185 270 195 280 210 C290 225 285 245 270 260 C255 275 245 290 250 305 C255 320 275 330 280 345 C285 360 275 380 260 400 C245 420 235 440 240 460 L256 480" className="opacity-90"/>
+    
+    {/* Vertèbres individuelles (formes abstraites le long de la courbe) */}
+    <path d="M240 50 L272 50" stroke="currentColor" strokeWidth="20" strokeLinecap="round" />
+    <path d="M245 90 L275 95" stroke="currentColor" strokeWidth="22" strokeLinecap="round" />
+    <path d="M250 135 L280 130" stroke="currentColor" strokeWidth="24" strokeLinecap="round" />
+    <path d="M245 180 L285 185" stroke="currentColor" strokeWidth="26" strokeLinecap="round" />
+    <path d="M240 230 L285 225" stroke="currentColor" strokeWidth="28" strokeLinecap="round" />
+    <path d="M245 280 L280 285" stroke="currentColor" strokeWidth="26" strokeLinecap="round" />
+    <path d="M250 330 L280 325" stroke="currentColor" strokeWidth="24" strokeLinecap="round" />
+    <path d="M240 380 L270 385" stroke="currentColor" strokeWidth="22" strokeLinecap="round" />
+    <path d="M245 430 L265 425" stroke="currentColor" strokeWidth="20" strokeLinecap="round" />
   </svg>
 );
 
