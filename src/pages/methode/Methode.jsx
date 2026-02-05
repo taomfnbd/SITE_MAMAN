@@ -1,8 +1,10 @@
 import React from 'react';
 import SectionManager from '../../cms/SectionManager';
+import FadeIn from '../../components/FadeIn';
 import Navbar from '../../components/Navbar';
 import PageHeader from '../../components/PageHeader';
 import SEO from '../../components/SEO';
+import Testimonials from '../../components/Testimonials';
 
 const Methode = () => {
   return (
@@ -31,6 +33,14 @@ const Methode = () => {
         Les sections par défaut (Intro, Concepts, Disclaimer) sont définies dans SectionManager.jsx
       */}
       <SectionManager pageId="methode" />
+
+      {/* Témoignages (Déplacé depuis l'accueil) */}
+      <section className="py-20 md:py-32 px-6 relative z-10 border-t border-white/5">
+        <FadeIn>
+            <h2 className="text-center text-xs uppercase tracking-[0.2em] text-clay/60 mb-8 md:mb-12">Témoignages</h2>
+            <Testimonials />
+        </FadeIn>
+      </section>
 
     </div>
   );
