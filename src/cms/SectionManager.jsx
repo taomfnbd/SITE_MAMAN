@@ -545,32 +545,36 @@ L’exercice de ces droits peut s’effectuer par courrier à l’adresse : 29, 
 8.8. Conditions générales de vente
 
 Conformément à l’article L.111-1 du Code de la consommation, les conditions générales de vente applicables aux prestations proposées par Floureto Férigoule, E.I. sont consultables sur simple demande au cabinet.
-
 9.9. Acceptation et information du client
 
 Le client reconnaît avoir reçu l’ensemble des informations précontractuelles prévues par la loi avant toute prestation.
-Le client accepte expressément de bénéficier de prestations proposées en dehors de tout parcours de soins coordonné par un professionnel de santé. Floureto Férigoule, E.I. ne saurait être tenue responsable d’une confusion sur ce point.
-
----
+Le client accepte expressément de bénéficier de prestations proposées en dehors de tout parcours de soins
+coordonné par un professionnel de santé. Floureto Férigoule, E.I. ne saurait être tenue responsable d’une confusion
+sur ce point.
 
 CONDITIONS GENERALES DE VENTE
 
 01/01/2026
-L’entreprise individuelle FERIGOULE FLOURETO immatriculée à Compiègne sous le numéro SIREN SIRENE 832 565 410 et dont le siège est situé au 29 rue du Mont Berny 60350 PIERREFONDS (ci-après, l’« Entreprise individuelle ») a une activité de service à la personne.
+L’entreprise individuelle FERIGOULE FLOURETO immatriculée à Compiègne sous le numéro SIREN SIRENE 832 565 410 et dont le siège est
+situé au 29 rue du Mont Berny 60350 PIERREFONDS (ci-après, l’« Entreprise individuelle ») a une activité de service à la personne.
 
 OBJET
 
-Les présentes Conditions Générales de Vente (ci-après « CGV ») ont pour objet de déterminer les conditions dans lesquelles l’Entreprise Individuelle fournit ses services (ci-après, les « Services ») , aux clients qui les souscrivent (ci-après, le « Client »). L’Entreprise Individuelle se réserve le droit de modifier ou d’adapter les présentes CGV à tout moment. La version applicable des CGV est celle remise au Client par l’Entreprise au moment de l’achat des Services. Le Client déclare avoir pris connaissance des présentes CGV et les avoir acceptées sans réserve avant de passer la commande.
+Les présentes Conditions Générales de Vente (ci-après « CGV ») ont pour objet de déterminer les conditions dans lesquelles l’Entreprise
+Individuelle fournit ses services (ci-après, les « Services ») , aux clients qui les souscrivent (ci-après, le « Client »). L’Entreprise Individuelle se
+réserve le droit de modifier ou d’adapter les présentes CGV à tout moment. La version applicable des CGV est celle remise au Client par
+l’Entreprise au moment de l’achat des Services. Le Client déclare avoir pris connaissance des présentes CGV et les avoir acceptées sans réserve
+avant de passer la commande.
 
 OBLIGATIONS PRÉCONTRACTUELLES
 
-Conformément à l’article L.111-1 du Code de la consommation, l’Entreprise individuelle communique au consommateur, de manière lisible et compréhensible les caractéristiques essentielles des Services, qui sont : séances de pratique manuelle.
+Conformément à l’article L.111-1 du Code de la consommation, l’Entreprise individuelle communique au consommateur, de manière lisible et
+compréhensible les caractéristiques essentielles des Services, qui sont : séances de pratique manuelle.
 
 PRIX
 Les Services sont vendus aux prix en vigueur lors de la réalisation de la séance.
 Ceux-ci sont exprimés en euros et toutes taxes comprises.
 L’Entreprise individuelle se réserve le droit de modifier ses tarifs à tout moment.
-
 MODALITÉS DE PAIEMENT
 
 Le paiement des Services est effectué au moment de la séance par :
@@ -580,22 +584,42 @@ Le paiement des Services est effectué au moment de la séance par :
 
 FACTURATION
 
-Chaque séance fait l’objet d’une facture qui est adressée par mail par l’Entreprise individuelle au Client. Chaque facture devra être payée immédiatement.
+Chaque séance fait l’objet d’une facture qui est adressée par mail par l’Entreprise individuelle au Client. Chaque facture devra être payée
+immédiatement.
 
 DONNEES PERSONNELLES
 
 L’Entreprise individuelle sera amenée à collecter des données personnelles afin de fournir les Services.
-Conformément à la loi informatique et libertés du 6 janvier 1978 et au Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 (dit RGPD), le Client dispose d'un droit d'accès, de rectification et d’opposition aux données personnelles le concernant. Il lui suffit d’écrire par mail à l’adresse suivante : floureto.ferigoule@gmail.com en indiquant vos nom, prénom, mail et adresse postale et de préciser l’objet de votre demande. Les données nominatives demandées au Client sont notamment nécessaires au traitement du service et à l'établissement des factures. Le Client dispose du droit d’introduire une réclamation à l’encontre de la société devant la CNIL. Nous retenons vos données personnelles aussi longtemps que nécessaire pour fournir le Service ou à d’autres fins essentielles telles que le respect de nos obligations légales. En outre, l’Entreprise individuelle s’engage à se conformer aux règles en vigueur, notamment le règlement RGPD, dans le traitement des données personnelles du Client.
+Conformément à la loi informatique et libertés du 6 janvier 1978 et au Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril
+2016 (dit RGPD), le Client dispose d'un droit d'accès, de rectification et d’opposition aux données personnelles le concernant. Il lui suffit
+d’écrire par mail à l’adresse suivante : floureto.ferigoule@gmail.com en indiquant vos nom, prénom, mail et adresse postale et de préciser
+l’objet de votre demande. Les données nominatives demandées au Client sont notamment nécessaires au traitement du service et à
+l'établissement des factures. Le Client dispose du droit d’introduire une réclamation à l’encontre de la société devant la CNIL. Nous retenons
+vos données personnelles aussi longtemps que nécessaire pour fournir le Service ou à d’autres fins essentielles telles que le respect de nos
+obligations légales. En outre, l’Entreprise individuelle s’engage à se conformer aux règles en vigueur, notamment le règlement RGPD, dans le
+traitement des données personnelles du Client.
 
 FORCE MAJEURE
 
-L’Entreprise individuelle ne peut être tenue pour responsable de l’inexécution de ses obligations contractuelles dans les conditions prévues par les présentes CGV dans l'hypothèse de la survenance d’un cas fortuit ou d’un cas de force majeure telle que définie par l’article 1218 du Code civil. Outre les cas fortuits définis par la jurisprudence des tribunaux français, toute situation où l’exécution des obligations contractuelles est retardée ou empêchée, notamment mais sans limitation les conflits sociaux, interventions des autorités, catastrophes naturelles, épidémie, incendies, dégâts de eaux, interruption du réseau électrique ou de télécommunications, décisions administratives, sont considérées comme des cas fortuits ou des cas de force majeure indépendants de la volonté de l’Entreprise et sa responsabilité ne pourra être engagée.
+L’Entreprise individuelle ne peut être tenue pour responsable de l’inexécution de ses obligations contractuelles dans les conditions prévues
+par les présentes CGV dans l'hypothèse de la survenance d’un cas fortuit ou d’un cas de force majeure telle que définie par l’article 1218 du
+Code civil. Outre les cas fortuits définis par la jurisprudence des tribunaux français, toute situation où l’exécution des obligations
+contractuelles est retardée ou empêchée, notamment mais sans limitation les conflits sociaux, interventions des autorités, catastrophes
+naturelles, épidémie, incendies, dégâts de eaux, interruption du réseau électrique ou de télécommunications, décisions administratives, sont
+considérées comme des cas fortuits ou des cas de force majeure indépendants de la volonté de l’Entreprise et sa responsabilité ne pourra être
+engagée.
 
 DROIT APPLICABLE ET JURIDICTION COMPETENTE
 
-Les présentes CGV sont régies par la loi française. Tous les litiges auxquels les opérations de vente conclues en application des présentes conditions générales de vente pourraient donner lieu, concernant tant leur validité, leur interprétation, leur exécution, leur résiliation, leurs conséquences et leurs suites et qui n'auraient pas pu être résolus à l'amiable entre l’Entreprise et le Client, seront soumis aux tribunaux du ressort de la ville du lieu de l’établissement principal de l’Entreprise dans les conditions de droit commun. Si vous n’êtes pas parvenu à résoudre votre litige après nous avoir adressé une réclamation écrite (courrier ou courriel), datée, rappelant les circonstances qui ont donné lieu au différend et ce que vous réclamez, vous pourrez saisir le médiateur de la consommation, désigné ci- dessous, si vous avez reçu une réponse écrite négative de notre part ou pas de réponse deux mois après l’envoi de votre réclamation.
-
-Conformément aux articles L.616-1 et R.616-1 du code de la consommation, notre société a mis en place un dispositif de médiation de la consommation. L'entité de médiation retenue est :
+Les présentes CGV sont régies par la loi française. Tous les litiges auxquels les opérations de vente conclues en application des présentes
+conditions générales de vente pourraient donner lieu, concernant tant leur validité, leur interprétation, leur exécution, leur résiliation, leurs
+conséquences et leurs suites et qui n'auraient pas pu être résolus à l'amiable entre l’Entreprise et le Client, seront soumis aux tribunaux du
+ressort de la ville du lieu de l’établissement principal de l’Entreprise dans les conditions de droit commun. Si vous n’êtes pas parvenu à
+résoudre votre litige après nous avoir adressé une réclamation écrite (courrier ou courriel), datée, rappelant les circonstances qui ont donné
+lieu au différend et ce que vous réclamez, vous pourrez saisir le médiateur de la consommation, désigné ci- dessous, si vous avez reçu une
+réponse écrite négative de notre part ou pas de réponse deux mois après l’envoi de votre réclamation.
+Conformément aux articles L.616-1 et R.616-1 du code de la consommation, notre société a mis en place un dispositif de médiation de la
+consommation. L'entité de médiation retenue est :
 MEDIATION CONSOMMATION DÉVELOPPEMENT/MED CONSO DEV
 En cas de litige, vous pouvez déposer votre réclamation sur son site : https://www.medconsodev.eu
 ou par voie postale en écrivant à :
