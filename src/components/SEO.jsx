@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
-const SEO = ({ title, description, url = "", type = "website" }) => {
+const SEO = ({ title, description, url = "", type = "website", image, schema, keywords }) => {
   const siteTitle = "Floureto Férigoule | Méthode Poyet Pierrefonds";
   const fullTitle = title ? `${title} | Floureto Férigoule` : siteTitle;
   
@@ -10,12 +10,14 @@ const SEO = ({ title, description, url = "", type = "website" }) => {
   
   const siteUrl = "https://flouretoferigoule-methodepoyet.fr";
   const fullUrl = `${siteUrl}${url}`;
+  const metaImage = image ? (image.startsWith('http') ? image : `${siteUrl}${image}`) : `${siteUrl}/og-image.jpg`;
 
   return (
     <Helmet>
       {/* Standard Metadata */}
       <title>{fullTitle}</title>
       <meta name="description" content={metaDesc} />
+      {keywords && <meta name="keywords" content={keywords} />}
       <link rel="canonical" href={fullUrl} />
 
       {/* Open Graph / Facebook */}
@@ -23,14 +25,21 @@ const SEO = ({ title, description, url = "", type = "website" }) => {
       <meta property="og:url" content={fullUrl} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDesc} />
-      <meta property="og:image" content={`${siteUrl}/og-image.jpg`} />
+      <meta property="og:image" content={metaImage} />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:url" content={fullUrl} />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={metaDesc} />
-      <meta name="twitter:image" content={`${siteUrl}/og-image.jpg`} />
+      <meta name="twitter:image" content={metaImage} />
+
+      {/* Schema.org JSON-LD */}
+      {schema && (
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      )}
     </Helmet>
   );
 };

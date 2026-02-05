@@ -1,27 +1,27 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async'; // Import du provider SEO
-import Home from './pages/Home';
-import Footer from './components/Footer';
+import { Route, BrowserRouter as Router, Routes, useLocation } from 'react-router-dom';
 import { CMSProvider } from './cms/CMSContext';
 import CMSToolbar from './cms/CMSToolbar';
 import ToastContainer from './cms/ToastContainer';
+import Footer from './components/Footer';
+import Home from './pages/Home';
 // Import pages
-import Methode from './pages/methode/Methode';
-import Seances from './pages/methode/Seances';
-import Parcours from './pages/methode/Parcours';
-import Formations from './pages/formations/Formations';
+import AdminLogin from './pages/AdminLogin';
 import Ateliers from './pages/ateliers/Ateliers';
-import Ressources from './pages/ressources/Ressources';
+import Actu from './pages/blog/Actu';
+import ArticlePage from './pages/blog/ArticlePage';
+import Blog from './pages/blog/Blog';
+import Journal from './pages/blog/Journal';
+import Contact from './pages/Contact';
+import Formations from './pages/formations/Formations';
+import MentionsLegales from './pages/MentionsLegales';
+import Methode from './pages/methode/Methode';
+import Parcours from './pages/methode/Parcours';
+import Seances from './pages/methode/Seances';
 import Lectures from './pages/ressources/Lectures';
 import Liens from './pages/ressources/Liens';
-import Blog from './pages/blog/Blog';
-import Actu from './pages/blog/Actu';
-import Journal from './pages/blog/Journal';
-import ArticlePage from './pages/blog/ArticlePage';
-import Contact from './pages/Contact';
-import MentionsLegales from './pages/MentionsLegales';
-import AdminLogin from './pages/AdminLogin';
+import Ressources from './pages/ressources/Ressources';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -44,10 +44,10 @@ function App() {
               <Routes>
               <Route path="/" element={<Home />} />
               
-              {/* Méthode */}
-              <Route path="/methode" element={<Methode />} />
-              <Route path="/methode/seances" element={<Seances />} />
-              <Route path="/methode/parcours" element={<Parcours />} />
+              {/* Pratique Manuelle */}
+              <Route path="/pratique-manuelle" element={<Methode />} />
+              <Route path="/pratique-manuelle/seances" element={<Seances />} />
+              <Route path="/pratique-manuelle/parcours" element={<Parcours />} />
 
               {/* Formations */}
               <Route path="/formations" element={<Formations />} />

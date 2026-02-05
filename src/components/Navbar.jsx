@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import React, { useEffect, useState } from 'react';
+import * as FiIcons from 'react-icons/fi';
 import { Link, useLocation } from 'react-router-dom';
 import SafeIcon from '../common/SafeIcon';
-import * as FiIcons from 'react-icons/fi';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,11 +28,11 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Accueil', href: '/' },
     {
-      name: "La Méthode",
-      href: '/methode',
+      name: "Pratique Manuelle",
+      href: '/pratique-manuelle',
       submenu: [
-        { name: 'La Séance', href: '/methode/seances' },
-        { name: 'Mon Parcours', href: '/methode/parcours' }
+        { name: 'La Séance', href: '/pratique-manuelle/seances' },
+        { name: 'Mon Parcours', href: '/pratique-manuelle/parcours' }
       ]
     },
     { name: 'Formations', href: '/formations' },
@@ -73,7 +73,7 @@ const Navbar = () => {
     >
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center relative">
         <Link to="/" className="relative z-[101] group flex items-center gap-1 leading-none">
-          <img src="/logo-static.svg" alt="Logo" className="h-24 md:h-28 w-auto -mr-4 md:-mr-6 opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
+          <img src="/logo-static.svg" alt="Floureto Férigoule - Logo" className="h-24 md:h-28 w-auto -mr-4 md:-mr-6 opacity-90 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="flex flex-col items-start">
             <span className="font-serif text-xl md:text-3xl text-charcoal tracking-wide group-hover:text-clay transition-colors duration-500">
               Floureto

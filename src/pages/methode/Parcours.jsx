@@ -1,8 +1,8 @@
 import React from 'react';
+import SectionManager from '../../cms/SectionManager';
 import Navbar from '../../components/Navbar';
 import PageHeader from '../../components/PageHeader';
 import SEO from '../../components/SEO';
-import SectionManager from '../../cms/SectionManager';
 
 const Parcours = () => {
   return (
@@ -10,7 +10,18 @@ const Parcours = () => {
       <SEO 
         title="Qui suis-je ? Parcours & Formations"
         description="Découvrez le parcours de Floureto Férigoule. Enseignante de lettres devenue praticienne en méthode Poyet. Formée à l'ITI Paris et par Pierre Tricot."
-        url="/methode/parcours"
+        url="/pratique-manuelle/parcours"
+        schema={{
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            "mainEntity": {
+                "@type": "Person",
+                "name": "Floureto Férigoule",
+                "description": "Praticienne en Méthode Poyet et Somatothérapie à Pierrefonds.",
+                "jobTitle": "Thérapeute Manuelle",
+                "knowsAbout": ["Méthode Poyet", "Somatothérapie", "Écoute Tissulaire"]
+            }
+        }}
       />
       <Navbar />
       <PageHeader 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import SEO from '../../components/SEO';
 import { useCMS } from '../../cms/CMSContext';
 import EditableText from '../../cms/EditableText';
 import EditableImage from '../../cms/EditableImage';
@@ -20,8 +21,32 @@ const ArticlePage = () => {
     updateArticle(id, field, value);
   };
 
+  // Gestion de l'image pour le SEO (éviter le Base64 dans les méta tags)
+  const seoImage = article.image && !article.image.startsWith('data:') ? article.image : undefined;
+
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": article.title,
+    "description": article.excerpt,
+    "image": seoImage,
+    "datePublished": article.date,
+    "author": {
+      "@type": "Person",
+      "name": "Floureto Férigoule"
+    }
+  };
+
   return (
     <div className="min-h-screen bg-paper pb-32 selection:bg-clay/30">
+      <SEO 
+        title={article.title}
+        description={article.excerpt}
+        url={`/blog/article/${id}`}
+        image={seoImage}
+        type="article"
+        schema={schema}
+      />
       <Navbar />
       
       {/* Header de l'article */}

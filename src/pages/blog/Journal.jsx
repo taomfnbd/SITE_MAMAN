@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import SEO from '../../components/SEO';
 import PageHeader from '../../components/PageHeader';
 import FadeIn from '../../components/FadeIn';
 import { useCMS } from '../../cms/CMSContext';
@@ -48,8 +49,32 @@ const Journal = () => {
       navigate(`/blog/article/${id}`);
   };
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Au fil des jours",
+    "description": "Journal et réflexions sur le vivant, la méthode Poyet et la somatothérapie.",
+    "url": "https://flouretoferigoule-methodepoyet.fr/blog/journal",
+    "blogPost": journalArticles.map(article => ({
+        "@type": "BlogPosting",
+        "headline": article.title,
+        "description": article.excerpt,
+        "author": {
+            "@type": "Person",
+            "name": "Floureto Férigoule"
+        },
+        "url": `https://flouretoferigoule-methodepoyet.fr/blog/article/${article.id}`
+    }))
+  };
+
   return (
     <div className="min-h-screen bg-paper pb-20 selection:bg-clay/30">
+      <SEO 
+        title="Au fil des jours"
+        description="Réflexions sur le vivant, le corps et la conscience. Le journal de bord d'une pratique en mouvement."
+        url="/blog/journal"
+        schema={schema}
+      />
       <Navbar />
       <PageHeader pageId="journal" title="Au fil des jours" subtitle="Réflexions sur le vivant." />
       

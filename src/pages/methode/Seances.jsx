@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import Navbar from '../../components/Navbar';
-import PageHeader from '../../components/PageHeader';
-import FadeIn from '../../components/FadeIn';
-import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
-import SEO from '../../components/SEO';
 import EditableText from '../../cms/EditableText';
 import SectionManager from '../../cms/SectionManager';
+import SafeIcon from '../../common/SafeIcon';
+import FadeIn from '../../components/FadeIn';
+import Navbar from '../../components/Navbar';
+import PageHeader from '../../components/PageHeader';
+import SEO from '../../components/SEO';
 
 const SeanceCard = ({ idPrefix, title, time, price, description, icon, delay, details }) => (
   <FadeIn delay={delay} className="group relative bg-sage/10 p-6 md:p-10 border border-white/5 hover:bg-sage/20 transition-all duration-500 h-full flex flex-col">
@@ -100,12 +100,46 @@ Voici ce que je mets dans la balance : le temps passé (1h15), mon implication d
 };
 
 const Seances = () => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "MedicalBusiness",
+    "name": "Cabinet Floureto Férigoule",
+    "description": "Cabinet de thérapie manuelle méthode Poyet.",
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Séances de Thérapie Manuelle",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Séance Adulte",
+            "description": "Anamnèse complète et harmonisation profonde (1h15)."
+          },
+          "price": "70.00",
+          "priceCurrency": "EUR"
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Séance Enfant (-7 ans)",
+            "description": "Séance adaptée aux jeunes enfants (1h00)."
+          },
+          "price": "60.00",
+          "priceCurrency": "EUR"
+        }
+      ]
+    }
+  };
+
   return (
     <div className="min-h-screen bg-paper pb-20 selection:bg-clay/30">
       <SEO 
         title="Tarifs & Séances"
         description="Tarifs des consultations de méthode Poyet à Pierrefonds. Séance adulte 70€, enfant 60€. Forfaits disponibles pour le suivi."
-        url="/methode/seances"
+        url="/pratique-manuelle/seances"
+        schema={schema}
       />
       <Navbar />
       <PageHeader 

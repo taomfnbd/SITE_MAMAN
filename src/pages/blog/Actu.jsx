@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import SEO from '../../components/SEO';
 import PageHeader from '../../components/PageHeader';
 import FadeIn from '../../components/FadeIn';
 import SafeIcon from '../../common/SafeIcon';
@@ -50,8 +51,32 @@ const Actu = () => {
       navigate(`/blog/article/${id}`);
   };
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Actualités & Ateliers",
+    "description": "Actualités du cabinet de thérapie manuelle et méthode Poyet à Pierrefonds.",
+    "url": "https://flouretoferigoule-methodepoyet.fr/blog/actu",
+    "blogPost": actuArticles.map(article => ({
+        "@type": "BlogPosting",
+        "headline": article.title,
+        "description": article.excerpt,
+        "author": {
+            "@type": "Person",
+            "name": "Floureto Férigoule"
+        },
+        "url": `https://flouretoferigoule-methodepoyet.fr/blog/article/${article.id}`
+    }))
+  };
+
   return (
     <div className="min-h-screen bg-paper pb-20 selection:bg-clay/30">
+      <SEO 
+        title="Actualités & Ateliers"
+        description="Retrouvez toutes les actualités et les prochains ateliers du cabinet de thérapie manuelle à Pierrefonds."
+        url="/blog/actu"
+        schema={schema}
+      />
       <Navbar />
       <PageHeader pageId="actu" title="Actualités & Ateliers" subtitle="Le partage et l'autonomie au cœur de la pratique." />
       

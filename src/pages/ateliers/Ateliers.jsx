@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from '../../components/Navbar';
+import SEO from '../../components/SEO';
 import PageHeader from '../../components/PageHeader';
 import FadeIn from '../../components/FadeIn';
 import { useCMS } from '../../cms/CMSContext';
@@ -129,8 +130,36 @@ const Ateliers = () => {
       createArticle('stage');
   };
 
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    "name": "Ateliers Corps & Conscience",
+    "description": "Pratiquer ensemble pour cultiver l'autonomie. Ateliers de thérapie manuelle à Pierrefonds.",
+    "url": "https://flouretoferigoule-methodepoyet.fr/ateliers",
+    "mainEntity": {
+      "@type": "ItemList",
+      "itemListElement": stages.map((stage, index) => ({
+        "@type": "Event",
+        "position": index + 1,
+        "name": stage.title,
+        "description": stage.desc,
+        "eventStatus": stage.full ? "https://schema.org/EventSoldOut" : "https://schema.org/EventScheduled",
+        "organizer": {
+            "@type": "Person",
+            "name": "Floureto Férigoule"
+        }
+      }))
+    }
+  };
+
   return (
     <div className="min-h-screen bg-paper pb-20 selection:bg-clay/30">
+      <SEO 
+        title="Ateliers Corps & Conscience"
+        description="Ateliers de pratique corporelle et sensorielle à Pierrefonds. Cultivez votre autonomie par le mouvement et la conscience."
+        url="/ateliers"
+        schema={schema}
+      />
       <Navbar />
       <PageHeader 
         pageId="ateliers"
