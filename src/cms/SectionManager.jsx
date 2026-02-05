@@ -488,6 +488,29 @@ DEFAULT_SECTIONS.contact = [
     }
 ];
 
+DEFAULT_SECTIONS.mentions = [
+    {
+      id: 'mentions-text',
+      type: 'text',
+      content: {
+        title: 'Informations Légales',
+        content: `Éditeur du Site :
+Floureto Férigoule
+Adresse : 29 Rue du Mont Berny, 60350 Pierrefonds
+Téléphone : 07 69 05 10 87
+
+Hébergement :
+Ce site est hébergé par Netlify.
+
+Propriété Intellectuelle :
+L'ensemble de ce site relève de la législation française et internationale sur le droit d'auteur et la propriété intellectuelle. Tous les droits de reproduction sont réservés.
+
+Médiation :
+Conformément aux articles L.616-1 et R.616-1 du code de la consommation, nous proposons un dispositif de médiation de la consommation.`
+      }
+    }
+];
+
 const SectionManager = ({ pageId }) => {
   const { isEditMode, getContent, updateContent } = useCMS();
   const [showAddMenu, setShowAddMenu] = useState(false);
