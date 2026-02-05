@@ -1,8 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://uunuaqhcvjcotulymdsc.supabase.co";
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1bnVhcWhjdmpjb3R1bHltZHNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2NTc0NjksImV4cCI6MjA4MzIzMzQ2OX0.KS-il72_2hjWWDnwBAxAOf4ns3oDDFQb8o-P6BnmG30";
+
+console.log("Supabase URL:", supabaseUrl); // Debugging
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
