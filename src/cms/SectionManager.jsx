@@ -493,7 +493,7 @@ DEFAULT_SECTIONS.mentions = [
       id: 'mentions-text',
       type: 'text',
       content: {
-        title: 'Mentions Légales & CGV',
+        title: '',
         content: `INFORMATIONS PRÉCONTRACTUELLES OBLIGATOIRES
 
 À DESTINATION DU CLIENT
