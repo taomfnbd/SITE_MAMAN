@@ -10,7 +10,7 @@ const Parcours = () => {
       <SEO 
         title="Qui suis-je ? Parcours & Formations"
         description="Découvrez le parcours de Floureto Férigoule. Enseignante de lettres devenue praticienne en méthode Poyet. Formée à l'ITI Paris et par Pierre Tricot."
-        url="/pratique-manuelle/parcours"
+        url="/a-propos"
         schema={{
             "@context": "https://schema.org",
             "@type": "ProfilePage",

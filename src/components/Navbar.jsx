@@ -31,8 +31,7 @@ const Navbar = () => {
       name: "Pratique Manuelle",
       href: '/pratique-manuelle',
       submenu: [
-        { name: 'La Séance', href: '/pratique-manuelle/seances' },
-        { name: 'Mon Parcours', href: '/pratique-manuelle/parcours' }
+        { name: 'La Séance', href: '/pratique-manuelle/seances' }
       ]
     },
     { name: 'Formations', href: '/formations' },
@@ -53,6 +52,7 @@ const Navbar = () => {
         { name: 'Au fil des jours', href: '/blog/journal' }
       ]
     },
+    { name: 'A Propos', href: '/a-propos' },
     { name: 'Contact', href: '/contact' }
   ];
 

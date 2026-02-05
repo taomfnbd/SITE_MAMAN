@@ -47,7 +47,6 @@ function App() {
               {/* Pratique Manuelle */}
               <Route path="/pratique-manuelle" element={<Methode />} />
               <Route path="/pratique-manuelle/seances" element={<Seances />} />
-              <Route path="/pratique-manuelle/parcours" element={<Parcours />} />
 
               {/* Formations */}
               <Route path="/formations" element={<Formations />} />
@@ -67,6 +66,7 @@ function App() {
               <Route path="/blog/article/:id" element={<ArticlePage />} />
 
               {/* Pages Globales */}
+              <Route path="/a-propos" element={<Parcours />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/mentions-legales" element={<MentionsLegales />} />
               <Route path="/admin" element={<AdminLogin />} />
