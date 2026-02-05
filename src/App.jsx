@@ -9,9 +9,7 @@ import Home from './pages/Home';
 // Import pages
 import AdminLogin from './pages/AdminLogin';
 import Ateliers from './pages/ateliers/Ateliers';
-import Actu from './pages/blog/Actu';
 import ArticlePage from './pages/blog/ArticlePage';
-import Blog from './pages/blog/Blog';
 import Journal from './pages/blog/Journal';
 import Contact from './pages/Contact';
 import Formations from './pages/formations/Formations';
@@ -60,8 +58,6 @@ function App() {
               <Route path="/ressources/liens" element={<Liens />} />
               
               {/* Blog */}
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/blog/actu" element={<Actu />} />
               <Route path="/blog/journal" element={<Journal />} />
               <Route path="/blog/article/:id" element={<ArticlePage />} />
 

@@ -403,6 +403,10 @@ DEFAULT_SECTIONS.ressources = [
         id: 'ressources-grid',
         type: 'ressources-grid',
         content: {
+            card3Title: "Au fil des jours",
+            card3Subtitle: "Journal",
+            card3Desc: "Réflexions personnelles sur la santé, le corps, les saisons et la poésie du vivant.",
+            card3Cta: "Lire",
             card1Desc: "Une sélection d'ouvrages fondamentaux sur la thérapie manuelle, la somatothérapie et la spiritualité.",
             card1Cta: "Explorer",
             card1Title: "La Bibliothèque",
@@ -907,24 +911,34 @@ const SectionRenderer = ({ section, onUpdate }) => {
         );
     case SECTION_TYPES.RESSOURCES_GRID:
         return (
-            <div className="max-w-4xl mx-auto px-6 grid md:grid-cols-2 gap-12 py-16">
+            <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8 py-16">
                 <FadeIn className="relative group overflow-hidden bg-sage/20 aspect-[4/3] flex items-center justify-center border border-white/5">
+                    <div className="absolute inset-0 bg-charcoal/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center z-10">
+                        <div className="text-paper font-light mb-6"><Text field="card3Desc" multiline defaultValue="..." /></div>
+                        <EditableLink to="/blog/journal" className="bg-clay text-paper px-6 py-2 uppercase text-xs tracking-widest hover:bg-white transition-colors"><Text field="card3Cta" defaultValue="Lire" /></EditableLink>
+                    </div>
+                    <div className="text-center group-hover:blur-sm transition-all duration-500">
+                        <h3 className="font-serif text-2xl text-charcoal italic mb-2"><Text field="card3Title" defaultValue="Au fil des jours" /></h3>
+                        <span className="text-xs uppercase tracking-widest text-clay"><Text field="card3Subtitle" defaultValue="Journal" /></span>
+                    </div>
+                </FadeIn>
+                <FadeIn delay={0.2} className="relative group overflow-hidden bg-sage/20 aspect-[4/3] flex items-center justify-center border border-white/5">
                     <div className="absolute inset-0 bg-charcoal/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center z-10">
                         <div className="text-paper font-light mb-6"><Text field="card1Desc" multiline defaultValue="..." /></div>
                         <EditableLink to="/ressources/lectures" className="bg-clay text-paper px-6 py-2 uppercase text-xs tracking-widest hover:bg-white transition-colors"><Text field="card1Cta" defaultValue="Explorer" /></EditableLink>
                     </div>
                     <div className="text-center group-hover:blur-sm transition-all duration-500">
-                        <h3 className="font-serif text-3xl text-charcoal italic mb-2"><Text field="card1Title" defaultValue="Bibliothèque" /></h3>
+                        <h3 className="font-serif text-2xl text-charcoal italic mb-2"><Text field="card1Title" defaultValue="Bibliothèque" /></h3>
                         <span className="text-xs uppercase tracking-widest text-clay"><Text field="card1Subtitle" defaultValue="Lectures" /></span>
                     </div>
                 </FadeIn>
-                <FadeIn delay={0.2} className="relative group overflow-hidden bg-sage/20 aspect-[4/3] flex items-center justify-center border border-white/5">
+                <FadeIn delay={0.3} className="relative group overflow-hidden bg-sage/20 aspect-[4/3] flex items-center justify-center border border-white/5">
                     <div className="absolute inset-0 bg-charcoal/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center z-10">
                         <div className="text-paper font-light mb-6"><Text field="card2Desc" multiline defaultValue="..." /></div>
                         <EditableLink to="/ressources/liens" className="bg-clay text-paper px-6 py-2 uppercase text-xs tracking-widest hover:bg-white transition-colors"><Text field="card2Cta" defaultValue="Voir" /></EditableLink>
                     </div>
                     <div className="text-center group-hover:blur-sm transition-all duration-500">
-                        <h3 className="font-serif text-3xl text-charcoal italic mb-2"><Text field="card2Title" defaultValue="Réseau" /></h3>
+                        <h3 className="font-serif text-2xl text-charcoal italic mb-2"><Text field="card2Title" defaultValue="Le Réseau" /></h3>
                         <span className="text-xs uppercase tracking-widest text-clay"><Text field="card2Subtitle" defaultValue="Liens" /></span>
                     </div>
                 </FadeIn>

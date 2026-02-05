@@ -40,16 +40,9 @@ const Navbar = () => {
       name: 'Ressources',
       href: '/ressources',
       submenu: [
-        { name: 'Lectures', href: '/ressources/lectures' }, // "Inspirantes" retiré
+        { name: 'Au fil des jours', href: '/blog/journal' },
+        { name: 'Lectures', href: '/ressources/lectures' },
         { name: 'Liens Utiles', href: '/ressources/liens' }
-      ]
-    },
-    {
-      name: 'Le Blog',
-      href: '/blog',
-      submenu: [
-        { name: 'Actualités', href: '/blog/actu' },
-        { name: 'Au fil des jours', href: '/blog/journal' }
       ]
     },
     { name: 'A Propos', href: '/a-propos' },
