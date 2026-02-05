@@ -27,6 +27,21 @@ const Methode = () => {
         title="Pratique Manuelle" 
         subtitle="Une approche manuelle qui allie micro-mouvements précis et techniques énergétiques." 
       />
+
+      {/* Intro Méthode Poyet (ex-Home) */}
+      <section className="py-12 md:py-20 px-6 relative z-10 bg-gradient-to-b from-transparent to-sage/10">
+        <div className="max-w-3xl mx-auto">
+          <FadeIn>
+            <div className="flex flex-col items-center text-center space-y-8 md:space-y-12">
+              <h2 className="text-2xl md:text-4xl font-serif text-charcoal italic px-4">La Méthode Poyet</h2>
+              <div className="space-y-6 md:space-y-8 text-charcoal-light font-light text-justify md:text-center text-base md:text-xl md:leading-10 leading-8">
+                <p>La Méthode Poyet est une approche manuelle qui allie micro-mouvements précis et techniques énergétiques pour favoriser l'harmonisation du corps.</p>
+                <p>Elle s'adresse à celles et ceux qui recherchent un équilibre global et un bien-être corporel, émotionnel et psychique, sans manipulation structurelle.</p>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
       
       {/* 
         Le contenu est géré par le CMS via SectionManager.
