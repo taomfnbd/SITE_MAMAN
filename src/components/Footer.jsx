@@ -1,9 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import SafeIcon from '../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
-import EditableText from '../cms/EditableText';
+import { Link } from 'react-router-dom';
 import { useCMS } from '../cms/CMSContext';
+import EditableText from '../cms/EditableText';
+import SafeIcon from '../common/SafeIcon';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -36,10 +36,13 @@ const Footer = () => {
         <div>
           <h4 className="font-serif text-charcoal text-lg mb-4 md:mb-6">Plan du Site</h4>
           <ul className="space-y-3 text-sm">
-            <li><Link to="/methode" className="hover:text-clay transition-colors">La Méthode</Link></li>
-            <li><Link to="/methode/seances" className="hover:text-clay transition-colors">La Séance</Link></li>
-            <li><Link to="/methode/parcours" className="hover:text-clay transition-colors">Mon Parcours</Link></li>
-            <li><Link to="/blog/actu" className="hover:text-clay transition-colors">Actualités</Link></li>
+            <li><Link to="/pratique-manuelle" className="hover:text-clay transition-colors">Pratique Manuelle</Link></li>
+            <li><Link to="/pratique-manuelle/seances" className="hover:text-clay transition-colors">La Séance</Link></li>
+            <li><Link to="/a-propos" className="hover:text-clay transition-colors">A Propos</Link></li>
+            <li><Link to="/formations" className="hover:text-clay transition-colors">Formations</Link></li>
+            <li><Link to="/ateliers" className="hover:text-clay transition-colors">Ateliers</Link></li>
+            <li><Link to="/ressources" className="hover:text-clay transition-colors">Ressources</Link></li>
+            <li><Link to="/blog/journal" className="hover:text-clay transition-colors">Au fil des jours</Link></li>
           </ul>
         </div>
 
