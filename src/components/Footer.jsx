@@ -11,7 +11,7 @@ const Footer = () => {
 
   return (
     <footer className="bg-sage pt-12 md:pt-20 pb-8 md:pb-10 border-t border-white/5 text-charcoal-light font-light relative z-10">
-      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12 md:mb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-12 mb-8 md:mb-16">
         
         {/* Colonne 1 : Identité */}
         <div className="col-span-1 md:col-span-1 border-b border-white/5 pb-8 md:border-none md:pb-0">
@@ -23,10 +23,10 @@ const Footer = () => {
             <EditableText id="footer.desc" defaultValue="Cabinet de Thérapie Manuelle Informationnelle (Méthode Poyet)." multiline />
           </div>
           <div className="flex gap-4">
-            <a href="https://www.instagram.com/ferigouleflouretomethodepoyet?igsh=Znd1Y200N3Q3ZTZt" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-clay hover:text-white hover:border-transparent transition-all">
+            <a href="https://www.instagram.com/floureto_ferigoule/" target="_blank" rel="noopener noreferrer" aria-label="Suivez Floureto Férigoule sur Instagram" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-clay hover:text-white hover:border-transparent transition-all focus-visible:ring-2 focus-visible:ring-clay/50">
               <SafeIcon icon={FiIcons.FiInstagram} className="text-sm" />
             </a>
-            <a href="https://www.facebook.com/share/CWJvBZPtLT9LJJij/" target="_blank" rel="noopener noreferrer" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-clay hover:text-white hover:border-transparent transition-all">
+            <a href="https://www.facebook.com/share/CWJvBZPtLT9LJJij/" target="_blank" rel="noopener noreferrer" aria-label="Suivez Floureto Férigoule sur Facebook" className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center hover:bg-clay hover:text-white hover:border-transparent transition-all focus-visible:ring-2 focus-visible:ring-clay/50">
               <SafeIcon icon={FiIcons.FiFacebook} className="text-sm" />
             </a>
           </div>
@@ -60,8 +60,8 @@ const Footer = () => {
         <div className="border-t border-white/5 pt-8 md:border-none md:pt-0">
           <h4 className="font-serif text-charcoal text-lg mb-4 md:mb-6">Me Contacter</h4>
           <ul className="space-y-4 text-sm">
-            <li className="flex items-start gap-3">
-              <SafeIcon icon={FiIcons.FiMapPin} className="text-clay mt-1" />
+            <li className="flex items-start gap-2 md:gap-3">
+              <SafeIcon icon={FiIcons.FiMapPin} className="text-clay mt-1 flex-shrink-0" />
               <div className="whitespace-pre-line">
                 <EditableText id="footer.address" defaultValue={"29 Rue du Mont Berny\n60350 Pierrefonds"} multiline />
               </div>
@@ -72,7 +72,7 @@ const Footer = () => {
             </li>
             <li className="flex items-center gap-3">
               <SafeIcon icon={FiIcons.FiCalendar} className="text-clay" />
-              <a href="https://flouretoferigoule-methodepoyet.fr/resalib" target="_blank" rel="noopener noreferrer" className="hover:text-clay transition-colors">Réserver en ligne (Resalib)</a>
+              <a href="https://flouretoferigoule-methodepoyet.fr/resalib" target="_blank" rel="noopener noreferrer" aria-label="Réserver une séance en ligne via Resalib" className="hover:text-clay transition-colors focus-visible:text-clay">Réserver en ligne (Resalib)</a>
             </li>
           </ul>
         </div>

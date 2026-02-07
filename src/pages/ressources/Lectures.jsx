@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../../components/Navbar';
 import PageHeader from '../../components/PageHeader';
+import SEO from '../../components/SEO';
 import FadeIn from '../../components/FadeIn';
 import { useCMS } from '../../cms/CMSContext';
 import EditableText from '../../cms/EditableText';
@@ -10,7 +11,7 @@ import SafeIcon from '../../common/SafeIcon';
 import * as FiIcons from 'react-icons/fi';
 
 const Book = ({ book, delay, isEditMode, onDelete, onUpdate }) => (
-  <FadeIn delay={delay} className="flex gap-6 md:gap-8 items-start p-6 border border-white/5 hover:bg-sage/10 transition-colors relative group">
+  <FadeIn delay={delay} className="flex flex-col sm:flex-row gap-4 md:gap-8 items-start p-4 md:p-6 border border-white/5 hover:bg-sage/10 transition-colors relative group">
     {isEditMode && (
         <button 
             onClick={(e) => { e.preventDefault(); onDelete(book.id); }}
@@ -22,7 +23,7 @@ const Book = ({ book, delay, isEditMode, onDelete, onUpdate }) => (
     )}
     
     {/* Zone Image du Livre */}
-    <div className="w-24 md:w-32 aspect-[2/3] flex-shrink-0 relative bg-charcoal/5 border border-white/10 overflow-hidden shadow-sm">
+    <div className="w-20 sm:w-24 md:w-32 aspect-[2/3] flex-shrink-0 relative bg-charcoal/5 border border-white/10 overflow-hidden shadow-sm">
         {isEditMode ? (
             <EditableImage 
                 defaultSrc={book.image} 
@@ -70,6 +71,12 @@ const Lectures = () => {
 
   return (
     <div className="min-h-screen bg-paper pb-20 selection:bg-clay/30">
+      <SEO
+        title="Bibliographie - Livres Recommandés"
+        description="Découvrez les lectures qui ont marqué la pratique de Floureto Férigoule en méthode Poyet et somatothérapie. Bibliographie commentée."
+        url="/ressources/lectures"
+        keywords="bibliographie méthode Poyet, livres thérapie manuelle, lectures somatothérapie, ostéopathie livres"
+      />
       <Navbar />
       <PageHeader pageId="lectures" title="Bibliographie" subtitle="Des livres qui ont marqué ma pratique." />
       

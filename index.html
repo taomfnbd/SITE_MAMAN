@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/logo-static.svg" />
+    <link rel="manifest" href="/manifest.json" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Meta de base -->
@@ -12,6 +13,8 @@
     <meta name="robots" content="index, follow" />
     <meta name="geo.region" content="FR-60" />
     <meta name="geo.placename" content="Pierrefonds" />
+    <meta name="ICBM" content="49.349695, 2.973956" />
+    <meta name="geo.position" content="49.349695;2.973956" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,9 +29,9 @@
         "@context": "https://schema.org",
         "@type": "HealthAndBeautyBusiness",
         "name": "Floureto Férigoule - Méthode Poyet",
-        "image": "https://flouretoferigoule-methodepoyet.fr/logo.png",
-        "@id": "https://flouretoferigoule-methodepoyet.fr",
-        "url": "https://flouretoferigoule-methodepoyet.fr",
+        "image": "https://sitemaman.netlify.app/logo.png",
+        "@id": "https://sitemaman.netlify.app",
+        "url": "https://sitemaman.netlify.app",
         "telephone": "07 69 05 10 87",
         "address": {
           "@type": "PostalAddress",
@@ -56,6 +59,11 @@
           "closes": "19:00"
         },
         "priceRange": "60€ - 70€",
+        "areaServed": [
+          { "@type": "City", "name": "Pierrefonds" },
+          { "@type": "City", "name": "Compiègne" },
+          { "@type": "AdministrativeArea", "name": "Oise" }
+        ],
         "sameAs": [
           "https://www.facebook.com/share/CWJvBZPtLT9LJJij/",
           "https://www.instagram.com/ferigouleflouretomethodepoyet"

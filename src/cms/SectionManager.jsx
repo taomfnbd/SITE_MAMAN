@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 import * as FiIcons from 'react-icons/fi';
 import { PiHandPalmLight } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SafeIcon from '../common/SafeIcon';
 import FadeIn from '../components/FadeIn';
 import LogoBackground from '../components/LogoBackground';
@@ -936,14 +936,7 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
     case SECTION_TYPES.PARCOURS_LAYOUT:
         return (
             <div className="max-w-4xl mx-auto px-6 pb-20">
-                <FadeIn>
-                    <h3 className="text-2xl font-serif text-charcoal mb-6"><Text field="introTitle" defaultValue="Transmettre" /></h3>
-                    <div className="prose prose-invert max-w-none text-charcoal-light font-light leading-loose text-justify">
-                        <div className="whitespace-pre-wrap mb-4"><Text field="introText1" multiline /></div>
-                        <div className="whitespace-pre-wrap"><Text field="introText2" multiline /></div>
-                    </div>
-                </FadeIn>
-                <div className="flex justify-center my-16"><div className="w-16 h-[1px] bg-clay/30"></div></div>
+                {/* Intro text now rendered directly in Parcours.jsx with photo */}
                 <FadeIn delay={0.1}>
                     <div className="flex items-center gap-4 mb-6">
                         <div className="w-10 h-10 rounded-full border border-clay/30 flex items-center justify-center text-clay"><SafeIcon icon={FiIcons.FiMap} /></div>
@@ -1063,37 +1056,30 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
         );
     case SECTION_TYPES.RESSOURCES_GRID:
         return (
-            <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8 py-16">
-                <FadeIn className="relative group overflow-hidden bg-sage/20 aspect-[4/3] flex items-center justify-center border border-white/5">
-                    <div className="absolute inset-0 bg-charcoal/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center z-10">
-                        <div className="text-paper font-light mb-6"><Text field="card3Desc" multiline defaultValue="..." /></div>
-                        <EditableLink to="/blog/journal" className="bg-clay text-paper px-6 py-2 uppercase text-xs tracking-widest hover:bg-white transition-colors"><Text field="card3Cta" defaultValue="Lire" /></EditableLink>
-                    </div>
-                    <div className="text-center group-hover:blur-sm transition-all duration-500">
-                        <h3 className="font-serif text-2xl text-charcoal italic mb-2"><Text field="card3Title" defaultValue="Au fil des jours" /></h3>
-                        <span className="text-xs uppercase tracking-widest text-clay"><Text field="card3Subtitle" defaultValue="Journal" /></span>
-                    </div>
-                </FadeIn>
-                <FadeIn delay={0.2} className="relative group overflow-hidden bg-sage/20 aspect-[4/3] flex items-center justify-center border border-white/5">
-                    <div className="absolute inset-0 bg-charcoal/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center z-10">
-                        <div className="text-paper font-light mb-6"><Text field="card1Desc" multiline defaultValue="..." /></div>
-                        <EditableLink to="/ressources/lectures" className="bg-clay text-paper px-6 py-2 uppercase text-xs tracking-widest hover:bg-white transition-colors"><Text field="card1Cta" defaultValue="Explorer" /></EditableLink>
-                    </div>
-                    <div className="text-center group-hover:blur-sm transition-all duration-500">
-                        <h3 className="font-serif text-2xl text-charcoal italic mb-2"><Text field="card1Title" defaultValue="Bibliothèque" /></h3>
-                        <span className="text-xs uppercase tracking-widest text-clay"><Text field="card1Subtitle" defaultValue="Lectures" /></span>
-                    </div>
-                </FadeIn>
-                <FadeIn delay={0.3} className="relative group overflow-hidden bg-sage/20 aspect-[4/3] flex items-center justify-center border border-white/5">
-                    <div className="absolute inset-0 bg-charcoal/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col items-center justify-center p-8 text-center z-10">
-                        <div className="text-paper font-light mb-6"><Text field="card2Desc" multiline defaultValue="..." /></div>
-                        <EditableLink to="/ressources/liens" className="bg-clay text-paper px-6 py-2 uppercase text-xs tracking-widest hover:bg-white transition-colors"><Text field="card2Cta" defaultValue="Voir" /></EditableLink>
-                    </div>
-                    <div className="text-center group-hover:blur-sm transition-all duration-500">
-                        <h3 className="font-serif text-2xl text-charcoal italic mb-2"><Text field="card2Title" defaultValue="Le Réseau" /></h3>
-                        <span className="text-xs uppercase tracking-widest text-clay"><Text field="card2Subtitle" defaultValue="Liens" /></span>
-                    </div>
-                </FadeIn>
+            <div className="max-w-4xl mx-auto px-6 -mt-4 space-y-5">
+                {[
+                    { field: 'card3', to: '/blog/journal', defaultTitle: 'Au fil des jours', defaultSub: 'Journal', defaultDesc: 'Réflexions personnelles sur la santé, le corps, les saisons et la poésie du vivant.', delay: 0 },
+                    { field: 'card1', to: '/ressources/lectures', defaultTitle: 'La Bibliothèque', defaultSub: 'Nos lectures', defaultDesc: "Une sélection d'ouvrages fondamentaux sur la thérapie manuelle, la somatothérapie et la spiritualité.", delay: 0.15 },
+                    { field: 'card2', to: '/ressources/liens', defaultTitle: 'Le Réseau', defaultSub: 'Liens utiles', defaultDesc: 'Un réseau de confiance : écoles, fédérations et praticiens partenaires.', delay: 0.25 }
+                ].map((card) => (
+                    <FadeIn key={card.field} delay={card.delay}>
+                        <EditableLink to={card.to} className="group block bg-sage/10 border border-white/5 p-6 md:p-8 hover:bg-sage/20 transition-all duration-500">
+                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+                                <div className="flex-1">
+                                    <span className="text-[10px] uppercase tracking-[0.2em] text-clay/60 mb-1.5 block"><Text field={`${card.field}Subtitle`} defaultValue={card.defaultSub} /></span>
+                                    <h3 className="font-serif text-xl md:text-2xl text-charcoal italic mb-2"><Text field={`${card.field}Title`} defaultValue={card.defaultTitle} /></h3>
+                                    <div className="text-sm font-light text-charcoal-light leading-relaxed max-w-lg"><Text field={`${card.field}Desc`} multiline defaultValue={card.defaultDesc} /></div>
+                                </div>
+                                <div className="flex-shrink-0">
+                                    <span className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-charcoal border border-clay/20 px-6 py-3 group-hover:bg-clay group-hover:text-paper group-hover:border-transparent transition-all duration-300">
+                                        Découvrir
+                                        <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">&rarr;</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </EditableLink>
+                    </FadeIn>
+                ))}
             </div>
         );
     case 'blog-grid':
@@ -1101,7 +1087,7 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
         return (
             <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-8 py-16">
                 <FadeIn delay={0.1}>
-                    <EditableLink to="/blog/actu" className="group block relative h-96 overflow-hidden border border-white/5">
+                    <EditableLink to="/blog/journal" className="group block relative h-96 overflow-hidden border border-white/5">
                     <div className={`absolute inset-0 bg-gradient-to-br from-sage to-charcoal opacity-20 group-hover:opacity-30 transition-opacity duration-700`}></div>
                     <div className="absolute inset-0 p-10 flex flex-col justify-end">
                         <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
@@ -1131,7 +1117,7 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
             <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center py-16">
                 <FadeIn className="order-2 md:order-1">
                 <div className="space-y-8">
-                    <EditableLink to="/ateliers/agenda" className="group block p-8 border border-white/5 hover:bg-sage/10 transition-colors">
+                    <EditableLink to="/ateliers" className="group block p-8 border border-white/5 hover:bg-sage/10 transition-colors">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-2xl font-serif text-charcoal group-hover:text-clay transition-colors"><Text field="card1Title" defaultValue="L'Agenda" /></h3>
                         <SafeIcon icon={FiCalendar} className="text-charcoal/30 group-hover:text-clay text-2xl transition-colors" />
@@ -1139,7 +1125,7 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
                     <p className="text-charcoal-light font-light text-sm mb-4"><Text field="card1Desc" multiline defaultValue="..." /></p>
                     <span className="text-xs uppercase tracking-widest text-clay/70 group-hover:text-clay"><Text field="card1Cta" defaultValue="Consulter →" /></span>
                     </EditableLink>
-                    <EditableLink to="/ateliers/themes" className="group block p-8 border border-white/5 hover:bg-sage/10 transition-colors">
+                    <EditableLink to="/ateliers" className="group block p-8 border border-white/5 hover:bg-sage/10 transition-colors">
                     <div className="flex justify-between items-center mb-4">
                         <h3 className="text-2xl font-serif text-charcoal group-hover:text-clay transition-colors"><Text field="card2Title" defaultValue="Thématiques" /></h3>
                         <SafeIcon icon={FiList} className="text-charcoal/30 group-hover:text-clay text-2xl transition-colors" />
@@ -1194,18 +1180,35 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
         );
     case SECTION_TYPES.CONTACT_INFO_GRID:
         return (
-            <div className="max-w-6xl mx-auto px-6 pt-16">
-                <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
-                    {[1, 2, 3].map(i => {
-                        const icon = i===1 ? FiMapPin : i===2 ? FiPhone : FiCalendar;
-                        return (
-                            <FadeIn key={i} delay={0.1 * i} className="flex flex-col items-center text-center p-6 md:p-8 border border-white/5 bg-sage/10 rounded-sm hover:border-clay/20 transition-colors">
-                                <div className="w-10 h-10 md:w-12 md:h-12 bg-paper rounded-full flex items-center justify-center mb-4 text-clay shadow-sm"><SafeIcon icon={icon} className="text-lg md:text-xl" /></div>
-                                <h3 className="text-lg font-serif text-charcoal mb-2"><Text field={`card${i}Title`} defaultValue="Titre" /></h3>
-                                <div className="text-charcoal-light font-light text-sm leading-relaxed"><Text field={`card${i}Content`} multiline defaultValue="..." /></div>
-                            </FadeIn>
-                        );
-                    })}
+            <div className="max-w-6xl mx-auto px-6 pt-16 mb-12 md:mb-16">
+                <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-stretch">
+                    {/* Photo façade */}
+                    <div
+                        className="flex-shrink-0 mx-auto md:mx-0 w-72 md:w-96 rounded-sm bg-cover bg-center min-h-[300px] md:min-h-0"
+                        style={{ backgroundImage: "url('/maison-facade.jpg')" }}
+                        role="img"
+                        aria-label="Façade du cabinet de thérapie manuelle Floureto Férigoule – 29 Rue du Mont Berny, 60350 Pierrefonds, Oise"
+                    />
+                    {/* Infos contact empilées */}
+                    <div className="grid grid-rows-3 gap-4 md:gap-6 flex-grow">
+                        {[1, 2, 3].map(i => {
+                            const icon = i===1 ? FiMapPin : i===2 ? FiPhone : FiCalendar;
+                            return (
+                                <FadeIn key={i} delay={0.1 * i} className="flex items-start gap-4 p-5 md:p-6 border border-white/5 bg-sage/10 rounded-sm hover:border-clay/20 transition-colors">
+                                    <div className="w-10 h-10 flex-shrink-0 bg-paper rounded-full flex items-center justify-center text-clay shadow-sm"><SafeIcon icon={icon} className="text-lg" /></div>
+                                    <div>
+                                        <h3 className="text-base font-serif text-charcoal mb-1"><Text field={`card${i}Title`} defaultValue="Titre" /></h3>
+                                        <div className="text-charcoal-light font-light text-sm leading-relaxed"><Text field={`card${i}Content`} multiline defaultValue="..." /></div>
+                                        {i === 3 && (
+                                            <a href="https://flouretoferigoule-methodepoyet.fr/resalib" target="_blank" rel="noopener noreferrer" aria-label="Réserver une séance de Méthode Poyet en ligne via Resalib" className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-clay hover:text-charcoal border border-clay/30 hover:border-clay px-4 py-2 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-clay/50 focus-visible:outline-none">
+                                                <SafeIcon icon={FiCalendar} className="text-sm" /> Réserver en ligne
+                                            </a>
+                                        )}
+                                    </div>
+                                </FadeIn>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         );
@@ -1238,16 +1241,16 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
         );
 
     // --- STANDARD SECTIONS ---
-    case SECTION_TYPES.TEXT_IMAGE: return ( <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto px-6 py-12"><div className="order-2 md:order-1"><h3 className="text-2xl font-serif text-charcoal mb-4 italic"><Text field="title" defaultValue="Titre" /></h3><div className="text-charcoal-light leading-relaxed font-light text-justify"><Text field="content" multiline defaultValue="..." /></div></div><div className="order-1 md:order-2">{isEditing ? (<EditableImage defaultSrc={content.image} onChange={(val) => onUpdate && onUpdate('image', val)} className="w-full h-64 object-cover rounded-lg shadow-md" />) : (content.image && <img src={content.image} alt="" className="w-full h-64 object-cover rounded-lg shadow-md" />)}</div></div> );
-    case SECTION_TYPES.IMAGE_TEXT: return ( <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto px-6 py-12"><div className="order-1">{isEditing ? (<EditableImage defaultSrc={content.image} onChange={(val) => onUpdate && onUpdate('image', val)} className="w-full h-64 object-cover rounded-lg shadow-md" />) : (content.image && <img src={content.image} alt="" className="w-full h-64 object-cover rounded-lg shadow-md" />)}</div><div className="order-2"><h3 className="text-2xl font-serif text-charcoal mb-4 italic"><Text field="title" defaultValue="Titre" /></h3><div className="text-charcoal-light leading-relaxed font-light text-justify"><Text field="content" multiline defaultValue="..." /></div></div></div> );
+    case SECTION_TYPES.TEXT_IMAGE: return ( <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto px-6 py-12"><div className="order-2 md:order-1"><h3 className="text-2xl font-serif text-charcoal mb-4 italic"><Text field="title" defaultValue="Titre" /></h3><div className="text-charcoal-light leading-relaxed font-light text-justify"><Text field="content" multiline defaultValue="..." /></div></div><div className="order-1 md:order-2">{isEditing ? (<EditableImage defaultSrc={content.image} onChange={(val) => onUpdate && onUpdate('image', val)} className="w-full h-64 object-cover rounded-lg shadow-md" />) : (content.image && <img src={content.image} alt={content.title || "Illustration – Floureto Férigoule, Méthode Poyet"} className="w-full h-64 object-cover rounded-lg shadow-md" />)}</div></div> );
+    case SECTION_TYPES.IMAGE_TEXT: return ( <div className="grid md:grid-cols-2 gap-12 items-center max-w-6xl mx-auto px-6 py-12"><div className="order-1">{isEditing ? (<EditableImage defaultSrc={content.image} onChange={(val) => onUpdate && onUpdate('image', val)} className="w-full h-64 object-cover rounded-lg shadow-md" />) : (content.image && <img src={content.image} alt={content.title || "Illustration – Floureto Férigoule, Méthode Poyet"} className="w-full h-64 object-cover rounded-lg shadow-md" />)}</div><div className="order-2"><h3 className="text-2xl font-serif text-charcoal mb-4 italic"><Text field="title" defaultValue="Titre" /></h3><div className="text-charcoal-light leading-relaxed font-light text-justify"><Text field="content" multiline defaultValue="..." /></div></div></div> );
     case SECTION_TYPES.THREE_COLUMNS: return ( <div className="max-w-6xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8">{[1, 2, 3].map(i => (<div key={i} className="bg-sage/10 p-6 rounded-lg border border-white/5"><h4 className="text-xl font-serif text-charcoal mb-3"><Text field={`col${i}Title`} defaultValue={`Colonne ${i}`} /></h4><div className="text-sm text-charcoal-light leading-relaxed"><Text field={`col${i}Text`} multiline defaultValue="..." /></div></div>))}</div> );
     case SECTION_TYPES.QUOTE: return ( <div className="max-w-3xl mx-auto px-6 py-16 text-center"><span className="text-4xl text-clay/30 block mb-4">"</span><div className="text-2xl md:text-3xl font-serif italic text-charcoal mb-6 leading-relaxed"><Text field="quote" multiline defaultValue="..." /></div><div className="text-sm text-clay uppercase tracking-widest font-medium"><Text field="author" defaultValue="Auteur" /></div></div> );
-    case SECTION_TYPES.METHOD_INTRO: return ( <div className="grid md:grid-cols-2 gap-10 md:gap-16 mb-16 md:mb-24 items-start max-w-6xl mx-auto px-6 pt-16"><FadeIn><div className="relative p-6 md:p-8 border border-white/5 bg-sage/10"><div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-clay/50 to-transparent"></div><h3 className="text-xl md:text-2xl font-serif text-charcoal italic mb-4 md:mb-6"><Text field="title" defaultValue="Une écoute absolue" /></h3><div className="text-charcoal-light font-light leading-loose text-justify mb-4 text-sm md:text-base"><Text field="p1" multiline /></div><div className="text-charcoal-light font-light leading-loose text-justify text-sm md:text-base"><Text field="p2" multiline /></div></div></FadeIn><FadeIn delay={0.2} className="text-justify text-sm md:text-base"><h4 className="text-lg md:text-xl font-serif text-charcoal mb-4"><Text field="title2" defaultValue="Le toucher comme relation" /></h4><div className="text-charcoal-light font-light leading-loose"><div className="mb-4"><Text field="content2" multiline /></div><div><Text field="content3" multiline /></div></div></FadeIn></div> );
+    case SECTION_TYPES.METHOD_INTRO: return ( <div className="grid md:grid-cols-2 gap-10 md:gap-16 mb-16 md:mb-24 items-start max-w-6xl mx-auto px-6 pt-16"><FadeIn><div className="relative p-6 md:p-8 border border-white/5 bg-sage/10"><div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-clay/50 to-transparent"></div><h3 className="text-xl md:text-2xl font-serif text-charcoal italic mb-4 md:mb-6"><Text field="title" defaultValue="Une écoute absolue" /></h3><div className="text-charcoal-light font-light leading-loose text-justify mb-4 text-sm md:text-base"><Text field="p1" multiline /></div><div className="text-charcoal-light font-light leading-loose text-justify text-sm md:text-base"><Text field="p2" multiline /></div></div></FadeIn><FadeIn delay={0.2}><div className="relative p-6 md:p-8 border border-white/5 bg-sage/10"><div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-clay/50 to-transparent"></div><h3 className="text-xl md:text-2xl font-serif text-charcoal italic mb-4 md:mb-6"><Text field="title2" defaultValue="Le toucher comme relation" /></h3><div className="text-charcoal-light font-light leading-loose text-justify mb-4 text-sm md:text-base"><Text field="content2" multiline /></div><div className="text-charcoal-light font-light leading-loose text-justify text-sm md:text-base"><Text field="content3" multiline /></div></div></FadeIn></div> );
     case SECTION_TYPES.METHOD_CONCEPTS: return ( 
       <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-20 md:mb-32 max-w-6xl mx-auto px-6">
         <FadeIn delay={0.3} className="group p-6 md:p-8 bg-paper border border-white/5 hover:border-clay/30 transition-all duration-500">
-          <div className="mb-6 h-16 w-16 mx-auto flex items-center justify-center">
-            <div className="h-12 w-12 relative">
+          <div className="mb-6 h-32 w-32 md:h-40 md:w-40 mx-auto flex items-center justify-center">
+            <div className="h-28 w-28 md:h-36 md:w-36 relative">
                 {isEditing ? (
                 <EditableImage 
                     defaultSrc={content.c1Image || "https://placehold.co/100x100/png?text=Icone"} 
@@ -1256,7 +1259,7 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
                 />
                 ) : (
                 content.c1Image ? (
-                    <img src={content.c1Image} className="w-full h-full object-contain invert mix-blend-screen" alt="MRP & Écoute" />
+                    <img src={content.c1Image} className="w-full h-full object-contain invert mix-blend-screen" alt="Mouvement Respiratoire Primaire (MRP) – Écoute crânienne en Méthode Poyet" />
                 ) : (
                     <div className="w-full h-full flex items-center justify-center text-white/50 text-xs">Icone</div>
                 )
@@ -1267,30 +1270,30 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
           <div className="text-charcoal-light font-light text-sm leading-7"><Text field="c1Desc" multiline /></div>
         </FadeIn>
         <FadeIn delay={0.4} className="group p-6 md:p-8 bg-paper border border-white/5 hover:border-clay/30 transition-all duration-500">
-          <div className="mb-6 h-16 w-16 mx-auto">
+          <div className="mb-6 h-32 w-32 md:h-40 md:w-40 mx-auto flex items-center justify-center overflow-visible">
             {isEditing ? (
-              <EditableImage 
-                defaultSrc={content.c2Image || "/icons/sacrum.webp"} 
-                onChange={(val) => onUpdate && onUpdate('c2Image', val)} 
-                className="w-full h-full object-contain invert mix-blend-screen" 
+              <EditableImage
+                defaultSrc={content.c2Image || "/icons/sacrum.webp"}
+                onChange={(val) => onUpdate && onUpdate('c2Image', val)}
+                className="w-[200%] h-[200%] object-contain invert mix-blend-screen"
               />
             ) : (
-              <img src={content.c2Image || "/icons/sacrum.webp"} className="w-full h-full object-contain invert mix-blend-screen" alt="Sacrum" />
+              <img src={content.c2Image || "/icons/sacrum.webp"} className="w-full h-full object-contain invert mix-blend-screen scale-[2]" alt="Axe crâne-sacrum – Harmonisation du système cranio-sacré en Méthode Poyet" />
             )}
           </div>
           <h4 className="text-lg md:text-xl font-serif text-charcoal mt-4 mb-3 md:mb-4"><Text field="c2Title" defaultValue="Axe Crâne-Sacrum" /></h4>
           <div className="text-charcoal-light font-light text-sm leading-7"><Text field="c2Desc" multiline /></div>
         </FadeIn>
         <FadeIn delay={0.5} className="group p-6 md:p-8 bg-paper border border-white/5 hover:border-clay/30 transition-all duration-500">
-          <div className="mb-6 h-16 w-16 mx-auto">
+          <div className="mb-6 h-32 w-32 md:h-40 md:w-40 mx-auto flex items-center justify-center">
             {isEditing ? (
-              <EditableImage 
-                defaultSrc={content.c3Image || "/icons/spine.webp"} 
-                onChange={(val) => onUpdate && onUpdate('c3Image', val)} 
-                className="w-full h-full object-contain invert mix-blend-screen" 
+              <EditableImage
+                defaultSrc={content.c3Image || "/icons/spine.png"}
+                onChange={(val) => onUpdate && onUpdate('c3Image', val)}
+                className="w-full h-full object-contain"
               />
             ) : (
-              <img src={content.c3Image || "/icons/spine.webp"} className="w-full h-full object-contain invert mix-blend-screen" alt="Colonne" />
+              <img src="/icons/colonne.png" className="w-full h-full object-contain invert scale-[1.3]" alt="Les chaînes musculaires et fasciales – Colonne vertébrale en Méthode Poyet" />
             )}
           </div>
           <h4 className="text-lg md:text-xl font-serif text-charcoal mt-4 mb-3 md:mb-4"><Text field="c3Title" defaultValue="Les Chaînes" /></h4>
@@ -1312,9 +1315,130 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
       </FadeIn> 
     );
     case SECTION_TYPES.HERO: return ( <section className="relative min-h-screen flex flex-col items-center justify-end pb-12 md:pb-20 px-6 pt-20 overflow-hidden"><LogoBackground /></section> );
-    case SECTION_TYPES.DOUBLE_ENTRY: return ( <section className="px-6 relative z-10 -mt-32 pb-20"><FadeIn delay={1.4} className="relative z-20 w-full max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 pointer-events-auto"><EditableLink to="/pratique-manuelle" className="group relative block p-8 md:p-10 border border-white/10 bg-paper/40 backdrop-blur-md hover:bg-sage/60 transition-all duration-500 text-center rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1"><div className="absolute inset-0 border border-transparent group-hover:border-clay/30 transition-colors duration-500 rounded-xl"></div><div className="relative z-10"><span className="inline-block p-4 rounded-full bg-white/5 text-clay mb-6 group-hover:scale-110 group-hover:bg-clay group-hover:text-paper transition-all duration-500 shadow-inner"><SafeIcon icon={PiHandPalmLight} className="text-3xl" /></span><h2 className="text-xl md:text-2xl font-serif text-charcoal mb-4 italic group-hover:text-clay transition-colors duration-500"><Text field="card1Title" defaultValue="Soin & Thérapie" /></h2><div className="text-charcoal-light font-light text-sm leading-relaxed mb-8 opacity-80 group-hover:opacity-100 transition-opacity"><Text field="card1Desc" defaultValue="Séances..." multiline /></div><span className="inline-block text-[10px] uppercase tracking-[0.25em] text-clay border-b border-clay/30 pb-1 group-hover:border-clay transition-all duration-500 font-medium"><Text field="card1Cta" defaultValue="Découvrir la pratique" /></span></div></EditableLink><EditableLink to="/formations" className="group relative block p-8 md:p-10 border border-white/10 bg-paper/40 backdrop-blur-md hover:bg-sage/60 transition-all duration-500 text-center rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1"><div className="absolute inset-0 border border-transparent group-hover:border-clay/30 transition-colors duration-500 rounded-xl"></div><div className="relative z-10"><span className="inline-block p-4 rounded-full bg-white/5 text-clay mb-6 group-hover:scale-110 group-hover:bg-clay group-hover:text-paper transition-all duration-500 shadow-inner"><SafeIcon icon={FiIcons.FiBookOpen} className="text-3xl" /></span><h2 className="text-xl md:text-2xl font-serif text-charcoal mb-4 italic group-hover:text-clay transition-colors duration-500"><Text field="card2Title" defaultValue="Formation & Transmission" /></h2><div className="text-charcoal-light font-light text-sm leading-relaxed mb-8 opacity-80 group-hover:opacity-100 transition-opacity"><Text field="card2Desc" defaultValue="Cursus..." multiline /></div><span className="inline-block text-[10px] uppercase tracking-[0.25em] text-clay border-b border-clay/30 pb-1 group-hover:border-clay transition-all duration-500 font-medium"><Text field="card2Cta" defaultValue="Voir les enseignements" /></span></div></EditableLink><EditableLink to="/ateliers" className="group relative block p-8 md:p-10 border border-white/10 bg-paper/40 backdrop-blur-md hover:bg-sage/60 transition-all duration-500 text-center rounded-xl overflow-hidden shadow-lg hover:shadow-2xl hover:-translate-y-1"><div className="absolute inset-0 border border-transparent group-hover:border-clay/30 transition-colors duration-500 rounded-xl"></div><div className="relative z-10"><span className="inline-block p-4 rounded-full bg-white/5 text-clay mb-6 group-hover:scale-110 group-hover:bg-clay group-hover:text-paper transition-all duration-500 shadow-inner"><SafeIcon icon={FiIcons.FiCalendar} className="text-3xl" /></span><h2 className="text-xl md:text-2xl font-serif text-charcoal mb-4 italic group-hover:text-clay transition-colors duration-500"><Text field="card3Title" defaultValue="Ateliers" /></h2><div className="text-charcoal-light font-light text-sm leading-relaxed mb-8 opacity-80 group-hover:opacity-100 transition-opacity"><Text field="card3Desc" defaultValue="Pratiques..." multiline /></div><span className="inline-block text-[10px] uppercase tracking-[0.25em] text-clay border-b border-clay/30 pb-1 group-hover:border-clay transition-all duration-500 font-medium"><Text field="card3Cta" defaultValue="Voir les ateliers" /></span></div></EditableLink></FadeIn></section> );
-    case SECTION_TYPES.METHOD: return ( <section className="py-12 md:py-20 px-6 relative z-10 bg-gradient-to-b from-transparent to-sage/10"><div className="max-w-3xl mx-auto"><FadeIn><div className="flex flex-col items-center text-center space-y-8 md:space-y-12"><h2 className="text-2xl md:text-4xl font-serif text-charcoal italic px-4"><Text field="title" defaultValue="La Méthode Poyet" /></h2><div className="space-y-6 md:space-y-8 text-charcoal-light font-light text-justify md:text-center text-base md:text-xl md:leading-10 leading-8"><Text field="p1" multiline /><Text field="p2" multiline /></div><div className="pt-4 md:pt-8 flex flex-col md:flex-row gap-8 justify-center items-center"><EditableLink to="/methode" className="inline-block border-b border-charcoal/30 pb-1 text-xs md:text-sm uppercase tracking-widest hover:border-clay hover:text-clay transition-all duration-500"><Text field="cta" defaultValue="En savoir plus" /></EditableLink></div></div></FadeIn></div></section> );
-    case SECTION_TYPES.SERVICES: return ( <section className="py-20 md:py-32 px-6 bg-sage/30 relative z-10 border-y border-white/5"><div className="max-w-6xl mx-auto"><FadeIn><div className="text-center mb-16 md:mb-24"><span className="text-clay text-xs tracking-[0.2em] uppercase block mb-4"><Text field="tag" defaultValue="Accompagnement" /></span><h2 className="text-3xl md:text-4xl font-serif italic text-charcoal"><Text field="title" defaultValue="Séances & Tarifs" /></h2></div></FadeIn><div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 max-w-5xl mx-auto"><FadeIn delay={0.2} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">01</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s1Title" defaultValue="Séance Adulte" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s1Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s1Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s1Duration" /></span></div></FadeIn><FadeIn delay={0.4} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">02</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s2Title" defaultValue="Enfant & Bébé" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s2Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s2Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s2Duration" /></span></div></FadeIn><FadeIn delay={0.6} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">03</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s3Title" defaultValue="Forfaits" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s3Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s3Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s3Duration" /></span></div></FadeIn></div><FadeIn className="text-center mt-12"><EditableLink to="/methode/seances" className="text-xs uppercase tracking-widest text-charcoal hover:text-clay transition-colors border-b border-transparent hover:border-clay pb-0.5"><Text field="cta" defaultValue="Voir les forfaits & détails" /></EditableLink></FadeIn></div></section> );
+    case SECTION_TYPES.DOUBLE_ENTRY: {
+      const navItems = [
+        { to: '/', label: 'Accueil' },
+        { to: '/pratique-manuelle', label: 'Méthode Poyet', sub: [
+          { to: '/pratique-manuelle/seances', label: 'La Séance' },
+        ]},
+        { to: '/formations', label: 'Formations' },
+        { to: '/ateliers', label: 'Ateliers' },
+        { to: '/ressources', label: 'Ressources', sub: [
+          { to: '/blog/journal', label: 'Au fil des jours' },
+          { to: '/ressources/lectures', label: 'Lectures' },
+          { to: '/ressources/liens', label: 'Liens Utiles' },
+        ]},
+        { to: '/a-propos', label: 'A Propos' },
+        { to: '/contact', label: 'Contact' },
+      ];
+      const curveIndent = [0, 16, 28, 36, 32, 14, 0, 0];
+      const DoubleEntryNav = () => {
+        const navigate = useNavigate();
+        const [transitioning, setTransitioning] = React.useState(false);
+        const [openSub, setOpenSub] = React.useState(null);
+
+        const handleNav = (e, to) => {
+          e.preventDefault();
+          if (transitioning || to === '/') return;
+          setTransitioning(true);
+          setTimeout(() => navigate(to), 800);
+        };
+        return (
+          <>
+            {/* Transition overlay standard (glow) */}
+            <AnimatePresence>
+              {transitioning && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.6, ease: 'easeIn' }}
+                  className="fixed inset-0 z-[200] pointer-events-none"
+                >
+                  {/* Radial glow from center */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <motion.div
+                      initial={{ scale: 0.8, opacity: 0 }}
+                      animate={{ scale: 3, opacity: [0, 0.4, 0] }}
+                      transition={{ duration: 0.8, ease: 'easeOut' }}
+                      className="w-[200px] h-[200px] md:w-[400px] md:h-[400px] rounded-full bg-clay/20 blur-3xl"
+                    />
+                  </div>
+                  {/* Fade to paper */}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.5, delay: 0.3, ease: 'easeIn' }}
+                    className="absolute inset-0 bg-paper"
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Nav — à droite de l'animation sur toutes tailles */}
+            <section className="flex relative z-20 items-center justify-center pointer-events-none" style={{ marginTop: '-100vh', height: '100vh' }}>
+              <motion.nav
+                animate={
+                  transitioning
+                    ? { opacity: 0 }
+                    : { opacity: 1 }
+                }
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="flex flex-col items-start gap-1.5 md:gap-2.5 pointer-events-auto"
+                style={{ marginLeft: 'min(350px, 42vw)' }}
+              >
+                {navItems.map((item, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: 15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 1.4 + i * 0.1, ease: 'easeOut' }}
+                    style={{ paddingLeft: `${curveIndent[i] || 0}px` }}
+                    onMouseEnter={() => item.sub && setOpenSub(i)}
+                    onMouseLeave={() => item.sub && setOpenSub(null)}
+                    className="relative"
+                  >
+                    <a href={item.to} onClick={(e) => handleNav(e, item.to)} className="group cursor-pointer">
+                      <span className="font-serif text-sm md:text-base lg:text-lg italic text-charcoal/90 hover:text-clay hover:italic transition-all duration-300 pb-0.5">
+                        {item.label}
+                        {item.sub && (
+                          <SafeIcon icon={FiIcons.FiChevronDown} className={`inline-block ml-1 text-[10px] text-charcoal/30 transition-transform duration-300 ${openSub === i ? 'rotate-180' : ''}`} />
+                        )}
+                      </span>
+                    </a>
+                    {item.sub && (
+                      <AnimatePresence>
+                        {openSub === i && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            transition={{ duration: 0.25, ease: 'easeOut' }}
+                            className="overflow-hidden ml-3 mt-1"
+                          >
+                            <div className="flex flex-col gap-1.5 border-l border-clay/20 pl-3">
+                              {item.sub.map((s, j) => (
+                                <a key={j} href={s.to} onClick={(e) => handleNav(e, s.to)} className="block">
+                                  <span className="font-serif text-xs md:text-sm italic text-charcoal/40 hover:text-clay transition-colors duration-400">
+                                    {s.label}
+                                  </span>
+                                </a>
+                              ))}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    )}
+                  </motion.div>
+                ))}
+              </motion.nav>
+            </section>
+          </>
+        );
+      };
+      return <DoubleEntryNav />;
+    }
+    case SECTION_TYPES.METHOD: return ( <section className="py-12 md:py-20 px-6 relative z-10 bg-gradient-to-b from-transparent to-sage/10"><div className="max-w-3xl mx-auto"><FadeIn><div className="flex flex-col items-center text-center space-y-8 md:space-y-12"><h2 className="text-2xl md:text-4xl font-serif text-charcoal italic px-4"><Text field="title" defaultValue="La Méthode Poyet" /></h2><div className="space-y-6 md:space-y-8 text-charcoal-light font-light text-justify md:text-center text-base md:text-xl md:leading-10 leading-8"><Text field="p1" multiline /><Text field="p2" multiline /></div><div className="pt-4 md:pt-8 flex flex-col md:flex-row gap-8 justify-center items-center"><EditableLink to="/pratique-manuelle" className="inline-block border-b border-charcoal/30 pb-1 text-xs md:text-sm uppercase tracking-widest hover:border-clay hover:text-clay transition-all duration-500"><Text field="cta" defaultValue="En savoir plus" /></EditableLink></div></div></FadeIn></div></section> );
+    case SECTION_TYPES.SERVICES: return ( <section className="py-20 md:py-32 px-6 bg-sage/30 relative z-10 border-y border-white/5"><div className="max-w-6xl mx-auto"><FadeIn><div className="text-center mb-16 md:mb-24"><span className="text-clay text-xs tracking-[0.2em] uppercase block mb-4"><Text field="tag" defaultValue="Accompagnement" /></span><h2 className="text-3xl md:text-4xl font-serif italic text-charcoal"><Text field="title" defaultValue="Séances & Tarifs" /></h2></div></FadeIn><div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 max-w-5xl mx-auto"><FadeIn delay={0.2} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">01</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s1Title" defaultValue="Séance Adulte" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s1Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s1Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s1Duration" /></span></div></FadeIn><FadeIn delay={0.4} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">02</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s2Title" defaultValue="Enfant & Bébé" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s2Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s2Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s2Duration" /></span></div></FadeIn><FadeIn delay={0.6} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">03</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s3Title" defaultValue="Forfaits" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s3Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s3Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s3Duration" /></span></div></FadeIn></div><FadeIn className="text-center mt-12"><EditableLink to="/pratique-manuelle/seances" className="text-xs uppercase tracking-widest text-charcoal hover:text-clay transition-colors border-b border-transparent hover:border-clay pb-0.5"><Text field="cta" defaultValue="Voir les forfaits & détails" /></EditableLink></FadeIn></div></section> );
     case SECTION_TYPES.TESTIMONIALS: return ( <section className="py-20 md:py-32 px-6 relative z-10"><FadeIn><h2 className="text-center text-xs uppercase tracking-[0.2em] text-clay/60 mb-8 md:mb-12"><Text field="title" defaultValue="Témoignages" /></h2><Testimonials /></FadeIn></section> );
     case SECTION_TYPES.CONTACT: return ( <section className="py-20 md:py-32 px-6 border-t border-charcoal/5 relative z-10 bg-sage/20 text-center"><FadeIn><h2 className="text-2xl md:text-3xl font-serif italic mb-8 md:mb-10"><Text field="title" defaultValue="Prendre Rendez-vous" /></h2><EditableExternalLink href="https://flouretoferigoule-methodepoyet.fr/resalib" target="_blank" rel="noopener noreferrer" className="px-8 md:px-10 py-3 md:py-4 bg-clay text-paper font-medium uppercase tracking-widest text-xs hover:bg-white transition-colors duration-500 inline-block"><Text field="cta" defaultValue="Réserver sur Resalib" /></EditableExternalLink></FadeIn></section> );
     case SECTION_TYPES.TEXT: return ( <div className="bg-sage/30 rounded-xl p-6 lg:p-8 shadow-sm border border-white/5 max-w-4xl mx-auto my-8">{content.title && <h2 className="text-3xl font-serif text-charcoal mb-4 italic"><Text field="title" /></h2>}<div className="text-charcoal-light leading-relaxed whitespace-pre-wrap font-light"><Text field="content" multiline /></div></div> );

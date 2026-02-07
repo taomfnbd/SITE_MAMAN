@@ -4,11 +4,12 @@ import { Helmet } from 'react-helmet-async';
 const SEO = ({ title, description, url = "", type = "website", image, schema, keywords }) => {
   const siteTitle = "Floureto Férigoule | Méthode Poyet Pierrefonds";
   const fullTitle = title ? `${title} | Floureto Férigoule` : siteTitle;
-  
-  const defaultDesc = "Cabinet de Méthode Poyet et Somatothérapie à Pierrefonds (60). Une approche manuelle douce pour l'harmonisation du corps.";
+
+  const defaultDesc = "Cabinet de Méthode Poyet et Somatothérapie à Pierrefonds (60). Une approche manuelle douce pour l'harmonisation du corps. Adultes, enfants, bébés. Proche Compiègne.";
   const metaDesc = description || defaultDesc;
-  
-  const siteUrl = "https://flouretoferigoule-methodepoyet.fr";
+  const defaultKeywords = "Méthode Poyet, Thérapie Manuelle, Pierrefonds, Compiègne, Oise, Somatothérapie, Bien-être, Ostéopathie douce, Soin bébé, Écoute tissulaire";
+
+  const siteUrl = "https://sitemaman.netlify.app";
   const fullUrl = `${siteUrl}${url}`;
   const metaImage = image ? (image.startsWith('http') ? image : `${siteUrl}${image}`) : `${siteUrl}/og-image.jpg`;
 
@@ -17,7 +18,7 @@ const SEO = ({ title, description, url = "", type = "website", image, schema, ke
       {/* Standard Metadata */}
       <title>{fullTitle}</title>
       <meta name="description" content={metaDesc} />
-      {keywords && <meta name="keywords" content={keywords} />}
+      <meta name="keywords" content={keywords || defaultKeywords} />
       <link rel="canonical" href={fullUrl} />
 
       {/* Open Graph / Facebook */}
@@ -26,6 +27,8 @@ const SEO = ({ title, description, url = "", type = "website", image, schema, ke
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={metaDesc} />
       <meta property="og:image" content={metaImage} />
+      <meta property="og:locale" content="fr_FR" />
+      <meta property="og:site_name" content="Floureto Férigoule - Méthode Poyet" />
 
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />

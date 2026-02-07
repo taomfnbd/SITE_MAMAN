@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import * as FiIcons from 'react-icons/fi';
 import EditableText from '../../cms/EditableText';
-import SectionManager from '../../cms/SectionManager';
 import SafeIcon from '../../common/SafeIcon';
 import FadeIn from '../../components/FadeIn';
+import FloatingBookButton from '../../components/FloatingBookButton';
 import Navbar from '../../components/Navbar';
 import PageHeader from '../../components/PageHeader';
 import SEO from '../../components/SEO';
+import Testimonials from '../../components/Testimonials';
 
 const SeanceCard = ({ idPrefix, title, time, price, description, icon, delay, details }) => (
   <FadeIn delay={delay} className="group relative bg-sage/10 p-6 md:p-10 border border-white/5 hover:bg-sage/20 transition-all duration-500 h-full flex flex-col">
@@ -55,7 +56,7 @@ const SeanceCard = ({ idPrefix, title, time, price, description, icon, delay, de
       href="https://flouretoferigoule-methodepoyet.fr/resalib" 
       target="_blank" 
       rel="noopener noreferrer" 
-      className="inline-block text-center text-xs uppercase tracking-widest text-charcoal border border-white/10 px-6 py-3 hover:bg-clay hover:text-paper hover:border-transparent transition-all duration-300 w-full"
+      className="inline-block text-center text-xs uppercase tracking-widest text-charcoal border border-white/10 px-6 py-3 hover:bg-clay hover:text-paper hover:border-transparent transition-all duration-300 w-full focus-visible:ring-2 focus-visible:ring-clay/50 focus-visible:outline-none"
     >
       Réserver en ligne
     </a>
@@ -77,7 +78,9 @@ Voici ce que je mets dans la balance : le temps passé (1h15), mon implication d
     <div className="bg-paper border border-white/5 overflow-hidden transition-all duration-500">
       <button 
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-4 md:p-6 flex justify-between items-center text-left hover:bg-sage/10 transition-colors"
+        className="w-full p-4 md:p-6 flex justify-between items-center text-left hover:bg-sage/10 transition-colors focus-visible:ring-2 focus-visible:ring-clay/50 focus-visible:outline-none"
+        aria-expanded={isOpen}
+        aria-label="Ouvrir la réflexion sur le juste prix"
       >
         <span className="font-serif text-base md:text-lg text-charcoal italic">Réflexion sur le "juste prix"</span>
         <SafeIcon 
@@ -149,14 +152,29 @@ const Seances = () => {
       
       <div className="max-w-5xl mx-auto px-6">
         
-        {/* Info Déroulé */}
-        <FadeIn className="mb-12 md:mb-16 text-center max-w-3xl mx-auto">
-          <EditableText 
-            id="seances_intro" 
-            defaultValue="La méthode Poyet est une approche globale. Il faut du temps pour développer les points que vous souhaitez aborder. De mon côté, j'ai besoin de temps pour mettre en place une écoute active." 
-            multiline
-            className="text-charcoal-light font-light leading-loose text-sm md:text-base"
-          />
+        {/* Photo du cabinet + intro */}
+        <FadeIn className="mb-8 md:mb-10">
+          <div className="overflow-hidden text-charcoal-light font-light leading-loose text-sm md:text-base">
+            <img
+              src="/cabinet.jpg"
+              alt="Intérieur du cabinet de thérapie manuelle Floureto Férigoule à Pierrefonds, Oise – Méthode Poyet"
+              className="float-left w-48 md:w-72 mr-6 md:mr-10 mb-4 object-contain rounded-sm"
+            />
+            <EditableText
+              id="seances_intro"
+              defaultValue="La méthode Poyet est une approche globale. Il faut du temps pour développer les points que vous souhaitez aborder. De mon côté, j'ai besoin de temps pour mettre en place une écoute active."
+              multiline
+              className="text-justify"
+            />
+          </div>
+        </FadeIn>
+
+        {/* Témoignages */}
+        <FadeIn className="mb-12 md:mb-16 max-w-3xl mx-auto">
+          <div className="border-t border-white/5 pt-3">
+            <h3 className="text-xs uppercase tracking-[0.2em] text-clay/60 mb-2 text-center">Témoignages</h3>
+            <Testimonials />
+          </div>
         </FadeIn>
 
         {/* Cartes Tarifs */}
@@ -199,45 +217,51 @@ const Seances = () => {
         </FadeIn>
 
         {/* Infos Pratiques */}
-        <FadeIn className="bg-sage/30 p-8 md:p-12 border border-white/5 text-center">
-            <h3 className="text-lg md:text-xl font-serif text-charcoal italic mb-6">
+        <FadeIn className="max-w-3xl mx-auto text-center">
+            <div className="w-12 h-[1px] bg-clay/30 mx-auto mb-6"></div>
+            <h3 className="text-lg md:text-xl font-serif text-charcoal italic mb-10">
                 <EditableText id="seances_infos_title" defaultValue="Informations Pratiques" />
             </h3>
-            <div className="grid md:grid-cols-3 gap-8 text-sm font-light text-charcoal-light">
-                <div className="flex flex-col items-center gap-3">
-                    <SafeIcon icon={FiIcons.FiLayers} className="text-xl text-clay" />
-                    <EditableText 
-                        id="seances_info_1" 
-                        defaultValue={"Venez avec une\ntenue souple et confortable."} 
-                        multiline 
-                        className="whitespace-pre-line text-center" 
+            <div className="grid md:grid-cols-3 gap-10 text-sm font-light text-charcoal-light">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 rounded-full border border-clay/20 flex items-center justify-center">
+                        <SafeIcon icon={FiIcons.FiLayers} className="text-lg text-clay" />
+                    </div>
+                    <EditableText
+                        id="seances_info_1"
+                        defaultValue={"Venez avec une\ntenue souple et confortable."}
+                        multiline
+                        className="whitespace-pre-line text-center leading-relaxed"
                     />
                 </div>
-                <div className="flex flex-col items-center gap-3">
-                    <SafeIcon icon={FiIcons.FiClock} className="text-xl text-clay" />
-                    <EditableText 
-                        id="seances_info_2" 
-                        defaultValue={"Prévoyez 1h15\nde disponibilité."} 
-                        multiline 
-                        className="whitespace-pre-line text-center" 
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 rounded-full border border-clay/20 flex items-center justify-center">
+                        <SafeIcon icon={FiIcons.FiClock} className="text-lg text-clay" />
+                    </div>
+                    <EditableText
+                        id="seances_info_2"
+                        defaultValue={"Prévoyez 1h15\nde disponibilité."}
+                        multiline
+                        className="whitespace-pre-line text-center leading-relaxed"
                     />
                 </div>
-                <div className="flex flex-col items-center gap-3">
-                    <SafeIcon icon={FiIcons.FiCreditCard} className="text-xl text-clay" />
-                    <EditableText 
-                        id="seances_info_3" 
-                        defaultValue={"Règlement Chèque\nou Espèces."} 
-                        multiline 
-                        className="whitespace-pre-line text-center" 
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 rounded-full border border-clay/20 flex items-center justify-center">
+                        <SafeIcon icon={FiIcons.FiCreditCard} className="text-lg text-clay" />
+                    </div>
+                    <EditableText
+                        id="seances_info_3"
+                        defaultValue={"Règlement Chèque\nou Espèces."}
+                        multiline
+                        className="whitespace-pre-line text-center leading-relaxed"
                     />
                 </div>
             </div>
         </FadeIn>
 
-        {/* SectionManager pour contenu supplémentaire */}
-        <SectionManager pageId="seances_extra" />
 
       </div>
+      <FloatingBookButton />
     </div>
   );
 };

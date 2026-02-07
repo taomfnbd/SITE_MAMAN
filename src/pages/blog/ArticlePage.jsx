@@ -14,7 +14,7 @@ const ArticlePage = () => {
   const article = getArticle(id);
 
   if (!article) {
-    return <Navigate to="/blog" />; 
+    return <Navigate to="/blog/journal" />;
   }
 
   const handleUpdate = (field, value) => {

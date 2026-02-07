@@ -1,10 +1,11 @@
 import React from 'react';
 import SectionManager from '../../cms/SectionManager';
 import FadeIn from '../../components/FadeIn';
+import FloatingBookButton from '../../components/FloatingBookButton';
 import Navbar from '../../components/Navbar';
 import PageHeader from '../../components/PageHeader';
 import SEO from '../../components/SEO';
-import Testimonials from '../../components/Testimonials';
+
 
 const Methode = () => {
   return (
@@ -22,41 +23,40 @@ const Methode = () => {
         }}
       />
       <Navbar />
-      <PageHeader 
+      <PageHeader
         pageId="methode"
-        title="Pratique Manuelle" 
-        subtitle="Une approche manuelle qui allie micro-mouvements précis et techniques énergétiques." 
+        title="Méthode Poyet"
       />
 
-      {/* Intro Méthode Poyet (ex-Home) */}
-      <section className="py-12 md:py-20 px-6 relative z-10 bg-gradient-to-b from-transparent to-sage/10">
-        <div className="max-w-3xl mx-auto">
+      {/* Vidéo + Texte intro */}
+      <section className="-mt-6 md:-mt-10 pb-12 md:pb-20 px-6 relative z-10">
+        <div className="max-w-4xl mx-auto">
           <FadeIn>
-            <div className="flex flex-col items-center text-center space-y-8 md:space-y-12">
-              <h2 className="text-2xl md:text-4xl font-serif text-charcoal italic px-4">La Méthode Poyet</h2>
-              <div className="space-y-6 md:space-y-8 text-charcoal-light font-light text-justify md:text-center text-base md:text-xl md:leading-10 leading-8">
-                <p>La Méthode Poyet est une approche manuelle qui allie micro-mouvements précis et techniques énergétiques pour favoriser l'harmonisation du corps.</p>
-                <p>Elle s'adresse à celles et ceux qui recherchent un équilibre global et un bien-être corporel, émotionnel et psychique, sans manipulation structurelle.</p>
-              </div>
+            <div className="overflow-hidden text-charcoal-light font-light text-justify text-base md:text-xl md:leading-10 leading-8">
+              <video
+                src="/methode-poyet-v2.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                aria-label="Démonstration de la Méthode Poyet – thérapie manuelle douce par micro-mouvements à Pierrefonds"
+                title="Méthode Poyet – Séance de thérapie manuelle informationnelle"
+                className="float-left w-64 md:w-96 mr-6 md:mr-10 mb-4 rounded-sm border border-white/5 shadow-lg"
+              />
+              <p className="mb-6">La Méthode Poyet est une approche manuelle qui allie micro-mouvements précis et techniques énergétiques pour favoriser l'harmonisation du corps.</p>
+              <p>Elle s'adresse à celles et ceux qui recherchent un équilibre global et un bien-être corporel, émotionnel et psychique, sans manipulation structurelle.</p>
             </div>
           </FadeIn>
         </div>
       </section>
-      
-      {/* 
+
+      {/*
         Le contenu est géré par le CMS via SectionManager.
         Les sections par défaut (Intro, Concepts, Disclaimer) sont définies dans SectionManager.jsx
       */}
       <SectionManager pageId="methode" />
 
-      {/* Témoignages (Déplacé depuis l'accueil) */}
-      <section className="py-20 md:py-32 px-6 relative z-10 border-t border-white/5">
-        <FadeIn>
-            <h2 className="text-center text-xs uppercase tracking-[0.2em] text-clay/60 mb-8 md:mb-12">Témoignages</h2>
-            <Testimonials />
-        </FadeIn>
-      </section>
-
+      <FloatingBookButton />
     </div>
   );
 };

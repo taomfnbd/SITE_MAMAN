@@ -54,7 +54,7 @@ const Journal = () => {
     "@type": "Blog",
     "name": "Au fil des jours",
     "description": "Journal et réflexions sur le vivant, la méthode Poyet et la somatothérapie.",
-    "url": "https://flouretoferigoule-methodepoyet.fr/blog/journal",
+    "url": "https://sitemaman.netlify.app/blog/journal",
     "blogPost": journalArticles.map(article => ({
         "@type": "BlogPosting",
         "headline": article.title,
@@ -63,7 +63,7 @@ const Journal = () => {
             "@type": "Person",
             "name": "Floureto Férigoule"
         },
-        "url": `https://flouretoferigoule-methodepoyet.fr/blog/article/${article.id}`
+        "url": `https://sitemaman.netlify.app/blog/article/${article.id}`
     }))
   };
 

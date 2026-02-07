@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://flouretoferigoule-methodepoyet.fr/sitemap.xml
+Sitemap: https://sitemaman.netlify.app/sitemap.xml

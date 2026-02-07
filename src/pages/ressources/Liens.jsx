@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from '../../components/Navbar';
 import PageHeader from '../../components/PageHeader';
+import SEO from '../../components/SEO';
 import FadeIn from '../../components/FadeIn';
 import { useCMS } from '../../cms/CMSContext';
 import EditableText from '../../cms/EditableText';
@@ -16,7 +17,7 @@ const LinkItem = ({ link, delay, isEditMode, onDelete, onUpdate }) => {
     };
 
     return (
-      <FadeIn delay={delay} className="group block p-8 border border-white/5 bg-sage/10 hover:border-clay/30 transition-all duration-300 relative">
+      <FadeIn delay={delay} className="group block p-4 md:p-8 border border-white/5 bg-sage/10 hover:border-clay/30 transition-all duration-300 relative">
         {isEditMode && (
             <button 
                 onClick={(e) => { e.preventDefault(); onDelete(link.id); }}
@@ -27,7 +28,7 @@ const LinkItem = ({ link, delay, isEditMode, onDelete, onUpdate }) => {
             </button>
         )}
         <div className="flex justify-between items-start">
-          <div className="flex-grow pr-8">
+          <div className="flex-grow pr-4 md:pr-8">
             <h3 className="text-xl font-serif text-charcoal group-hover:text-clay transition-colors mb-2">
                 <EditableText value={link.title} onChange={(val) => onUpdate(link.id, 'title', val)} />
             </h3>
@@ -61,6 +62,12 @@ const Liens = () => {
 
   return (
     <div className="min-h-screen bg-paper pb-20 selection:bg-clay/30">
+      <SEO
+        title="Liens Utiles - Fédérations & Organisations"
+        description="Ressources externes : fédérations, écoles de formation, et confrères en thérapie manuelle et méthode Poyet."
+        url="/ressources/liens"
+        keywords="fédération méthode Poyet, école thérapie manuelle, liens utiles ostéopathie, organisations somatothérapie"
+      />
       <Navbar />
       <PageHeader pageId="liens" title="Liens Utiles" subtitle="Fédérations, écoles et confrères." />
       

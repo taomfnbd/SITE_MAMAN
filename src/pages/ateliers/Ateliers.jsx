@@ -44,7 +44,7 @@ const StageRow = ({ stage, delay, isEditMode, onUpdate, onDelete }) => {
   }
 
   return (
-    <FadeIn delay={delay} className={`group flex flex-col md:flex-row gap-6 p-6 border-b border-white/5 hover:bg-sage/10 transition-colors ${stage.full && !isEditMode ? 'opacity-50 pointer-events-none' : ''} relative`}>
+    <FadeIn delay={delay} className={`group flex flex-col md:flex-row gap-3 md:gap-6 p-3 md:p-6 border-b border-white/5 hover:bg-sage/10 transition-colors ${stage.full && !isEditMode ? 'opacity-50 pointer-events-none' : ''} relative`}>
       {isEditMode && (
           <div className="absolute top-2 right-2 flex gap-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
               <input 
@@ -79,7 +79,7 @@ const StageRow = ({ stage, delay, isEditMode, onUpdate, onDelete }) => {
               </button>
           </div>
       )}
-      <div className="md:w-32 flex-shrink-0">
+      <div className="w-full md:w-32 flex-shrink-0">
         <span className="block text-sm font-medium text-clay uppercase tracking-wide">
             <EditableText value={stage.date} onChange={(val) => onUpdate(stage.id, 'date', val)} />
         </span>
@@ -135,7 +135,7 @@ const Ateliers = () => {
     "@type": "CollectionPage",
     "name": "Ateliers Corps & Conscience",
     "description": "Pratiquer ensemble pour cultiver l'autonomie. Ateliers de thérapie manuelle à Pierrefonds.",
-    "url": "https://flouretoferigoule-methodepoyet.fr/ateliers",
+    "url": "https://sitemaman.netlify.app/ateliers",
     "mainEntity": {
       "@type": "ItemList",
       "itemListElement": stages.map((stage, index) => ({

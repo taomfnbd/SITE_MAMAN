@@ -56,7 +56,7 @@ const Actu = () => {
     "@type": "Blog",
     "name": "Actualités & Ateliers",
     "description": "Actualités du cabinet de thérapie manuelle et méthode Poyet à Pierrefonds.",
-    "url": "https://flouretoferigoule-methodepoyet.fr/blog/actu",
+    "url": "https://sitemaman.netlify.app/blog/actu",
     "blogPost": actuArticles.map(article => ({
         "@type": "BlogPosting",
         "headline": article.title,
@@ -65,7 +65,7 @@ const Actu = () => {
             "@type": "Person",
             "name": "Floureto Férigoule"
         },
-        "url": `https://flouretoferigoule-methodepoyet.fr/blog/article/${article.id}`
+        "url": `https://sitemaman.netlify.app/blog/article/${article.id}`
     }))
   };
 

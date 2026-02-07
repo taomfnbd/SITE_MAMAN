@@ -1,0 +1,17 @@
+{
+  "name": "Floureto Férigoule - Méthode Poyet",
+  "short_name": "Floureto",
+  "description": "Cabinet de Méthode Poyet et Somatothérapie à Pierrefonds (60)",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f0eb",
+  "theme_color": "#c4956a",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/logo-static.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
