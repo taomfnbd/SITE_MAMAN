@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCMS } from './CMSContext';
 import SafeIcon from '../common/SafeIcon';
@@ -63,9 +63,7 @@ const CMSToolbar = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [isExpanded, setIsExpanded] = useState(true);
 
-  if (!isAuthenticated) return null;
-
-  const handleSave = async () => {
+  const handleSave = useCallback(async () => {
     setIsSaving(true);
     try {
       const success = await saveChanges();
@@ -79,7 +77,30 @@ const CMSToolbar = () => {
     } finally {
       setIsSaving(false);
     }
-  };
+  }, [saveChanges, addToast]);
+
+  useEffect(() => {
+    if (!isEditMode) return;
+    const handleKeyDown = (e) => {
+      const isCtrlOrCmd = e.ctrlKey || e.metaKey;
+      if (!isCtrlOrCmd) return;
+
+      if (e.key === 'z' && !e.shiftKey) {
+        e.preventDefault();
+        if (canUndo) { undo(); addToast('Action annulée', 'info'); }
+      } else if (e.key === 'y' || (e.key === 'z' && e.shiftKey)) {
+        e.preventDefault();
+        if (canRedo) { redo(); addToast('Action rétablie', 'info'); }
+      } else if (e.key === 's') {
+        e.preventDefault();
+        if (hasChanges && !isSaving) handleSave();
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [isEditMode, canUndo, canRedo, undo, redo, hasChanges, isSaving, addToast, handleSave]);
+
+  if (!isAuthenticated) return null;
 
   const handleDiscard = () => {
     if (confirm('Voulez-vous vraiment annuler toutes les modifications non sauvegardées ?')) {

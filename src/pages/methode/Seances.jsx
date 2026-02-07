@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import * as FiIcons from 'react-icons/fi';
+import { useCMS } from '../../cms/CMSContext';
 import EditableText from '../../cms/EditableText';
 import SafeIcon from '../../common/SafeIcon';
 import FadeIn from '../../components/FadeIn';
@@ -9,7 +10,7 @@ import PageHeader from '../../components/PageHeader';
 import SEO from '../../components/SEO';
 import Testimonials from '../../components/Testimonials';
 
-const SeanceCard = ({ idPrefix, title, time, price, description, icon, delay, details }) => (
+const SeanceCard = ({ idPrefix, title, time, price, description, icon, delay, details, resalibUrl }) => (
   <FadeIn delay={delay} className="group relative bg-sage/10 p-6 md:p-10 border border-white/5 hover:bg-sage/20 transition-all duration-500 h-full flex flex-col">
     <div className="absolute top-0 right-0 p-4 md:p-6 opacity-10 group-hover:opacity-20 transition-opacity">
       <SafeIcon icon={icon} className="text-5xl md:text-6xl text-clay" />
@@ -53,7 +54,7 @@ const SeanceCard = ({ idPrefix, title, time, price, description, icon, delay, de
       </div>
     </div>
     <a 
-      href="https://flouretoferigoule-methodepoyet.fr/resalib" 
+      href={resalibUrl} 
       target="_blank" 
       rel="noopener noreferrer" 
       className="inline-block text-center text-xs uppercase tracking-widest text-charcoal border border-white/10 px-6 py-3 hover:bg-clay hover:text-paper hover:border-transparent transition-all duration-300 w-full focus-visible:ring-2 focus-visible:ring-clay/50 focus-visible:outline-none"
@@ -103,6 +104,7 @@ Voici ce que je mets dans la balance : le temps passé (1h15), mon implication d
 };
 
 const Seances = () => {
+  const { resalibUrl } = useCMS();
   const schema = {
     "@context": "https://schema.org",
     "@type": "MedicalBusiness",
@@ -179,35 +181,38 @@ const Seances = () => {
 
         {/* Cartes Tarifs */}
         <div className="grid md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
-          <SeanceCard 
+          <SeanceCard
             idPrefix="seance_adult"
-            title="Séance Adulte" 
-            time="1h15" 
-            price="70 €" 
+            title="Séance Adulte"
+            time="1h15"
+            price="70 €"
             description="Le temps nécessaire pour une anamnèse complète et une harmonisation profonde. Sur le dos, sur le ventre ou assis."
             details={["Forfait 2 séances : 135 €", "Forfait 3 séances : 195 €"]}
             icon={FiIcons.FiUser}
             delay={0}
+            resalibUrl={resalibUrl}
           />
-          <SeanceCard 
+          <SeanceCard
             idPrefix="seance_child"
-            title="Enfant (-7 ans)" 
-            time="~1h00" 
-            price="60 €" 
+            title="Enfant (-7 ans)"
+            time="~1h00"
+            price="60 €"
             description="Adapté aux plus jeunes. Présence d'un parent requise. Idéal pour les troubles du sommeil, coliques, ou après la naissance."
             details={["Forfait 2 séances : 110 €"]}
             icon={FiIcons.FiSmile}
             delay={0.2}
+            resalibUrl={resalibUrl}
           />
-          <SeanceCard 
+          <SeanceCard
             idPrefix="seance_duo"
-            title="Duo / Autre" 
-            time="Durée" 
-            price="Prix" 
+            title="Duo / Autre"
+            time="Durée"
+            price="Prix"
             description="Une troisième option pour les séances spécifiques ou les duos parent-enfant."
             details={["Détails supplémentaires..."]}
             icon={FiIcons.FiUsers}
             delay={0.4}
+            resalibUrl={resalibUrl}
           />
         </div>
 

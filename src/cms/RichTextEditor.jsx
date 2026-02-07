@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import * as FiIcons from 'react-icons/fi';
 
 const ToolbarButton = ({ icon: Icon, onClick, title }) => (
@@ -14,28 +14,31 @@ const ToolbarButton = ({ icon: Icon, onClick, title }) => (
 
 const RichTextEditor = ({ value, onChange, placeholder }) => {
   const contentRef = useRef(null);
+  const debounceTimerRef = useRef(null);
 
   useEffect(() => {
-    // Only set innerHTML if it differs significantly or is empty to avoid cursor jumps
     if (contentRef.current && contentRef.current.innerHTML !== value) {
-        // Simple check to avoid overwriting ongoing edits if checking strict equality
-        // But for initial load it's needed.
         if (value === '' || !contentRef.current.innerHTML) {
             contentRef.current.innerHTML = value || '';
         }
     }
-  }, []); // Run once on mount ideally, or handle careful updates
+  }, []);
 
   const execCommand = (command, arg = null) => {
     document.execCommand(command, false, arg);
-    handleChange();
+    flushChange();
   };
 
-  const handleChange = () => {
+  const flushChange = useCallback(() => {
     if (contentRef.current) {
       onChange(contentRef.current.innerHTML);
     }
-  };
+  }, [onChange]);
+
+  const handleChange = useCallback(() => {
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    debounceTimerRef.current = setTimeout(flushChange, 300);
+  }, [flushChange]);
 
   return (
     <div className="border border-clay/20 rounded-lg overflow-hidden bg-white shadow-sm ring-1 ring-clay/5">
@@ -52,8 +55,8 @@ const RichTextEditor = ({ value, onChange, placeholder }) => {
         <ToolbarButton icon={FiIcons.FiList} onClick={() => execCommand('insertUnorderedList')} title="Liste à puces" />
         <ToolbarButton icon={FiIcons.FiLink} onClick={() => { const url = prompt('URL du lien:'); if(url) execCommand('createLink', url); }} title="Lien" />
         {/* Basic Header support via formatBlock */}
-        <button onMouseDown={(e) => { e.preventDefault(); execCommand('formatBlock', 'H3'); }} className="px-2 text-sm font-serif font-bold text-charcoal-light hover:text-clay">H1</button>
-        <button onMouseDown={(e) => { e.preventDefault(); execCommand('formatBlock', 'H4'); }} className="px-2 text-sm font-serif font-bold text-charcoal-light hover:text-clay">H2</button>
+        <button onMouseDown={(e) => { e.preventDefault(); execCommand('formatBlock', 'H2'); }} className="px-2 text-sm font-serif font-bold text-charcoal-light hover:text-clay">H1</button>
+        <button onMouseDown={(e) => { e.preventDefault(); execCommand('formatBlock', 'H3'); }} className="px-2 text-sm font-serif font-bold text-charcoal-light hover:text-clay">H2</button>
       </div>
       
       {/* Editor Area */}
@@ -62,7 +65,7 @@ const RichTextEditor = ({ value, onChange, placeholder }) => {
         className="p-8 min-h-[500px] outline-none prose prose-lg max-w-none text-charcoal-light font-light leading-loose focus:bg-white transition-colors"
         contentEditable
         onInput={handleChange}
-        onBlur={handleChange}
+        onBlur={flushChange}
         style={{ minHeight: '60vh' }}
         data-placeholder={placeholder}
       />

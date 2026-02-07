@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useCMS } from '../cms/CMSContext';
+import EditableText from '../cms/EditableText';
+import * as FiIcons from 'react-icons/fi';
+import SafeIcon from '../common/SafeIcon';
 
-const reviews = [
+const defaultReviews = [
   { name: "Anais D.", text: "A chaque fois que je vais voir Floureto pour ma fille ou moi, elle est toujours très professionnelle, très à l'écoute et toujours avec le sourire. Elle est formidable, je la recommande à 200% car j'en ressors toujours avec un soulagement, un réel mieux être." },
   { name: "Patricia V.", text: "Très bonne praticienne, attentive et compétente. Les progrès sont constants et les résultats durables. De plus ces séances sont de véritables moments pour soi, dans un environnement privilégié. Merci !" },
   { name: "Aude A.", text: "Une approche douce et complète du corps, merci beaucoup !" },
@@ -15,16 +19,19 @@ const reviews = [
 ];
 
 const Testimonials = () => {
+  const { isEditMode, getContent, updateContent } = useCMS();
+  const reviews = getContent('testimonials_reviews', defaultReviews);
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
   useEffect(() => {
+    if (isEditMode) return;
     const timer = setInterval(() => {
       setDirection(1);
       setIndex((prev) => (prev + 1) % reviews.length);
     }, 8000);
     return () => clearInterval(timer);
-  }, [index]);
+  }, [index, reviews.length, isEditMode]);
 
   const variants = {
     enter: (d) => ({ opacity: 0, y: d > 0 ? 20 : -20 }),
@@ -32,9 +39,64 @@ const Testimonials = () => {
     exit: (d) => ({ opacity: 0, y: d < 0 ? 20 : -20 })
   };
 
+  const updateReview = (idx, field, value) => {
+    const updated = reviews.map((r, i) => i === idx ? { ...r, [field]: value } : r);
+    updateContent('testimonials_reviews', updated);
+  };
+
+  const addReview = () => {
+    const updated = [...reviews, { name: "Nouveau nom", text: "Nouveau témoignage..." }];
+    updateContent('testimonials_reviews', updated);
+  };
+
+  const removeReview = (idx) => {
+    if (reviews.length <= 1) return;
+    const updated = reviews.filter((_, i) => i !== idx);
+    updateContent('testimonials_reviews', updated);
+    if (index >= updated.length) setIndex(updated.length - 1);
+  };
+
+  if (isEditMode) {
+    return (
+      <div className="relative max-w-3xl mx-auto px-6 space-y-4">
+        {reviews.map((review, i) => (
+          <div key={i} className="relative border border-white/10 p-4 rounded-lg group bg-sage/5">
+            <button
+              onClick={() => removeReview(i)}
+              className="absolute -top-2 -right-2 bg-red-500 text-white w-6 h-6 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 text-xs"
+              title="Supprimer ce témoignage"
+            >
+              <SafeIcon icon={FiIcons.FiX} />
+            </button>
+            <div className="mb-2">
+              <EditableText
+                value={review.name}
+                onChange={(val) => updateReview(i, 'name', val)}
+                className="text-xs uppercase tracking-[0.2em] text-clay/70 font-medium"
+                placeholder="Nom"
+              />
+            </div>
+            <EditableText
+              value={review.text}
+              onChange={(val) => updateReview(i, 'text', val)}
+              className="font-serif text-base text-charcoal leading-relaxed italic"
+              multiline
+              placeholder="Témoignage..."
+            />
+          </div>
+        ))}
+        <button
+          onClick={addReview}
+          className="flex items-center gap-2 text-clay hover:text-charcoal transition-colors text-sm uppercase tracking-widest font-medium mx-auto"
+        >
+          <SafeIcon icon={FiIcons.FiPlus} /> Ajouter un témoignage
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="relative max-w-3xl mx-auto px-6" role="region" aria-label="Témoignages de patients">
-      {/* Guillemet décoratif */}
       <div className="text-center text-clay/20 font-serif text-4xl md:text-5xl leading-none select-none mb-2">"</div>
 
       <div className="relative min-h-[120px] md:min-h-[150px] flex items-center justify-center">
@@ -50,18 +112,17 @@ const Testimonials = () => {
             className="w-full text-center"
           >
             <blockquote className="font-serif text-lg md:text-xl text-charcoal leading-relaxed italic mb-4">
-              {reviews[index].text}
+              {reviews[index]?.text}
             </blockquote>
 
             <div className="w-8 h-[1px] bg-clay/40 mx-auto mb-2"></div>
             <cite className="text-[10px] uppercase tracking-[0.2em] text-clay/70 font-light not-italic">
-              {reviews[index].name}
+              {reviews[index]?.name}
             </cite>
           </motion.div>
         </AnimatePresence>
       </div>
 
-      {/* Indicateurs */}
       <div className="flex justify-center items-center gap-1.5 mt-4">
         {reviews.map((_, i) => (
           <button

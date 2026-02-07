@@ -1,4 +1,5 @@
 import React from 'react';
+import EditableText from '../../cms/EditableText';
 import SectionManager from '../../cms/SectionManager';
 import FadeIn from '../../components/FadeIn';
 import FloatingBookButton from '../../components/FloatingBookButton';
@@ -43,8 +44,17 @@ const Methode = () => {
                 title="Méthode Poyet – Séance de thérapie manuelle informationnelle"
                 className="float-left w-64 md:w-96 mr-6 md:mr-10 mb-4 rounded-sm border border-white/5 shadow-lg"
               />
-              <p className="mb-6">La Méthode Poyet est une approche manuelle qui allie micro-mouvements précis et techniques énergétiques pour favoriser l'harmonisation du corps.</p>
-              <p>Elle s'adresse à celles et ceux qui recherchent un équilibre global et un bien-être corporel, émotionnel et psychique, sans manipulation structurelle.</p>
+              <EditableText
+                id="methode_intro_p1"
+                defaultValue="La Méthode Poyet est une approche manuelle qui allie micro-mouvements précis et techniques énergétiques pour favoriser l'harmonisation du corps."
+                className="mb-6"
+                multiline
+              />
+              <EditableText
+                id="methode_intro_p2"
+                defaultValue="Elle s'adresse à celles et ceux qui recherchent un équilibre global et un bien-être corporel, émotionnel et psychique, sans manipulation structurelle."
+                multiline
+              />
             </div>
           </FadeIn>
         </div>

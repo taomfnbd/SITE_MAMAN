@@ -1,10 +1,8 @@
 import { createClient } from '@supabase/supabase-js';
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || "https://uunuaqhcvjcotulymdsc.supabase.co";
 const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV1bnVhcWhjdmpjb3R1bHltZHNjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc2NTc0NjksImV4cCI6MjA4MzIzMzQ2OX0.KS-il72_2hjWWDnwBAxAOf4ns3oDDFQb8o-P6BnmG30";
-
-console.log("Supabase URL:", supabaseUrl); // Debugging
 
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
@@ -24,7 +22,8 @@ export const CMSProvider = ({ children }) => {
   const [contentData, setContentData] = useState({});
   const [articles, setArticles] = useState([]);
   const [hasChanges, setHasChanges] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(true);
+
   const [colors, setColors] = useState({
     '--color-paper': '#314052',
     '--color-charcoal': '#F9F9F7',
@@ -64,6 +63,11 @@ export const CMSProvider = ({ children }) => {
     // Load content from Supabase
     const loadContent = async () => {
         const { data, error } = await supabase.from('site_content').select('*');
+        if (error) {
+            console.error("Error loading content:", error);
+            setIsLoading(false);
+            return;
+        }
         if (data) {
             const contentMap = {};
             data.forEach(item => {
@@ -86,6 +90,10 @@ export const CMSProvider = ({ children }) => {
 
     const loadArticles = async () => {
         const { data, error } = await supabase.from('articles').select('*').order('created_at', { ascending: false });
+        if (error) {
+            console.error("Error loading articles:", error);
+            return;
+        }
         if (data) {
             const formattedArticles = data.map(a => ({
                 id: a.id,
@@ -97,7 +105,7 @@ export const CMSProvider = ({ children }) => {
         }
     };
 
-    loadContent();
+    loadContent().finally(() => setIsLoading(false));
     loadArticles();
   }, []);
 
@@ -107,16 +115,26 @@ export const CMSProvider = ({ children }) => {
     });
   }, [colors]);
 
+  const historyTimerRef = useRef(null);
+  const pendingHistoryRef = useRef(null);
+
   const addToHistory = useCallback((newContentData, newColors) => {
-      setHistory(prev => {
-          const newHistory = prev.slice(0, historyIndex + 1);
-          newHistory.push({ contentData: newContentData, colors: newColors });
-          return newHistory.slice(-20); // Keep last 20 steps
-      });
-      setHistoryIndex(prev => {
-          const newIndex = prev + 1;
-          return newIndex >= 20 ? 19 : newIndex;
-      });
+      pendingHistoryRef.current = { contentData: newContentData, colors: newColors };
+      if (historyTimerRef.current) clearTimeout(historyTimerRef.current);
+      historyTimerRef.current = setTimeout(() => {
+          const pending = pendingHistoryRef.current;
+          if (!pending) return;
+          setHistory(prev => {
+              const newHistory = prev.slice(0, historyIndex + 1);
+              newHistory.push(pending);
+              return newHistory.slice(-20);
+          });
+          setHistoryIndex(prev => {
+              const newIndex = prev + 1;
+              return newIndex >= 20 ? 19 : newIndex;
+          });
+          pendingHistoryRef.current = null;
+      }, 500);
   }, [historyIndex]);
 
   const undo = useCallback(() => {
@@ -186,12 +204,22 @@ export const CMSProvider = ({ children }) => {
   }, [contentData]);
 
   const discardChanges = useCallback(() => {
-     window.location.reload();
-  }, []);
+     if (history.length > 0) {
+       const initialState = history[0];
+       setContentData(initialState.contentData);
+       setColors(initialState.colors);
+       setHistoryIndex(0);
+       setHistory([initialState]);
+       setHasChanges(false);
+     }
+  }, [history]);
 
   const getContent = useCallback((key, defaultValue = '') => {
     return contentData[key] !== undefined ? contentData[key] : defaultValue;
   }, [contentData]);
+
+  const DEFAULT_RESALIB_URL = 'https://flouretoferigoule-methodepoyet.fr/resalib';
+  const resalibUrl = getContent('resalib_url', DEFAULT_RESALIB_URL);
 
   const createArticle = useCallback(async (type) => {
     const id = crypto.randomUUID();
@@ -237,28 +265,25 @@ export const CMSProvider = ({ children }) => {
   }, []);
 
   const updateArticle = useCallback(async (id, field, value) => {
-      setArticles(prev => prev.map(a => {
-          if (a.id === id) return { ...a, [field]: value };
-          return a;
-      }));
-
       setArticles(prev => {
-          const article = prev.find(a => a.id === id);
-          if (!article) return prev;
-          
-          const newData = { ...article, [field]: value };
-          const { id: _id, type: _type, created_at: _c, ...dataToSave } = newData;
-          
-          supabase.from('articles').update({ 
-              title: newData.title,
-              data: dataToSave 
-          }).eq('id', id).then(({ error }) => {
-              if (error) console.error("Error updating article", error);
+          const updated = prev.map(a => {
+              if (a.id === id) return { ...a, [field]: value };
+              return a;
           });
-          
-          return prev.map(a => a.id === id ? newData : a);
-      });
 
+          const article = updated.find(a => a.id === id);
+          if (article) {
+              const { id: _id, type: _type, created_at: _c, ...dataToSave } = article;
+              supabase.from('articles').update({
+                  title: article.title,
+                  data: dataToSave
+              }).eq('id', id).then(({ error }) => {
+                  if (error) console.error("Error updating article", error);
+              });
+          }
+
+          return updated;
+      });
   }, []);
   
   const getArticle = useCallback((id) => {
@@ -294,6 +319,7 @@ export const CMSProvider = ({ children }) => {
       value={{
         isEditMode,
         isAuthenticated,
+        isLoading,
         hasChanges,
         login,
         logout,
@@ -310,6 +336,7 @@ export const CMSProvider = ({ children }) => {
         getArticle,
         updateArticle,
         uploadImage,
+        resalibUrl,
         undo,
         redo,
         canUndo,

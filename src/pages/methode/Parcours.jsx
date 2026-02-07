@@ -1,4 +1,5 @@
 import React from 'react';
+import EditableText from '../../cms/EditableText';
 import SectionManager from '../../cms/SectionManager';
 import FadeIn from '../../components/FadeIn';
 import Navbar from '../../components/Navbar';
@@ -39,8 +40,17 @@ const Parcours = () => {
               alt="Floureto Férigoule, praticienne en Méthode Poyet et somatothérapie à Pierrefonds (Oise)"
               className="float-left w-48 md:w-64 mr-6 md:mr-10 mb-4 object-cover"
             />
-            <p className="mb-4">La transmission est au centre de ma vie professionnelle depuis plus de vingt ans. Transmettre c'est transporter quelque chose, avec l'idée de passage, de transfert. En athlétisme, le relais est une course dans laquelle on se transmet un témoin. En mécanique on parle également de communication de mouvement d'organe vers un autre au moyen d'un système (engrenage, etc..).</p>
-            <p>Toutes ces acceptions sous-tendent l'idée, essentielle pour moi, d'un système collaboratif et participatif. C'est cette posture qui m'anime toujours de la conception à la réalisation des ateliers que je propose.</p>
+            <EditableText
+              id="parcours_intro_p1"
+              defaultValue="La transmission est au centre de ma vie professionnelle depuis plus de vingt ans. Transmettre c'est transporter quelque chose, avec l'idée de passage, de transfert. En athlétisme, le relais est une course dans laquelle on se transmet un témoin. En mécanique on parle également de communication de mouvement d'organe vers un autre au moyen d'un système (engrenage, etc..)."
+              className="mb-4"
+              multiline
+            />
+            <EditableText
+              id="parcours_intro_p2"
+              defaultValue="Toutes ces acceptions sous-tendent l'idée, essentielle pour moi, d'un système collaboratif et participatif. C'est cette posture qui m'anime toujours de la conception à la réalisation des ateliers que je propose."
+              multiline
+            />
           </div>
         </div>
       </FadeIn>

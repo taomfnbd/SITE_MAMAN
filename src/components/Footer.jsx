@@ -7,7 +7,7 @@ import SafeIcon from '../common/SafeIcon';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
-  const { isEditMode } = useCMS();
+  const { isEditMode, resalibUrl } = useCMS();
 
   return (
     <footer className="bg-sage pt-12 md:pt-20 pb-8 md:pb-10 border-t border-white/5 text-charcoal-light font-light relative z-10">
@@ -72,7 +72,7 @@ const Footer = () => {
             </li>
             <li className="flex items-center gap-3">
               <SafeIcon icon={FiIcons.FiCalendar} className="text-clay" />
-              <a href="https://flouretoferigoule-methodepoyet.fr/resalib" target="_blank" rel="noopener noreferrer" aria-label="Réserver une séance en ligne via Resalib" className="hover:text-clay transition-colors focus-visible:text-clay">Réserver en ligne (Resalib)</a>
+              <a href={resalibUrl} target="_blank" rel="noopener noreferrer" aria-label="Réserver une séance en ligne via Resalib" className="hover:text-clay transition-colors focus-visible:text-clay">Réserver en ligne (Resalib)</a>
             </li>
           </ul>
         </div>

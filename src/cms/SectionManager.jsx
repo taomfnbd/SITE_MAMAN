@@ -56,7 +56,6 @@ const SECTION_TYPES = {
   FORMATIONS_INTRO: 'formations-intro',
   FORMATIONS_GRID: 'formations-grid',
   CURSUS_YEARS: 'cursus-years', // New section type
-  SEANCES_PRICING: 'seances-pricing', // New section type
   PARCOURS_LAYOUT: 'parcours-layout', // New section type
   RESSOURCES_GRID: 'ressources-grid',
   BLOG_GRID: 'blog-grid',
@@ -262,52 +261,6 @@ DEFAULT_SECTIONS.home = [
         card3Desc: 'Pratiques corporelles et sensorielles. Cultiver l\'autonomie.',
         card3Cta: 'Voir les ateliers'
       }
-    },
-    {
-      id: 'home-method',
-      type: 'method',
-      content: {
-        title: 'La Méthode Poyet',
-        p1: 'La Méthode Poyet est une approche manuelle qui allie micro-mouvements précis et techniques énergétiques pour favoriser l\'harmonisation du corps.',
-        p2: "Elle s'adresse à celles et ceux qui recherchent un équilibre global et un bien-être corporel, émotionnel et psychique, sans manipulation structurelle.",
-        cta: 'En savoir plus'
-      }
-    },
-    {
-      id: 'home-services',
-      type: 'services',
-      content: {
-        tag: 'Accompagnement',
-        title: 'Séances & Tarifs',
-        s1Title: 'Séance Adulte',
-        s1Desc: 'Harmonisation globale. Douleurs chroniques, stress, migraines, troubles digestifs.',
-        s1Price: '70 €',
-        s1Duration: '1h15',
-        s2Title: 'Enfant & Bébé',
-        s2Desc: 'Coliques, sommeil, plagiocéphalie. Une approche douce adaptée aux moins de 7 ans.',
-        s2Price: '60 €',
-        s2Duration: '~ 1h00',
-        s3Title: 'Forfaits',
-        s3Desc: 'Pour un suivi régulier ou des besoins spécifiques. Contactez-moi pour en savoir plus.',
-        s3Price: 'Sur devis',
-        s3Duration: 'Variable',
-        cta: 'Voir les forfaits & détails'
-      }
-    },
-    {
-      id: 'home-testimonials',
-      type: 'testimonials',
-      content: {
-        title: 'Témoignages'
-      }
-    },
-    {
-      id: 'home-contact',
-      type: 'contact',
-      content: {
-        title: 'Prendre Rendez-vous',
-        cta: 'Réserver sur Resalib'
-      }
     }
 ];
 
@@ -436,31 +389,7 @@ DEFAULT_SECTIONS.blog = [
 
 DEFAULT_SECTIONS.ateliers = []; // Ateliers now uses Stages articles directly
 
-DEFAULT_SECTIONS.seances = [
-    {
-        id: 'seances-pricing',
-        type: 'seances-pricing',
-        content: {
-            intro: "La méthode Poyet est une approche globale. Il faut du temps pour développer les points que vous souhaitez aborder. De mon côté, j'ai besoin de temps pour mettre en place une écoute active.",
-            s1Title: "Séance Adulte",
-            s1Time: "1h15",
-            s1Price: "70 €",
-            s1Desc: "Le temps nécessaire pour une anamnèse complète et une harmonisation profonde. Sur le dos, sur le ventre ou assis.",
-            s1Details: "Forfait 2 séances : 135 €\nForfait 3 séances : 195 €",
-            s2Title: "Enfant (-7 ans)",
-            s2Time: "~1h00",
-            s2Price: "60 €",
-            s2Desc: "Adapté aux plus jeunes. Présence d'un parent requise. Idéal pour les troubles du sommeil, coliques, ou après la naissance.",
-            s2Details: "Forfait 2 séances : 110 €",
-            philoTitle: "Réflexion sur le \"juste prix\"",
-            philoContent: "La question du juste prix est épineuse. Comment évaluer le juste prix ? A l'aune de quels critères : le temps passé ? Les compétences ? L'engagement ?\n\nLe système de sécurité sociale en France permet à chacun.e d'accéder à des soins sans verser d'argent direct. Ce système a cependant un effet pervers : nous sommes parfois peu capables d'estimer le prix des soins reçus.\n\nJe ne travaille pas dans le domaine du soin médical conventionné, aussi j'ai la liberté de fixer mes tarifs. Pour autant, je m'inscris pleinement dans les métiers du « care » (sollicitude, accompagnement).\n\nVoici ce que je mets dans la balance : le temps passé (1h15), mon implication dans les formations continues, mes lectures, mon développement personnel. Je considère que cet investissement quotidien nourrit mon savoir-faire et mon avoir-être.",
-            info1: "Venez avec une\ntenue souple et confortable.",
-            info2: "Prévoyez 1h15\nde disponibilité.",
-            info3: "Règlement Chèque\nou Espèces.",
-            bookCta: "Réserver en ligne"
-        }
-    }
-];
+DEFAULT_SECTIONS.seances = [];
 
 DEFAULT_SECTIONS.contact = [
     {
@@ -649,7 +578,7 @@ const SectionManager = ({ pageId }) => {
   // ... (Keep existing SectionManager logic: addSection, deleteSection, moveSection, handlers)
   const addSection = (type, position = null) => {
     const newSection = {
-      id: `section-${Date.now()}`,
+      id: `section-${crypto.randomUUID()}`,
       type,
       content: getDefaultContent(type)
     };
@@ -850,19 +779,9 @@ const AddSectionMenu = ({ onSelect, onClose }) => {
 
 const SectionRenderer = ({ section, onUpdate, pageId }) => {
   const { content } = section;
-  
-  // HACKS: Hide sections requested to be removed on Home
-  if (pageId === 'home') {
-      if (section.type === SECTION_TYPES.SERVICES) return null;
-      if (section.type === SECTION_TYPES.TESTIMONIALS) return null;
-      if (section.type === SECTION_TYPES.CONTACT) return null;
-      if (section.type === SECTION_TYPES.METHOD) return null;
-  }
+  const { resalibUrl } = useCMS();
   const isEditing = !!onUpdate;
   const Text = (props) => (<EditableText value={content[props.field]} onChange={(val) => onUpdate && onUpdate(props.field, val)} {...props} />);
-
-  // Debugging
-  console.log("SectionRenderer rendering:", section.type);
 
   switch (section.type) {
     // --- NEW SPECIFIC SECTIONS ---
@@ -1200,7 +1119,7 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
                                         <h3 className="text-base font-serif text-charcoal mb-1"><Text field={`card${i}Title`} defaultValue="Titre" /></h3>
                                         <div className="text-charcoal-light font-light text-sm leading-relaxed"><Text field={`card${i}Content`} multiline defaultValue="..." /></div>
                                         {i === 3 && (
-                                            <a href="https://flouretoferigoule-methodepoyet.fr/resalib" target="_blank" rel="noopener noreferrer" aria-label="Réserver une séance de Méthode Poyet en ligne via Resalib" className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-clay hover:text-charcoal border border-clay/30 hover:border-clay px-4 py-2 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-clay/50 focus-visible:outline-none">
+                                            <a href={resalibUrl} target="_blank" rel="noopener noreferrer" aria-label="Réserver une séance de Méthode Poyet en ligne via Resalib" className="mt-3 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-clay hover:text-charcoal border border-clay/30 hover:border-clay px-4 py-2 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-clay/50 focus-visible:outline-none">
                                                 <SafeIcon icon={FiCalendar} className="text-sm" /> Réserver en ligne
                                             </a>
                                         )}
@@ -1293,7 +1212,7 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
                 className="w-full h-full object-contain"
               />
             ) : (
-              <img src="/icons/colonne.png" className="w-full h-full object-contain invert scale-[1.3]" alt="Les chaînes musculaires et fasciales – Colonne vertébrale en Méthode Poyet" />
+              <img src={content.c3Image || "/icons/colonne.png"} className="w-full h-full object-contain invert scale-[1.3]" alt="Les chaînes musculaires et fasciales – Colonne vertébrale en Méthode Poyet" />
             )}
           </div>
           <h4 className="text-lg md:text-xl font-serif text-charcoal mt-4 mb-3 md:mb-4"><Text field="c3Title" defaultValue="Les Chaînes" /></h4>
@@ -1440,12 +1359,12 @@ const SectionRenderer = ({ section, onUpdate, pageId }) => {
     case SECTION_TYPES.METHOD: return ( <section className="py-12 md:py-20 px-6 relative z-10 bg-gradient-to-b from-transparent to-sage/10"><div className="max-w-3xl mx-auto"><FadeIn><div className="flex flex-col items-center text-center space-y-8 md:space-y-12"><h2 className="text-2xl md:text-4xl font-serif text-charcoal italic px-4"><Text field="title" defaultValue="La Méthode Poyet" /></h2><div className="space-y-6 md:space-y-8 text-charcoal-light font-light text-justify md:text-center text-base md:text-xl md:leading-10 leading-8"><Text field="p1" multiline /><Text field="p2" multiline /></div><div className="pt-4 md:pt-8 flex flex-col md:flex-row gap-8 justify-center items-center"><EditableLink to="/pratique-manuelle" className="inline-block border-b border-charcoal/30 pb-1 text-xs md:text-sm uppercase tracking-widest hover:border-clay hover:text-clay transition-all duration-500"><Text field="cta" defaultValue="En savoir plus" /></EditableLink></div></div></FadeIn></div></section> );
     case SECTION_TYPES.SERVICES: return ( <section className="py-20 md:py-32 px-6 bg-sage/30 relative z-10 border-y border-white/5"><div className="max-w-6xl mx-auto"><FadeIn><div className="text-center mb-16 md:mb-24"><span className="text-clay text-xs tracking-[0.2em] uppercase block mb-4"><Text field="tag" defaultValue="Accompagnement" /></span><h2 className="text-3xl md:text-4xl font-serif italic text-charcoal"><Text field="title" defaultValue="Séances & Tarifs" /></h2></div></FadeIn><div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 max-w-5xl mx-auto"><FadeIn delay={0.2} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">01</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s1Title" defaultValue="Séance Adulte" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s1Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s1Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s1Duration" /></span></div></FadeIn><FadeIn delay={0.4} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">02</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s2Title" defaultValue="Enfant & Bébé" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s2Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s2Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s2Duration" /></span></div></FadeIn><FadeIn delay={0.6} className="relative p-6 md:p-8 border border-white/5 hover:border-clay/30 bg-paper/50 transition-all duration-500 group"><div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-10 h-10 md:w-12 md:h-12 bg-paper border border-clay/30 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500"><span className="font-serif text-clay italic text-sm md:text-base">03</span></div><h3 className="text-lg md:text-xl font-serif mb-4 md:mb-6 mt-2 md:mt-4 text-center text-charcoal"><Text field="s3Title" defaultValue="Forfaits" /></h3><div className="text-sm text-charcoal-light leading-7 text-center font-light mb-6"><Text field="s3Desc" multiline /></div><div className="border-t border-white/5 pt-4 text-center"><span className="text-xl text-clay font-serif"><Text field="s3Price" /></span><span className="block text-xs text-charcoal/50 mt-1 uppercase tracking-widest"><Text field="s3Duration" /></span></div></FadeIn></div><FadeIn className="text-center mt-12"><EditableLink to="/pratique-manuelle/seances" className="text-xs uppercase tracking-widest text-charcoal hover:text-clay transition-colors border-b border-transparent hover:border-clay pb-0.5"><Text field="cta" defaultValue="Voir les forfaits & détails" /></EditableLink></FadeIn></div></section> );
     case SECTION_TYPES.TESTIMONIALS: return ( <section className="py-20 md:py-32 px-6 relative z-10"><FadeIn><h2 className="text-center text-xs uppercase tracking-[0.2em] text-clay/60 mb-8 md:mb-12"><Text field="title" defaultValue="Témoignages" /></h2><Testimonials /></FadeIn></section> );
-    case SECTION_TYPES.CONTACT: return ( <section className="py-20 md:py-32 px-6 border-t border-charcoal/5 relative z-10 bg-sage/20 text-center"><FadeIn><h2 className="text-2xl md:text-3xl font-serif italic mb-8 md:mb-10"><Text field="title" defaultValue="Prendre Rendez-vous" /></h2><EditableExternalLink href="https://flouretoferigoule-methodepoyet.fr/resalib" target="_blank" rel="noopener noreferrer" className="px-8 md:px-10 py-3 md:py-4 bg-clay text-paper font-medium uppercase tracking-widest text-xs hover:bg-white transition-colors duration-500 inline-block"><Text field="cta" defaultValue="Réserver sur Resalib" /></EditableExternalLink></FadeIn></section> );
+    case SECTION_TYPES.CONTACT: return ( <section className="py-20 md:py-32 px-6 border-t border-charcoal/5 relative z-10 bg-sage/20 text-center"><FadeIn><h2 className="text-2xl md:text-3xl font-serif italic mb-8 md:mb-10"><Text field="title" defaultValue="Prendre Rendez-vous" /></h2><EditableExternalLink href={resalibUrl} target="_blank" rel="noopener noreferrer" className="px-8 md:px-10 py-3 md:py-4 bg-clay text-paper font-medium uppercase tracking-widest text-xs hover:bg-white transition-colors duration-500 inline-block"><Text field="cta" defaultValue="Réserver sur Resalib" /></EditableExternalLink></FadeIn></section> );
     case SECTION_TYPES.TEXT: return ( <div className="bg-sage/30 rounded-xl p-6 lg:p-8 shadow-sm border border-white/5 max-w-4xl mx-auto my-8">{content.title && <h2 className="text-3xl font-serif text-charcoal mb-4 italic"><Text field="title" /></h2>}<div className="text-charcoal-light leading-relaxed whitespace-pre-wrap font-light"><Text field="content" multiline /></div></div> );
     case SECTION_TYPES.IMAGE: return ( <div className="bg-sage/30 rounded-xl overflow-hidden shadow-sm border border-white/5 max-w-4xl mx-auto my-8">{isEditing ? (<EditableImage defaultSrc={content.image} onChange={(val) => onUpdate && onUpdate('image', val)} className="w-full h-auto" />) : (<img src={content.image} alt={content.caption} className="w-full h-auto" />)}<p className="text-sm text-charcoal-light p-4 text-center italic font-serif"><Text field="caption" placeholder="Légende" /></p></div> );
-    case SECTION_TYPES.VIDEO: return ( <div className="max-w-4xl mx-auto px-6 py-8"><div className="aspect-video bg-black/5 rounded-xl overflow-hidden shadow-lg border border-white/5">{isEditing ? <div className="w-full h-full flex items-center justify-center bg-sage/20"><div className="w-full max-w-md p-4"><p className="mb-2 text-sm text-charcoal">URL de la vidéo (Youtube embed) :</p><EditableText field="url" placeholder="https://www.youtube.com/embed/..." className="bg-white/50 p-2 rounded w-full text-sm" /></div></div> : <iframe src={content.url} className="w-full h-full" title="Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>}</div></div> );
+    case SECTION_TYPES.VIDEO: return ( <div className="max-w-4xl mx-auto px-6 py-8"><div className="aspect-video bg-black/5 rounded-xl overflow-hidden shadow-lg border border-white/5">{isEditing ? <div className="w-full h-full flex items-center justify-center bg-sage/20"><div className="w-full max-w-md p-4"><p className="mb-2 text-sm text-charcoal">URL de la vidéo (Youtube embed) :</p><input type="text" value={content.url || ''} onChange={(e) => onUpdate && onUpdate('url', e.target.value)} placeholder="https://www.youtube.com/embed/..." className="bg-white/50 p-2 rounded w-full text-sm border border-clay/20 outline-none focus:border-clay" /></div></div> : <iframe src={content.url} className="w-full h-full" title="Video" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen></iframe>}</div></div> );
     case SECTION_TYPES.SEPARATOR: return ( <div className="max-w-4xl mx-auto px-6 py-8"><hr className="border-t border-clay/30" /></div> );
-    case SECTION_TYPES.CTA: return ( <div className="max-w-4xl mx-auto px-6 py-12 text-center"><div className="inline-block bg-clay text-paper px-8 py-3 uppercase tracking-widest text-xs font-medium hover:bg-white transition-colors duration-500 rounded-sm cursor-pointer"><Text field="label" defaultValue="Bouton" /></div><div className="mt-2 text-[10px] text-charcoal/50">{isEditing && <span className="flex gap-1 justify-center items-center">Lien: <EditableText field="link" placeholder="/page" className="border-b border-charcoal/20" /></span>}</div></div> );
+    case SECTION_TYPES.CTA: return ( <div className="max-w-4xl mx-auto px-6 py-12 text-center">{isEditing ? (<><div className="inline-block bg-clay text-paper px-8 py-3 uppercase tracking-widest text-xs font-medium rounded-sm cursor-pointer"><Text field="label" defaultValue="Bouton" /></div><div className="mt-2 text-[10px] text-charcoal/50"><span className="flex gap-1 justify-center items-center">Lien: <input type="text" value={content.link || ''} onChange={(e) => onUpdate && onUpdate('link', e.target.value)} placeholder="/page" className="border-b border-charcoal/20 bg-transparent outline-none text-charcoal text-xs px-1" /></span></div></>) : (<EditableLink to={content.link || '/'} className="inline-block bg-clay text-paper px-8 py-3 uppercase tracking-widest text-xs font-medium hover:bg-white transition-colors duration-500 rounded-sm cursor-pointer"><Text field="label" defaultValue="Bouton" /></EditableLink>)}</div> );
     default: return <div className="p-4 text-red-500">Type de section inconnu: {section.type}</div>;
   }
 };
